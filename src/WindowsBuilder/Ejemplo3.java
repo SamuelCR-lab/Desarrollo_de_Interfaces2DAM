@@ -1,11 +1,12 @@
 package Ejemplos;
 
 import java.awt.EventQueue;
-
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 import java.awt.Color;
+import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JTextPane;
 import javax.swing.JLabel;
@@ -49,8 +50,13 @@ public class Ejemplo3 {
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(new Color(25, 25, 112));
-		frame.setBounds(100, 100, 659, 510);
-		frame.setLocationRelativeTo(null);
+		frame.setBounds(100, 100, 676, 454);
+		/*Forma de conseguir el medio de la pantalla mediabre un */
+		Dimension monitor = Toolkit.getDefaultToolkit().getScreenSize();
+		int tamanioyH = (int) monitor.getHeight();
+		int tamanioxW = (int) monitor.getWidth();
+		frame.setLocation((tamanioxW/2 - frame.getWidth()/2), (tamanioyH/2 - frame.getHeight()/2));
+		//frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new CardLayout(0, 0));
 		
@@ -86,7 +92,7 @@ public class Ejemplo3 {
 				panel_1.setVisible(true);
 			}
 		});
-		btnNewButton_1.setBounds(520, 437, 89, 23);
+		btnNewButton_1.setBounds(547, 458, 89, 23);
 		panel.add(btnNewButton_1);
 		panel_1 = new JPanel();
 		panel_1.setBackground(new Color(32, 178, 170));
