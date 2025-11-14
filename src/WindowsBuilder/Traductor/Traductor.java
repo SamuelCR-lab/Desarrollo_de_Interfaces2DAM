@@ -15,6 +15,13 @@ public class Traductor {
 		String html = obtenerHTML(direccion);
 		System.out.println(""+html);
 		palabraTraducida=cortarHTML(html);
+		
+		
+		
+		
+		
+		
+		
  	}
 
 	private static String obtenerHTML(URL direccion) {
@@ -39,8 +46,8 @@ public class Traductor {
 				String trozo = html.substring(inicio);
 				puntofinal1 = trozo.indexOf("</a>");
 				//Opcion2 
-				//Buscar en la misma cadena 
-				puntofinal2= html.indexOf("</a>", inicio+31);
+				//Buscar en la misma cadena
+				puntofinal2= html.indexOf("</a>", inicio+31);//Este lee todo el archivo y guarda
 				
 		String resultado1= html.substring(inicio+31,inicio+puntofinal1);
 		String resultado2= html.substring(inicio+31,puntofinal2);
