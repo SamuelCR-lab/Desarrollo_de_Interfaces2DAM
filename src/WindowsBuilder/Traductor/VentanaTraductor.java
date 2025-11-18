@@ -21,6 +21,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
+import javax.swing.JLayeredPane;
+import javax.swing.JPanel;
 
 public class VentanaTraductor {
 	public static Scanner entrada = new Scanner(System.in);
@@ -67,17 +69,18 @@ public class VentanaTraductor {
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblNewLabel = new JLabel("Traductor de Ingles a Español");
-		lblNewLabel.setBounds(94, 23, 237, 68);
+		lblNewLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		lblNewLabel.setBounds(94, 11, 237, 38);
 		frame.getContentPane().add(lblNewLabel);
 		
 		JLabel lblNewLabel_1 = new JLabel("Introduce la palabra en Ingles: ");
-		lblNewLabel_1.setBounds(10, 90, 185, 25);
+		lblNewLabel_1.setBounds(10, 60, 185, 25);
 		frame.getContentPane().add(lblNewLabel_1);
 		
 		txtEscribe = new JTextField();
 		txtEscribe.setOpaque(false);
 		txtEscribe.setDropMode(DropMode.INSERT);
-		txtEscribe.setBounds(203, 90, 128, 25);
+		txtEscribe.setBounds(203, 60, 128, 25);
 		frame.getContentPane().add(txtEscribe);
 		txtEscribe.setColumns(10);
 		
@@ -95,7 +98,7 @@ public class VentanaTraductor {
 		JLabel lblNewLabel_4 = new JLabel("Escribe una palabra sin números. ");
 		lblNewLabel_4.setVisible(false);
 		lblNewLabel_4.setForeground(new Color(255, 0, 0));
-		lblNewLabel_4.setBounds(170, 118, 177, 14);
+		lblNewLabel_4.setBounds(170, 118, 202, 14);
 		frame.getContentPane().add(lblNewLabel_4);
 		
 		JButton btnNewButton = new JButton("Traducir");
@@ -127,8 +130,29 @@ public class VentanaTraductor {
 					}
 				}
 		});
-		btnNewButton.setBounds(341, 89, 89, 23);
+		btnNewButton.setBounds(335, 61, 89, 23);
 		frame.getContentPane().add(btnNewButton);
+		
+		JButton btnNewButton_1 = new JButton("Salir");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				System.exit(0);
+			}
+		});
+		btnNewButton_1.setBounds(335, 227, 89, 23);
+		frame.getContentPane().add(btnNewButton_1);
+		
+		JLayeredPane layeredPane = new JLayeredPane();
+		layeredPane.setBounds(0, 0, 1, 1);
+		frame.getContentPane().add(layeredPane);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 0, 76, 55);
+		layeredPane.add(panel);
+		
+		JLabel lblNewLabel_5 = new JLabel("New label");
+		panel.add(lblNewLabel_5);
 		
 	
 		
