@@ -9,6 +9,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class PanelTraductor extends JPanel{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static JLabel lblNewLabel,lblNewLabel_1,lblNewLabel_2;
 	private JTextField textField;
 	public static JButton traducir,salida;
@@ -16,7 +20,7 @@ public class PanelTraductor extends JPanel{
 		setSize(new Dimension(800, 600));
 		setLayout(null);
 		
-		 lblNewLabel = new JLabel("Palabra en Ingles a traducir");
+		 lblNewLabel = new JLabel("Escribe la palabra a traducir");
 		lblNewLabel.setBounds(35, 154, 199, 35);
 		add(lblNewLabel);
 		

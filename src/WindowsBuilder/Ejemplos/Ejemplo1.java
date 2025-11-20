@@ -19,6 +19,9 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JComboBox;
 import javax.swing.SpinnerNumberModel;
+import java.awt.Toolkit;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
 
 public class Ejemplo1 {
 
@@ -31,6 +34,7 @@ public class Ejemplo1 {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -56,6 +60,7 @@ public class Ejemplo1 {
 	private void initialize() {
 		
 		frame = new JFrame();
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\DAM\\Downloads\\Dragon Emblem of DragonesGOT.png"));
 		frame.getContentPane().setBackground(new Color(148, 0, 211));
 		frame.setBackground(Color.CYAN);
 		frame.setBounds(100, 100, 590, 436);
@@ -68,7 +73,8 @@ public class Ejemplo1 {
 		frame.getContentPane().add(lblNewLabel);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(173, 80, 93, 62);
+		panel.setForeground(new Color(0, 0, 0));
+		panel.setBounds(374, 278, 170, 94);
 		frame.getContentPane().add(panel);
 		
 
@@ -77,6 +83,11 @@ public class Ejemplo1 {
 		
 		JButton btnNewButton = new JButton("New button");
 		panel.add(btnNewButton);
+		
+		JLabel lblNewLabel_1 = new JLabel("New label");
+		lblNewLabel_1.setBackground(new Color(255, 255, 0));
+		lblNewLabel_1.setLabelFor(panel);
+		panel.add(lblNewLabel_1);
 		
 		txtDsadfasf = new JTextField();
 		txtDsadfasf.setText("dsadfasf");

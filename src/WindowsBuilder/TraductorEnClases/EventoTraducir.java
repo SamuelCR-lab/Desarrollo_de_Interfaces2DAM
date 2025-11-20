@@ -19,7 +19,7 @@ public class EventoTraducir implements ActionListener{
 		//Control de errores
 		
 		if (palabraIntro.getText().isBlank()!=true) {
-			mostrarTraduccion.setText(Operaciones.traducir(palabraIntro.getText()));
+			mostrarTraduccion.setText(Operaciones.traducirAesp(palabraIntro.getText()));
 			
 			PanelTraductor.salida.setVisible(true);
 			PanelTraductor.lblNewLabel_2.setVisible(true);

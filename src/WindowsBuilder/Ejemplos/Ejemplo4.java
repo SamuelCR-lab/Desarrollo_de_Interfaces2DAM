@@ -135,7 +135,7 @@ public class Ejemplo4 {
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(getGraphics());
-				g.drawImage(foto, 0,0,725, 521, null);
+				g.drawImage(foto, 0,0,70, 70, null);
 			}
 			
 		};
