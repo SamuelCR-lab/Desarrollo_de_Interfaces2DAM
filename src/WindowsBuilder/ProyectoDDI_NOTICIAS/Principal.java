@@ -21,37 +21,13 @@ public class Principal {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Principal window = new Principal();
-					window.frame.setVisible(true);
+					MarcoNoticias window = new MarcoNoticias();
+					window.setSize(1200,800);
+					window.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
-	/**
-	 * Create the application.
-	 */
-	public Principal() {
-		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setBackground(new Color(0, 0, 255));
-		frame.getContentPane().setLayout(null);
-		
-		JLabel lblNewLabel = new JLabel("hOLAAAAAAA");
-		lblNewLabel.setBounds(109, 89, 166, 14);
-		frame.getContentPane().add(lblNewLabel);
-		
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icono_noticias_globales.png")));
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-
 }
