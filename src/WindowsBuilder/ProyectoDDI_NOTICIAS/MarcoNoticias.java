@@ -6,6 +6,11 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 public class MarcoNoticias extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MarcoNoticias () {
 		setTitle("Buscador Noticias");
 		setSize(1200,800);
