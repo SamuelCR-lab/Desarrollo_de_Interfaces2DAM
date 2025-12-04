@@ -1,9 +1,10 @@
 package ProyectoDDI_NOTICIAS;
 
 
+import javax.swing.JFrame;
 import javax.swing.JWindow;
 
-public class PanelLogin extends JWindow{
+public class PanelLogin extends JFrame{
 	/**
 	 * 
 	 */
@@ -12,4 +13,5 @@ public class PanelLogin extends JWindow{
 	public PanelLogin() {
        
     }
+	//private 
 }

@@ -1,6 +1,11 @@
 package ProyectoDDI_NOTICIAS;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 
 
@@ -17,14 +22,15 @@ public class Principal {
 					/*PantalladeCarga pantallaCarga = new PantalladeCarga();
 					pantallaCarga.setSize(1200,800);
 					pantallaCarga.setVisible(true);*/
-					MarcoNoticias window = new MarcoNoticias();
-					window.setSize(1200,800);
-					window.setVisible(true);
-					
+					SwingUtilities.invokeLater(() -> {
+			            new PantalladeCarga();
+			        });
+		
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
+
 }

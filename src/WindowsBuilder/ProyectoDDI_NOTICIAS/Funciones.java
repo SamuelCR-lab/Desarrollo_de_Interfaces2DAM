@@ -1,6 +1,9 @@
 package ProyectoDDI_NOTICIAS;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import org.jsoup.Jsoup;
@@ -9,6 +12,7 @@ import org.jsoup.nodes.Element;
 
 
 public class Funciones {
+
 
 	public static ArrayList <String> Noticias = new ArrayList<>(); 
 	private static ArrayList <String> Enlaces = new ArrayList<>(); 
@@ -167,9 +171,35 @@ public class Funciones {
 			}
 		}
 		
-		//return Noticias;
+		
 	}
+	public static void escribirWebs(){
+		guardadoEnlaces();
+		File dir = new File("GuardadoNoticias");
+		File fichero = new File("GuardadoNoticias//EnlacesWeb.txt");
+		try {	
+			if (!dir.exists()) {
+				dir.mkdir();
+				
+			}
+			if(!fichero.exists()) {
+				fichero.createNewFile();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			 FileOutputStream FicheroEscritura = new FileOutputStream("GuardadoNoticias//EnlacesWeb.txt",true);
+             ObjectOutputStream escritura = new ObjectOutputStream(FicheroEscritura);
+	            	        
+	            
+	            escritura.writeObject(Enlaces);
 
+	        } catch (IOException i) {
+	            i.printStackTrace();
+	        }
+	}
 
 
 }

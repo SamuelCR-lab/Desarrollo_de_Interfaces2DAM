@@ -1,18 +1,17 @@
 package ProyectoDDI_NOTICIAS;
 
-
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-public class PaneleMostrador extends JLayeredPane{
+public class Paneles extends JLayeredPane{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	public static JLabel lblNewLabel,lblNewLabel1,lblNewLabel2,lblNewLabel3,lblNewLabel4,lblNewLabel5,lblNewLabel6,lblNewLabel7,lblNewLabel8,lblNewLabel9,lblNewLabel10,lblNewLabel11,lblNewLabel12,lblNewLabel13,lblNewLabel14,lblNewLabel15,lblNewLabel16,lblNewLabel17,lblNewLabel18;
 	private String[] guardados = new String[18];
-	public PaneleMostrador () {
-		setSize(800,600);
+	public Paneles () {
+		setSize(1200,800);
 		//PanelLogin Login = new PanelLogin();
 		//add(Login);
 		Funciones.BuscadorTitulares();
@@ -76,5 +75,7 @@ public class PaneleMostrador extends JLayeredPane{
 		lblNewLabel18 = new JLabel(guardados[3]);
 		lblNewLabel18.setBounds(255, 314, 349, 200);
 		add(lblNewLabel18);*/
+		
+		
 	}
 }
