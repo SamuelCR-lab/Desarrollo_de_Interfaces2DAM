@@ -21,7 +21,7 @@ public class MarcoNoticias extends JFrame{
 		int tamanioxW = (int) monitor.getWidth();
 		setLocation((tamanioxW/2 - getWidth()/2), (tamanioyH/2 - getHeight()/2));
 		
-		Paneles misPaneles = new Paneles();
+		PaneleMostrador misPaneles = new PaneleMostrador();
 		add(misPaneles);
 	}
 }
