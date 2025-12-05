@@ -14,7 +14,6 @@ public class Paneles extends JLayeredPane{
 		setSize(1200,800);
 		//PanelLogin Login = new PanelLogin();
 		//add(Login);
-		Funciones.BuscadorTitulares();
 		/*for (int i = 0; i<Funciones.Noticias.size();i++) {
 			guardados[i] = Funciones.Noticias.get(i);
 		}

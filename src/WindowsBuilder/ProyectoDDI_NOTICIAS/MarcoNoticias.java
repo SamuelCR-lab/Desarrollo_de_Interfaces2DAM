@@ -23,5 +23,6 @@ public class MarcoNoticias extends JFrame{
 		
 		Paneles misPaneles = new Paneles();
 		add(misPaneles);
+		
 	}
 }

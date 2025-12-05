@@ -22,19 +22,19 @@ public class Funciones {
 		
 		String webDeporte1 = "h2.ue-c-cover-content__headline";
 		String webDeporte2 = "h3.s_t a";
-		String webDeporte3 = "h2.title a";
+		String webDeporte3 = "h2.segmento-title a";
 		
-		String webEconomia1 = "h2.h1 a";
+		String webEconomia1 = "h2.h1 center";
 		String webEconomia2 = "h2.art__title a";
 		String webEconomia3 = "h2.ue-c-cover-content__headline";
 		
 		String webNoticiasEspanolN = "h2.art__title a";
 		String webNoticiaMundoN = "h2.ue-c-cover-content__headline";
-		String webNoticiaElPais= "h2.c_t a";
+		String webNoticiaOkDiarioN= "h2.segmento-title a";
 		
 		String webNoticiasEspanolI = "h2.art__title a";
 		String webNoticiaMundoI = "h2.ue-c-cover-content__headline";
-		String webNoticiaElPaisI = "h2.c_t a";
+		String webNoticiaOkDiarioI = "h2.article-title";
 		
 		String webTecnologia1 = "h2.poster-title a";
 		String webTecnologia2 = "h2.poster-title a";
@@ -55,12 +55,12 @@ public class Funciones {
 		
 		Claves.add(webNoticiasEspanolN);
 		Claves.add(webNoticiaMundoN);
-		Claves.add(webNoticiaElPais);
+		Claves.add(webNoticiaOkDiarioN);
 		
 		
 		Claves.add(webNoticiasEspanolI);
 		Claves.add(webNoticiaMundoI);
-		Claves.add(webNoticiaElPaisI);
+		Claves.add(webNoticiaOkDiarioI);
 		
 		Claves.add(webTecnologia1);
 		Claves.add(webTecnologia2);
@@ -74,7 +74,7 @@ public class Funciones {
 	public static void guardadoEnlaces() {
 		String webDeporte1 = "https://www.marca.com/";
 		String webDeporte2 = "https://as.com/";
-		String webDeporte3 = "https://www.mundodeportivo.com/";
+		String webDeporte3 = "https://okdiario.com/diariomadridista/";
 		
 		String webEconomia1 = "https://www.eleconomista.es/";
 		String webEconomia2 = "https://www.elespanol.com/invertia/economia/";
@@ -82,11 +82,11 @@ public class Funciones {
 		
 		String webNoticiasEspanolN = "https://www.elespanol.com/";
 		String webNoticiaMundoN = "https://www.elmundo.es/espana.html";
-		String webNoticiaElPaisN= "https://elpais.com/espana/";
+		String webNoticiaOkDiarioN= "https://okdiario.com/";
 		
 		String webNoticiasEspanolI = "https://www.elespanol.com/mundo/";
 		String webNoticiaMundoI = "https://www.elmundo.es/internacional.html";
-		String webNoticiaElPaisI = "https://elpais.com/internacional/";
+		String webNoticiaOkDiarioI = "https://okdiario.com/internacional/";
 		
 		String webTecnologia1 = "https://www.xataka.com/";
 		String webTecnologia2 = "https://www.applesfera.com/?utm_source=xataka&utm_medium=network&utm_campaign=favicons";
@@ -107,12 +107,12 @@ public class Funciones {
 		
 		Enlaces.add(webNoticiasEspanolN);
 		Enlaces.add(webNoticiaMundoN);
-		Enlaces.add(webNoticiaElPaisN);
+		Enlaces.add(webNoticiaOkDiarioN);
 		
 		
 		Enlaces.add(webNoticiasEspanolI);
 		Enlaces.add(webNoticiaMundoI);
-		Enlaces.add(webNoticiaElPaisI);
+		Enlaces.add(webNoticiaOkDiarioI);
 		
 		Enlaces.add(webTecnologia1);
 		Enlaces.add(webTecnologia2);
@@ -170,11 +170,11 @@ public class Funciones {
 				
 			}
 		}
-		
+		escribirWebs();
 		
 	}
 	public static void escribirWebs(){
-		guardadoEnlaces();
+		
 		File dir = new File("GuardadoNoticias");
 		File fichero = new File("GuardadoNoticias//EnlacesWeb.txt");
 		try {	
@@ -194,7 +194,7 @@ public class Funciones {
              ObjectOutputStream escritura = new ObjectOutputStream(FicheroEscritura);
 	            	        
 	            
-	            escritura.writeObject(Enlaces);
+	            escritura.writeObject(Enlaces+"\n");
 
 	        } catch (IOException i) {
 	            i.printStackTrace();

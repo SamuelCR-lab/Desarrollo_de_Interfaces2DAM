@@ -57,13 +57,11 @@ public class PantalladeCarga extends JFrame{
         
         // Hacer visible la ventana
         setVisible(true);
-
+        
         // 6. Iniciar la carga en un Hilo separado (CRUCIAL para que la barra se mueva)
         iniciarCarga();
+
     }
-
-
-	
 
 
 	private void iniciarCarga() {
@@ -84,13 +82,13 @@ public class PantalladeCarga extends JFrame{
                 }
                 SwingUtilities.invokeLater(() -> {
                     dispose(); // Cierra la pantalla de carga
-        			MarcoNoticias window = new MarcoNoticias();
-					window.setSize(1200,800);
-					window.setVisible(true);
+                    
+                    Principal.window.setVisible(true);
                 });
             }
         });
         hiloCarga.start();
+        
     }
 
     // Método auxiliar para crear una imagen gris con texto si no tienes tu .png a mano
