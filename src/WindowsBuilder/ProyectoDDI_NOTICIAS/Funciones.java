@@ -1,8 +1,14 @@
 package ProyectoDDI_NOTICIAS;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
@@ -148,8 +154,6 @@ public class Funciones {
 	
 	public static void BuscadorTitulares() {
 		//ArrayList<String>
-		guardadoEnlaces();
-		guardadoClaves();
 		
 		Document documento;
 		String resultado ="No existe";
@@ -170,13 +174,27 @@ public class Funciones {
 				
 			}
 		}
-		escribirWebs();
+		
 		
 	}
-	public static void escribirWebs(){
+	public static void escribirWebs(File fichero){
+		guardadoClaves();
+		guardadoEnlaces();
 		
-		File dir = new File("GuardadoNoticias");
-		File fichero = new File("GuardadoNoticias//EnlacesWeb.txt");
+		try {
+			 FileOutputStream FicheroGuardadoEnlaces = new FileOutputStream(fichero);
+             try (ObjectOutputStream escritura = new ObjectOutputStream(FicheroGuardadoEnlaces)) {
+				escritura.writeObject(Enlaces);
+				escritura.writeObject(Claves);
+			}
+	        } catch (IOException i) {
+	            i.printStackTrace();
+	        }
+	}
+	
+	public static void lecturaWebs(){
+		File dir = new File("Medios");
+		File fichero = new File("Medios//EnlacesWeb.txt");
 		try {	
 			if (!dir.exists()) {
 				dir.mkdir();
@@ -184,21 +202,51 @@ public class Funciones {
 			}
 			if(!fichero.exists()) {
 				fichero.createNewFile();
+				escribirWebs(fichero);
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
-			 FileOutputStream FicheroEscritura = new FileOutputStream("GuardadoNoticias//EnlacesWeb.txt",true);
-             ObjectOutputStream escritura = new ObjectOutputStream(FicheroEscritura);
-	            	        
-	            
-	            escritura.writeObject(Enlaces+"\n");
+			 FileInputStream FicheroLecturaEnlacesYClaves= new FileInputStream(fichero);
+             try (ObjectInputStream lectura = new ObjectInputStream(FicheroLecturaEnlacesYClaves)) {
+				Enlaces= (ArrayList<String>) lectura.readObject();
+				Claves = (ArrayList<String>) lectura.readObject();
+			}
+				
 
-	        } catch (IOException i) {
+	        } catch (IOException | ClassNotFoundException i) {
 	            i.printStackTrace();
 	        }
+		BuscadorTitulares();
+		
+	}
+	public static void escrituraUsuarios(String nombre) {
+		File ficheroUsuarios = new File("Usuarios.txt");
+		try {
+
+			if (ficheroUsuarios.exists()) {
+				ficheroUsuarios.delete();
+				ficheroUsuarios.createNewFile();
+			}
+			FileWriter escritura = new FileWriter(ficheroUsuarios);
+			BufferedWriter escribirUsuarios = new BufferedWriter(escritura);
+			for (Usuario UsuarioAEscribir : Usuario.listaUsuarios) {
+				if (UsuarioAEscribir.nombre == nombre) {
+					String[] Usuariostemporales = Usuario.datosUsuariosTemporal;
+					int a = Integer.parseInt(Usuariostemporales[3]);
+					int idU = UsuarioAEscribir.id;
+					String Nombre = UsuarioAEscribir.nombre;
+					String Contraseña = UsuarioAEscribir.contraseña;
+					int preferencias = UsuarioAEscribir.Preferencias;
+				}
+			}
+			
+			
+		}catch(IOException o){
+			o.printStackTrace();
+		}
 	}
 
 

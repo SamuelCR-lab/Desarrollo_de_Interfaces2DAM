@@ -21,8 +21,6 @@ public class PantalladeCarga extends JFrame{
     public PantalladeCarga() {
         setUndecorated(true);
         
-        Funciones.escribirWebs();
-        
         setLayout(new BorderLayout());
         
         ImageIcon imagenIcon = null;

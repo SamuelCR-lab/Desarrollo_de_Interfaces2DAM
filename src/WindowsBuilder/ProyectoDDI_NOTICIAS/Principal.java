@@ -1,11 +1,8 @@
 package ProyectoDDI_NOTICIAS;
 
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
+
 
 
 
@@ -21,14 +18,13 @@ public class Principal {
 			public void run() {
 				try {
 					
-					/*PantalladeCarga pantallaCarga = new PantalladeCarga();
-					pantallaCarga.setSize(1200,800);
-					pantallaCarga.setVisible(true);*/
+					
 					SwingUtilities.invokeLater(() -> {
 			            new PantalladeCarga();
 			            
 			        });
-					Funciones.BuscadorTitulares();
+					Usuario.lecturaUsuarios();
+					Funciones.lecturaWebs();
 					window.setSize(1200,800);
 					
 					

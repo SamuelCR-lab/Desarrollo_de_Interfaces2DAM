@@ -8,10 +8,22 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.SwingConstants;
+
+import ProyectoDDI_NOTICIAS.Usuario;
+
+import javax.swing.JTextField;
 
 public class PrincipalDePruebas {
 
 	private JFrame frame;
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -41,49 +53,69 @@ public class PrincipalDePruebas {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(0, 0, 1200, 800);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLayeredPane layeredPane = new JLayeredPane();
-		layeredPane.setBounds(0, 0, 434, 1);
+		layeredPane.setBounds(0, 0, 1184, 761);
 		frame.getContentPane().add(layeredPane);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(0, 0, 434, 260);
+		panel.setBounds(0, 0, 1183, 761);
 		layeredPane.add(panel);
 		panel.setLayout(null);
 		
-		JCheckBox chckbxNewCheckBox_1 = new JCheckBox("New check box");
-		chckbxNewCheckBox_1.setBounds(0, 0, 97, 23);
-		panel.add(chckbxNewCheckBox_1);
+	
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(0, 0, 434, 262);
-		layeredPane.add(panel_1);
-		panel_1.setLayout(null);
+		JLabel lblNewLabel = new JLabel("Bienvenido a SamuelNews");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Times New Roman", Font.BOLD, 24));
+		lblNewLabel.setBounds(359, 147, 461, 57);
+		panel.add(lblNewLabel);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(0, 0, 434, 261);
-		layeredPane.add(panel_2);
-		panel_2.setLayout(null);
+		JLabel lblNewLabel_1 = new JLabel("Nombre de tu usuario");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblNewLabel_1.setBounds(269, 280, 310, 27);
+		panel.add(lblNewLabel_1);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(0, 0, 434, 260);
-		layeredPane.add(panel_3);
-		panel_3.setLayout(null);
+		JLabel lblNewLabel_2 = new JLabel("Contraseña");
+		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_2.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblNewLabel_2.setBounds(269, 354, 310, 27);
+		panel.add(lblNewLabel_2);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(0, 0, 434, 261);
-		layeredPane.add(panel_4);
-		panel_4.setLayout(null);
+		textField = new JTextField();
+		textField.setBounds(600, 282, 421, 27);
+		panel.add(textField);
+		textField.setColumns(10);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("New check box");
-		chckbxNewCheckBox.setBounds(46, 71, 159, 104);
-		frame.getContentPane().add(chckbxNewCheckBox);
+		textField_1 = new JTextField();
+		textField_1.setColumns(10);
+		textField_1.setBounds(600, 356, 421, 27);
+		panel.add(textField_1);
 		
-		JLabel lblNewLabel = new JLabel("Preferencias del Usuario");
-		lblNewLabel.setBounds(172, 11, 86, 26);
-		frame.getContentPane().add(lblNewLabel);
+		JButton btnNewButton_1_1 = new JButton("Siguiente");
+		btnNewButton_1_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				for (Usuario a : Usuario.listaUsuarios) {
+					if (textField.getText() == a.nombre){
+						
+					}
+				}
+			}
+		});
+		btnNewButton_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		btnNewButton_1_1.setBounds(976, 662, 135, 46);
+		panel.add(btnNewButton_1_1);
+		
+		JLabel lblNewLabel_3 = new JLabel("Error. No has introducido bien el nombre de usurio o contraseña.");
+		lblNewLabel_3.setVisible(false);
+		lblNewLabel_3.setForeground(new Color(255, 0, 0));
+		lblNewLabel_3.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		lblNewLabel_3.setBounds(600, 410, 438, 72);
+		panel.add(lblNewLabel_3);
+		
 	}
 }
