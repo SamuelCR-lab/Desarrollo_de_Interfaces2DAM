@@ -16,14 +16,30 @@ public class AccionesDeBotonesSA implements ActionListener{
 
 	}
 
+	public int getOcultarOMostrar() {
+		return OcultarOMostrar;
+	}
+
+	public void setOcultarOMostrar(int ocultarOMostrar) {
+		OcultarOMostrar = ocultarOMostrar;
+	}
+
+	public String getNombrePanel() {
+		return nombrePanel;
+	}
+
+	public void setNombrePanel(String nombrePanel) {
+		this.nombrePanel = nombrePanel;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (OcultarOMostrar == 1) {
+		if (getOcultarOMostrar() == 1) {
 			if (nombrePanel.equals("Login")) {
 				for (Usuario a : Usuario.listaUsuarios) {
-					if ((Login.textField.getText() == a.nombre)&&(Login.textField_1.getText() == a.contraseña)){
-						if(a.Preferencias != 0) {
+					if ((Login.textField.getText().equals(a.nombre))&&(Login.textField_1.getText().equals(a.contraseña))){
+						if(a.Preferencias == 0) {
 							nombreUsuario=a.nombre;
 							Paneles.panelLogin.setVisible(false);
 							Paneles.PanelEleccion.setVisible(true);

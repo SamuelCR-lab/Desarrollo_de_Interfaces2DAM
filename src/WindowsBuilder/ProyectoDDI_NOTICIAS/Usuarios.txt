@@ -1,0 +1,5 @@
+admin:Samuel;1111;1;admin@admin.com
+user:Sofia;PYT;0;a@a.com
+user:Mariela;Ramos;1;b@b.com//El 1 es que el usuario ha 
+user:Enrique;cfgs;0;c@c.com
+

@@ -20,10 +20,10 @@ public class Usuario {
 	        String email;
 	        String rol; 
 
-	        public Usuario(int id,String nombre, String password, int Preferencias, String email, String rol) {
+	        public Usuario(int id,String nombre, String contraseña, int Preferencias, String email, String rol) {
 	            this.id=id;
 	        	this.nombre = nombre;
-	            this.contraseña = password;
+	            this.contraseña = contraseña;
 	            this.Preferencias = Preferencias;
 	            this.email = email;
 	            this.rol = rol;
@@ -36,18 +36,15 @@ public class Usuario {
 	   
 
 	    public static void lecturaUsuarios() {
-	        File FicheroUsuarios = new File("Usuarios.txt");
+	        File FicheroUsuarios = new File("DesarrolloDeInterfaces//Usuarios.txt");
 	        
-	        boolean bandera = false;
 	        try (FileReader archivoUsuarios = new FileReader(FicheroUsuarios);
 	             BufferedReader lectorArchivo = new BufferedReader(archivoUsuarios)) {
-	        	int contadorUsuarios = 0,i=0;
+	        	int contadorUsuarios = 0;
 	            String cadena;
-	           do {
+	            while ((cadena = lectorArchivo.readLine()) != null){
 	        	   
-	        	    cadena = lectorArchivo.readLine();
 	                if (cadena.trim().isEmpty()) {
-	                	bandera = true;
 	                
 	                }else {
 	                	String datosLimpios = null;
@@ -72,16 +69,18 @@ public class Usuario {
 		                   datosUsuariosTemporal = datosLimpios.split(";");
 
 		                    if (datosUsuariosTemporal.length >= 4) {
-		                        String nombre = datosUsuariosTemporal[i++];
-		                        String contraseña = datosUsuariosTemporal[i++];
+		                        String nombre = datosUsuariosTemporal[0];
+		                        System.out.println(nombre);
+		                        String contraseña = datosUsuariosTemporal[1];
+		                        System.out.println(contraseña);
 		                        int preferencia = 0;
 		                        contadorUsuarios++;
 		                        try {
-		                        	preferencia = Integer.parseInt(datosUsuariosTemporal[i++]);
+		                        	preferencia = Integer.parseInt(datosUsuariosTemporal[2]);
 		                        } catch (NumberFormatException e) {
 		                            System.err.println("Error de formato numérico: " + datosUsuariosTemporal[2]);
 		                        }
-		                        String email = datosUsuariosTemporal[i++];
+		                        String email = datosUsuariosTemporal[3];
 
 		                        Usuario nuevoUsuario = new Usuario(contadorUsuarios,nombre, contraseña, preferencia, email, rolDetectado);
 		                        listaUsuarios.add(nuevoUsuario);
@@ -91,7 +90,7 @@ public class Usuario {
 		                    }
 		                }
 	                }
-	            } while (!bandera) ;
+	            } 
 
 	        } catch (IOException i) {
 	            System.err.println("Error leyendo el archivo Usuarios.txt");
