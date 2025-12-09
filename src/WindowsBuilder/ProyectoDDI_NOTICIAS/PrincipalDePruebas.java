@@ -4,9 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
-import java.awt.BorderLayout;
 import javax.swing.JPanel;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -15,7 +13,6 @@ import java.awt.Color;
 import java.awt.Font;
 import javax.swing.SwingConstants;
 
-import ProyectoDDI_NOTICIAS.Usuario;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;

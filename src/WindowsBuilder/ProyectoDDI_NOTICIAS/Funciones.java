@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -23,7 +24,8 @@ public class Funciones {
 	public static ArrayList <String> Noticias = new ArrayList<>(); 
 	private static ArrayList <String> Enlaces = new ArrayList<>(); 
 	private static ArrayList <String> Claves = new ArrayList<>(); 
-	
+    public static Scanner entrada = new Scanner(System.in);
+    
 	private static void guardadoClaves () {
 		
 		String webDeporte1 = "h2.ue-c-cover-content__headline";
@@ -222,7 +224,24 @@ public class Funciones {
 		BuscadorTitulares();
 		
 	}
-	
+	public static int controlErroresInt() {
+		boolean error = true;
+		int dato =0;
+		do {
+			if(entrada.hasNextInt()) {
+				dato = entrada.nextInt();
+				if (dato >= 0) {
+				    error = false;
+                } else {
+                    System.out.println("ERROR, El número no puede ser negativo.");
+                }
+			}else {
+				System.out.println("ERROR, Escribe un número.");
+			}
+			entrada.nextLine();
+		}while(error);
+		return dato;
+	}
 
 
 }
