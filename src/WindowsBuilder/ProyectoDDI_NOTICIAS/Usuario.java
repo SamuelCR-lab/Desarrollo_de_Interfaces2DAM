@@ -1,8 +1,10 @@
 package ProyectoDDI_NOTICIAS;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
@@ -36,28 +38,27 @@ public class Usuario {
 	   
 
 	    public static void lecturaUsuarios() {
-	        File FicheroUsuarios = new File("DesarrolloDeInterfaces//Usuarios.txt");
+	        File FicheroUsuarios = new File("src//Usuarios.txt");
 	        
 	        try (FileReader archivoUsuarios = new FileReader(FicheroUsuarios);
 	             BufferedReader lectorArchivo = new BufferedReader(archivoUsuarios)) {
 	        	int contadorUsuarios = 0;
 	            String cadena;
 	            while ((cadena = lectorArchivo.readLine()) != null){
-	        	   
+	       
 	                if (cadena.trim().isEmpty()) {
 	                
 	                }else {
 	                	String datosLimpios = null;
 		                String rolDetectado = null;
 
-		                // Creamos los "buscadores" para esta línea
 		                Matcher matchAdmin = PATRON_ADMIN.matcher(cadena);
 		                Matcher matchUser = PATRON_USER.matcher(cadena);
 
 		                // Verificamos si coincide con alguno de los patrones
 		                if (matchAdmin.matches()) {
 		                    rolDetectado = "admin";
-		                    // group(1) nos da solo lo que estaba dentro del paréntesis (.*?)
+		                   
 		                    datosLimpios = matchAdmin.group(1); 
 		                } else if (matchUser.matches()) {
 		                    rolDetectado = "user";
@@ -97,5 +98,34 @@ public class Usuario {
 	            i.printStackTrace();
 	        }
 	    }
+	    public static void escrituraUsuarios(String nombre,int ContadorNuevoUsuario) {
+			File ficheroUsuarios = new File("Usuarios.txt");
+			try {
+				
+				if (ficheroUsuarios.exists()) {
+					ficheroUsuarios.delete();
+					ficheroUsuarios.createNewFile();
+				}
+				if (ContadorNuevoUsuario == 0) {
+					
+				}else {
+					FileWriter escritura = new FileWriter(ficheroUsuarios);
+					BufferedWriter escribirUsuarios = new BufferedWriter(escritura);
+					for (Usuario UsuarioAEscribir : listaUsuarios) {
+						if (UsuarioAEscribir.nombre.equals(nombre)) {
+							UsuarioAEscribir.Preferencias = 1;
+							int idU = UsuarioAEscribir.id;
+							String Nombre = UsuarioAEscribir.nombre;
+							String Contraseña = UsuarioAEscribir.contraseña;
+							int preferencias = UsuarioAEscribir.Preferencias;
+				
+						}
+					}
+					
+				}
+			}catch(IOException o){
+				o.printStackTrace();
+			}
+		}
 	    
 }

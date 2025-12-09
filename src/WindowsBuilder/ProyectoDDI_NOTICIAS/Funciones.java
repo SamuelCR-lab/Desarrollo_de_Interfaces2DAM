@@ -222,32 +222,7 @@ public class Funciones {
 		BuscadorTitulares();
 		
 	}
-	public static void escrituraUsuarios(String nombre) {
-		File ficheroUsuarios = new File("Usuarios.txt");
-		try {
-
-			if (ficheroUsuarios.exists()) {
-				ficheroUsuarios.delete();
-				ficheroUsuarios.createNewFile();
-			}
-			FileWriter escritura = new FileWriter(ficheroUsuarios);
-			BufferedWriter escribirUsuarios = new BufferedWriter(escritura);
-			for (Usuario UsuarioAEscribir : Usuario.listaUsuarios) {
-				if (UsuarioAEscribir.nombre == nombre) {
-					String[] Usuariostemporales = Usuario.datosUsuariosTemporal;
-					int a = Integer.parseInt(Usuariostemporales[3]);
-					int idU = UsuarioAEscribir.id;
-					String Nombre = UsuarioAEscribir.nombre;
-					String Contraseña = UsuarioAEscribir.contraseña;
-					int preferencias = UsuarioAEscribir.Preferencias;
-				}
-			}
-			
-			
-		}catch(IOException o){
-			o.printStackTrace();
-		}
-	}
+	
 
 
 }

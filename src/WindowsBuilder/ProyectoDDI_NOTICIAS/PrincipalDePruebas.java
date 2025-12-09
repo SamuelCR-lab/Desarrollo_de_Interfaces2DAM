@@ -18,12 +18,13 @@ import javax.swing.SwingConstants;
 import ProyectoDDI_NOTICIAS.Usuario;
 
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class PrincipalDePruebas {
 
 	private JFrame frame;
 	private JTextField textField;
-	private JTextField textField_1;
+	private JPasswordField passwordField;
 
 	/**
 	 * Launch the application.
@@ -77,24 +78,19 @@ public class PrincipalDePruebas {
 		JLabel lblNewLabel_1 = new JLabel("Nombre de tu usuario");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_1.setBounds(269, 280, 310, 27);
+		lblNewLabel_1.setBounds(181, 280, 310, 27);
 		panel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Contraseña");
 		lblNewLabel_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_2.setFont(new Font("Times New Roman", Font.PLAIN, 18));
-		lblNewLabel_2.setBounds(269, 354, 310, 27);
+		lblNewLabel_2.setBounds(181, 350, 310, 27);
 		panel.add(lblNewLabel_2);
 		
 		textField = new JTextField();
-		textField.setBounds(600, 282, 421, 27);
+		textField.setBounds(571, 282, 421, 27);
 		panel.add(textField);
 		textField.setColumns(10);
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		textField_1.setBounds(600, 356, 421, 27);
-		panel.add(textField_1);
 		
 		JButton btnNewButton_1_1 = new JButton("Siguiente");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
@@ -107,15 +103,19 @@ public class PrincipalDePruebas {
 			}
 		});
 		btnNewButton_1_1.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		btnNewButton_1_1.setBounds(976, 662, 135, 46);
+		btnNewButton_1_1.setBounds(715, 451, 135, 46);
 		panel.add(btnNewButton_1_1);
 		
 		JLabel lblNewLabel_3 = new JLabel("Error. No has introducido bien el nombre de usurio o contraseña.");
 		lblNewLabel_3.setVisible(false);
 		lblNewLabel_3.setForeground(new Color(255, 0, 0));
 		lblNewLabel_3.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblNewLabel_3.setBounds(600, 410, 438, 72);
+		lblNewLabel_3.setBounds(571, 394, 421, 46);
 		panel.add(lblNewLabel_3);
+		
+		passwordField = new JPasswordField();
+		passwordField.setBounds(571, 352, 421, 27);
+		panel.add(passwordField);
 		
 	}
 }
