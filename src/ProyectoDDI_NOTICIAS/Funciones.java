@@ -12,6 +12,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -160,16 +162,16 @@ public class Funciones {
 		Document documento;
 		String resultado ="No existe";
 		/*String webMarca = Enlaces.get(0);
-		String clave = Claves.get(0);*/
-		System.out.println(Enlaces.size());
+		String clave = Claves.get(0);
+		System.out.println(Enlaces.size());*/
 		for(int i=0;i<Enlaces.size();i++) {
 			try {
 				//for (String webs : Noticias) {
 				documento = Jsoup.connect(Enlaces.get(i)).get();
 				Element titular = documento.select(Claves.get(i)).get(0);
-				resultado=titular.html().toUpperCase();
+				resultado= titular.html().toUpperCase();
 				Noticias.add(resultado);
-				System.out.println(resultado);
+				System.out.println(Noticias.get(i));
 	
 			} catch (IOException e)  {
 				e.getStackTrace();
@@ -212,35 +214,25 @@ public class Funciones {
 		}
 		try {
 			 FileInputStream FicheroLecturaEnlacesYClaves= new FileInputStream(fichero);
-             try (ObjectInputStream lectura = new ObjectInputStream(FicheroLecturaEnlacesYClaves)) {
+			 try (ObjectInputStream lectura = new ObjectInputStream(FicheroLecturaEnlacesYClaves)) {
 				Enlaces= (ArrayList<String>) lectura.readObject();
 				Claves = (ArrayList<String>) lectura.readObject();
 			}
-				
-
+			
 	        } catch (IOException | ClassNotFoundException i) {
 	            i.printStackTrace();
 	        }
 		BuscadorTitulares();
 		
 	}
-	public static int controlErroresInt() {
-		boolean error = true;
-		int dato =0;
-		do {
-			if(entrada.hasNextInt()) {
-				dato = entrada.nextInt();
-				if (dato >= 0) {
-				    error = false;
-                } else {
-                    System.out.println("ERROR, El número no puede ser negativo.");
-                }
-			}else {
-				System.out.println("ERROR, Escribe un número.");
+	
+	public static boolean controlDeErrores(String palabra) {
+		Pattern comprueba = Pattern.compile("^([a-zA-Z1-9]+)$");
+		Matcher match = comprueba.matcher(palabra);
+			if(match.find()) {
+				return true;
 			}
-			entrada.nextLine();
-		}while(error);
-		return dato;
+			return false;
 	}
 
 
