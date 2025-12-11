@@ -1,5 +1,8 @@
 package ProyectoDDI_NOTICIAS;
 
+import java.awt.Font;
+
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -16,23 +19,35 @@ public class MostradorNoticias extends JPanel {
 	public static JTextArea textAreaNoticias = new JTextArea ();
 	
 	public MostradorNoticias () {
+		setName("Mostrador Noticias");
 		setSize(1200,800);
 		setLayout(null);
-
+		
 		textAreaNoticias = new JTextArea();
-		textAreaNoticias.setBounds(75, 128, 1033, 581);
+		textAreaNoticias.setBounds(75, 128, 800, 581);
 		textAreaNoticias.setEditable(false);
 		textAreaNoticias.setLineWrap(true);
 		textAreaNoticias.setWrapStyleWord(true);
+		
+		// 2. IMPORTANTE: Configuramos el ScrollPane y metemos el Area de Texto dentro
+		scrollPane.setBounds(75, 128, 800, 581); // Las coordenadas se las damos al Scroll, no al texto
+		scrollPane.setViewportView(textAreaNoticias); // Metemos el texto dentro del scroll
+				
+				// 3. IMPORTANTE: Añadimos el ScrollPane al Panel
+		add(scrollPane);
 
-		add(textAreaNoticias);
-		/*scrollPane = new JScrollPane();
-		add(scrollPane);*/
-		/*for (int i = 0; i<Funciones.Noticias.size();i++) {
-			textAreaNoticias.append(guardados[i]);
-		}*/
 		
 		
+		JButton Atras = new JButton("Atras");
+		Atras.addActionListener(new AccionesDeBotonesSA(0,"MostradorNoticias"));
+		Atras.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		Atras.setBounds(58, 678, 135, 46);
+		add(Atras);
+		JButton Siguiente = new JButton("Siguiente");
+		Siguiente.addActionListener(new AccionesDeBotonesSA(1,"MostradorNoticias"));
+		Siguiente.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		Siguiente.setBounds(994, 678, 135, 46);
+		add(Siguiente);
 		/*
 		
 		lblNewLabel = new JLabel(guardados[0]);

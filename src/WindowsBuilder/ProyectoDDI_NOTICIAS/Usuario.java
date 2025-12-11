@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class Usuario {
 	 	private static final Pattern PATRON_ADMIN = Pattern.compile("^admin:(.*?)(?://.*)?$");
 	    private static final Pattern PATRON_USER = Pattern.compile("^user:(.*?)(?://.*)?$");
-	    private static final Pattern PATRON_PREFERENCIAS = Pattern.compile("^UD%d:(.*?)(?://.*)?$");
+	    private static final Pattern PATRON_PREFERENCIAS = Pattern.compile("^ID:(.*?)(?://.*)?$");
 	    public static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
 	    public static ArrayList<preferenciasIniciador> listaPreferencias = new ArrayList<>();
 	    public static String[] datosUsuariosTemporal;
@@ -154,8 +154,7 @@ public class Usuario {
 	    public static void lecturaPreferencias() {
 	    	File ficheroPreferencias = new File("src//Usuarios//Preferencias.txt");
 	    	try (FileReader archivoPREFERENCIAS = new FileReader(ficheroPreferencias);
-		             BufferedReader lectorArchivo = new BufferedReader(archivoPREFERENCIAS)) {
-		        	int contadorUsuarios = 0;
+		            BufferedReader lectorArchivo = new BufferedReader(archivoPREFERENCIAS)) {
 		            String cadena;
 		            while ((cadena = lectorArchivo.readLine()) != null){
 		       
@@ -211,7 +210,16 @@ public class Usuario {
 	    public static void escrituraPreferencias(int idUsuarioPN) {
 	    	lecturaPreferencias();
 	    	File ficheroPreferencias = new File("src//Usuarios//Preferencias.txt");
-	    	try (FileWriter archivoPREFERENCIAS = new FileWriter(ficheroPreferencias);
+	    	if(ficheroPreferencias.exists()) {
+	    		try {
+	    			ficheroPreferencias.delete();
+					ficheroPreferencias.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	    	}
+	    	try (FileWriter archivoPREFERENCIAS = new FileWriter(ficheroPreferencias,true);
 		             BufferedWriter escribirArchivo = new BufferedWriter(archivoPREFERENCIAS)) {
 		            for(preferenciasIniciador UsuarioPreferencia : listaPreferencias){
 			                   int ID = UsuarioPreferencia.Id;
@@ -233,7 +241,7 @@ public class Usuario {
 			                   int vandal = UsuarioPreferencia.vandal;
 			                   int directoalpaladar = UsuarioPreferencia.directoalpaladar;
 			                   int sensacine = UsuarioPreferencia.sensacine;
-			                   escribirArchivo.write("ID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine);
+			                   escribirArchivo.write("ID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine+"\n");
 			        }  
 	    	}catch(Exception i) {
 	    		i.printStackTrace();

@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.Action;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -19,9 +20,11 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollBar;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
+import javax.swing.JCheckBox;
 
 public class PrincipalDePruebas {
 
+	private static final Action cambio = null;
 	private JFrame frame;
 
 	/**
@@ -66,16 +69,29 @@ public class PrincipalDePruebas {
 		panel.setLayout(null);
 		
 		JTextArea textArea = new JTextArea();
-		textArea.setBounds(75, 128, 1033, 581);
-		textArea.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		textArea.setBounds(71, 119, 1033, 525);
+		textArea.setFont(new Font("Times New Roman", Font.PLAIN, 18));
 		textArea.setText("pRUEBA");
 		panel.add(textArea);
+		
+		JCheckBox chckbxNewCheckBox = new JCheckBox("New check box");
+		
+		chckbxNewCheckBox.setAction(cambio );
+		chckbxNewCheckBox.setBounds(102, 23, 97, 23);
+		panel.add(chckbxNewCheckBox);
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBounds(0, 0, 10, 10);
 		frame.getContentPane().add(panel_1);
+		JButton CerrarSesion = new JButton("Cerrar Sesion");
+		CerrarSesion.addActionListener(new AccionesDeBotonesSA(0,"Preferencias"));
+		CerrarSesion.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		CerrarSesion.setBounds(58, 678, 135, 46);
+		panel.add(CerrarSesion);
 		
 		
-		
+	}
+	public static void cambio() {
+		System.out.println("Cambio");
 	}
 }

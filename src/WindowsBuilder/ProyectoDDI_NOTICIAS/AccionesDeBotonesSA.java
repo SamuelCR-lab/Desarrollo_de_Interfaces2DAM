@@ -49,25 +49,18 @@ public class AccionesDeBotonesSA implements ActionListener{
 								nombreUsuario=a.nombre;
 								Paneles.panelLogin.setVisible(false);
 								Paneles.PanelAdmin.setVisible(true);
+									if(nombrePanel.equals("MostradorNoticias")) {
+										
+									}
 							}else {
 								if(a.Preferencias == 0) {
 									nombreUsuario=a.nombre;
 									Paneles.panelLogin.setVisible(false);
 									Paneles.PanelEleccion.setVisible(true);
-									a.Preferencias = 1;
-									Usuario.escrituraUsuarios(a.nombre,1);
 								}else {
-									nombreUsuario=a.nombre;
 									Paneles.panelLogin.setVisible(false);
-									
-									StringBuilder sb = new StringBuilder();
-									for (int i = 0; i<Funciones.Noticias.size();i++) {
-										MostradorNoticias.guardados[i] = Funciones.Noticias.get(i);
-										System.out.println(Funciones.Noticias.get(i));
-										sb.append(i+1+":"+MostradorNoticias.guardados[i]+"\n");
-									}
-									String MostradoNoticias = sb.toString();
-									MostradorNoticias.textAreaNoticias.setText(MostradoNoticias);
+									MostradorDeNoticias();
+									//Usuario.escrituraUsuarios(a.nombre,1);
 									Paneles.PanelNoticias.setVisible(true);
 								}
 							}
@@ -78,8 +71,17 @@ public class AccionesDeBotonesSA implements ActionListener{
 					
 					
 				}else if (nombrePanel.equals("Preferencias")) {
-					Paneles.PanelEleccion.setVisible(false);
 					
+					for (Usuario a : Usuario.listaUsuarios) {
+						a.Preferencias = 1;
+						Paneles.PanelEleccion.setVisible(false);
+						if (nombrePanel.equals("Preferencias")) {
+							Preferencias.guardarSeleccion();
+							MostradorDeNoticias();
+							//Usuario.escrituraUsuarios(a.nombre,1);
+						}
+						Paneles.PanelNoticias.setVisible(true);
+					}
 				}else if (nombrePanel.equals(e)){
 					
 				}
@@ -99,7 +101,18 @@ public class AccionesDeBotonesSA implements ActionListener{
 			
 		}
 	}
-
+	private void MostradorDeNoticias() {
+		
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i<Funciones.Noticias.size();i++) {
+			if(Preferencias.PrefeTemp[i] == 1) {
+				MostradorNoticias.guardados[i] = Funciones.Noticias.get(i);
+				sb.append(i+1+":"+MostradorNoticias.guardados[i]+"\n");
+			}
+		}
+		String MostradoNoticias = sb.toString();
+		MostradorNoticias.textAreaNoticias.setText(MostradoNoticias);
+	}
 	
 
 }
