@@ -1,6 +1,6 @@
 package ProyectoDDI_NOTICIAS;
 
-import java.awt.Dimension;
+
 import java.awt.Toolkit;
 
 import javax.swing.JFrame;
@@ -22,10 +22,7 @@ public class MarcoNoticias extends JFrame{
 		setSize(1200,800);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icono_noticias_globales.png")));
 		setResizable(false);
-		Dimension monitor = Toolkit.getDefaultToolkit().getScreenSize();
-		int tamanioyH = (int) monitor.getHeight();
-		int tamanioxW = (int) monitor.getWidth();
-		setLocation((tamanioxW/2 - getWidth()/2), (tamanioyH/2 - getHeight()/2));
+		setLocationRelativeTo(null);
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 1183, 22);

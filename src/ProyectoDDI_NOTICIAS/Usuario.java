@@ -13,11 +13,11 @@ import java.util.regex.Pattern;
 public class Usuario {
 	 	private static final Pattern PATRON_ADMIN = Pattern.compile("^admin:(.*?)(?://.*)?$");
 	    private static final Pattern PATRON_USER = Pattern.compile("^user:(.*?)(?://.*)?$");
-	    private static final Pattern PATRON_PREFERENCIAS = Pattern.compile("^ID:(.*?)(?://.*)?$");
+	    
 	    public static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-	    public static ArrayList<preferenciasIniciador> listaPreferencias = new ArrayList<>();
+
 	    public static String[] datosUsuariosTemporal;
-	    public static String[] datosPreferenciasTemporal;
+
 
 	    	int id;
 	        String nombre;
@@ -35,12 +35,6 @@ public class Usuario {
 	            this.rol = rol;
 	        }
 
-	        @Override
-	        public String toString() {
-	            return "Id:"+id+"Rol: " + rol + ", Nombre: " + nombre + ", Contraseña: " + contraseña + ", Tipo: " + Preferencias + ", Email: " + email;
-	        }
-	   
-
 	    public static void lecturaUsuarios() {
 	        File FicheroUsuarios = new File("Usuarios//Usuarios.txt");
 	        
@@ -50,7 +44,7 @@ public class Usuario {
 	            String cadena;
 	            while ((cadena = lectorArchivo.readLine()) != null){
 	       
-	                if (cadena.trim().isEmpty()) {
+	                if (cadena.trim().isEmpty()) {//Para que salte lineas leidas que estan vacias.
 	                
 	                }else {
 	                	String datosLimpios = null;
@@ -68,15 +62,13 @@ public class Usuario {
 		                    datosLimpios = matchUser.group(1);
 		                }
 
-		                // Si se encontró un patrón válido, procedemos a leer los datos y guardarlos en unun array temporal los trozos de strings leidos
+		                // Si se encontró un patrón válido, pasamos a leer el archivo linea por linea y dividirla separarla por ;
 		                if (datosLimpios != null) {
 		                   datosUsuariosTemporal = datosLimpios.split(";");
 
-		                    if (datosUsuariosTemporal.length >= 4) {
+		                    if (datosUsuariosTemporal.length >= 4) {//Hacemos este if porque esperamos que hayan 4 campos y si hay menos saldria null y con el un posterior error
 		                        String nombre = datosUsuariosTemporal[0];
-		                        System.out.println(nombre);
 		                        String contraseña = datosUsuariosTemporal[1];
-		                        System.out.println(contraseña);
 		                        int preferencia = 0;
 		                        contadorUsuarios+=1;
 		                        try {
@@ -88,8 +80,6 @@ public class Usuario {
 		                        Usuario nuevoUsuario = new Usuario(contadorUsuarios,nombre, contraseña, preferencia, email, rolDetectado);
 		                        listaUsuarios.add(nuevoUsuario);
 		                        
-		                        System.out.println("Leído con Pattern: " + nuevoUsuario);
-		                        
 		                    }
 		                }
 	                }
@@ -99,12 +89,13 @@ public class Usuario {
 	        	//Mostrar 
 	            System.err.println("Error leyendo el archivo Usuarios.txt");
 	            i.printStackTrace();
+	            i.hashCode();
 	        }
 	    }
 	    public static void escrituraUsuarios(String nombre,int ContadorNuevoUsuario) {
 			File ficheroUsuarios = new File("Usuarios//Usuarios.txt");
 			
-				
+				//Para que cuando se elimine o se cree un nuevo usuario solo se guarden los datos en el array donde los guardamos de froma temporal
 				if (ficheroUsuarios.exists()) {
 					try {
 						ficheroUsuarios.delete();
@@ -116,7 +107,6 @@ public class Usuario {
 				}
 				try {
 					FileWriter escritura = new FileWriter(ficheroUsuarios,true);
-				
 					try (BufferedWriter escribirFichero = new BufferedWriter(escritura)){
 						if (ContadorNuevoUsuario == 0) {
 							for (Usuario UsuarioAEscribir : listaUsuarios) {
@@ -127,21 +117,11 @@ public class Usuario {
 								String Correo = UsuarioAEscribir.email;
 								if (UsuarioAEscribir.nombre.equals(nombre)) {
 									int idU = UsuarioAEscribir.id;
-									escrituraPreferencias(idU);
+									System.out.println(idU);
+									preferenciasIniciador.escrituraPreferencias(idU);
 								}
 								escribirFichero.write(rol+":"+Nombre+";"+Contraseña+";"+preferencias+";"+Correo+"\n");
 							}
-							/*System.out.println("Introduce el rol del nuevo suario: Admin(1) o Usuario(2)");
-							int rol = Funciones.controlDeErrores();
-							System.out.println("Introduce el nombre del nuevo usuario: ");
-							String Nombre = Funciones.controlDeErrores();
-							System.out.println("Introduce la contraseña del nuevo usuario: ");
-							String Contraseña = Funciones.controlDeErrores();
-							int preferencias = 0;
-							System.out.println("Introduce el correo del nuevo usuario: ");
-							String Correo = Funciones.controlDeErrores();
-							System.out.println("Para darle las preferencias al usuario tendras que iniciar sesion con ese usuario.");
-							escritura.write(rol+":"+Nombre+";"+Contraseña+";"+preferencias+";"+Correo+"\n");*/
 						}else {
 							for (Usuario UsuarioAEscribir : listaUsuarios) {
 								String rol = UsuarioAEscribir.rol;
@@ -149,8 +129,7 @@ public class Usuario {
 								String Contraseña = UsuarioAEscribir.contraseña;
 								int preferencias = UsuarioAEscribir.Preferencias;
 								String Correo = UsuarioAEscribir.email;
-								
-								
+
 								escribirFichero.write(rol+":"+Nombre+";"+Contraseña+";"+preferencias+";"+Correo+"\n");
 								
 							}
@@ -161,93 +140,6 @@ public class Usuario {
 				o.printStackTrace();
 			}
 		}
-	    public static void lecturaPreferencias() {
-	    	File ficheroPreferencias = new File("Usuarios//Preferencias.txt");
-	    	try (FileReader archivoPREFERENCIAS = new FileReader(ficheroPreferencias);
-		            BufferedReader lectorArchivo = new BufferedReader(archivoPREFERENCIAS)) {
-		            String cadena;
-		            while ((cadena = lectorArchivo.readLine()) != null){
-		       
-		                if (cadena.trim().isEmpty()) {
-		                
-		                }else {
-		                	String datosLimpios = null;
-			                Matcher matchPreferencias = PATRON_PREFERENCIAS.matcher(cadena);
-
-			                // Verificamos si coincide con alguno de los patrones de admin o user
-			                if (matchPreferencias.matches()) {
-			                    datosLimpios = matchPreferencias.group(1); 
-			                }
-
-			                // Si se encontró un patrón válido, procedemos a leer los datos y guardarlos en unun array temporal los trozos de strings leidos
-			                if (datosLimpios != null) {
-			                	datosPreferenciasTemporal = datosLimpios.split(";");
-
-			                    if (datosPreferenciasTemporal.length >= 19) {
-			                    	int ID = Integer.parseInt(datosPreferenciasTemporal[0]);
-			                        int Marca = Integer.parseInt(datosPreferenciasTemporal[1]);
-			                        int AS = Integer.parseInt(datosPreferenciasTemporal[2]);
-			                        int OKdiario = Integer.parseInt(datosPreferenciasTemporal[3]);
-			                        int eleconomista = Integer.parseInt(datosPreferenciasTemporal[4]);
-			                        int elespanolECO = Integer.parseInt(datosPreferenciasTemporal[5]);
-			                        int elmundoECO = Integer.parseInt(datosPreferenciasTemporal[6]);
-			                        int elespanolN = Integer.parseInt(datosPreferenciasTemporal[7]);
-			                        int elmundoN = Integer.parseInt(datosPreferenciasTemporal[8]);
-			                        int okdiarioN = Integer.parseInt(datosPreferenciasTemporal[9]);
-			                        int elespanolI = Integer.parseInt(datosPreferenciasTemporal[10]);
-			                        int elmundoI = Integer.parseInt(datosPreferenciasTemporal[11]);
-			                        int okdiarioI = Integer.parseInt(datosPreferenciasTemporal[12]);
-			                        int xataka = Integer.parseInt(datosPreferenciasTemporal[13]);
-			                        int applesfera = Integer.parseInt(datosPreferenciasTemporal[14]);
-			                        int mundoxiaomi = Integer.parseInt(datosPreferenciasTemporal[15]);
-			                        int vandal = Integer.parseInt(datosPreferenciasTemporal[16]);
-			                        int directoalpaladar = Integer.parseInt(datosPreferenciasTemporal[17]);
-			                        int sensacine = Integer.parseInt(datosPreferenciasTemporal[18]);
-			                        System.out.println(ID);
-			                        preferenciasIniciador preferenciasCargadas = new preferenciasIniciador(ID,Marca, AS,OKdiario, eleconomista, elespanolECO, elmundoECO, elespanolN, elmundoN, okdiarioN, elespanolI, elmundoI, okdiarioI, xataka, applesfera, mundoxiaomi, vandal, directoalpaladar,sensacine);
-			                        listaPreferencias.add(preferenciasCargadas);
-			                              
-			                }
-			            }
-		            }	    	
-		        }
-	    	}catch(Exception i) {
-	    		i.printStackTrace();
-	    	}
-	    }
-	    public static void escrituraPreferencias(int idUsuarioPN) {
-	    	lecturaPreferencias();
-	    	File ficheroPreferencias = new File("Usuarios//Preferencias.txt");
-
-	    	try (FileWriter archivoPREFERENCIAS = new FileWriter(ficheroPreferencias,true);
-		             BufferedWriter escribirArchivo = new BufferedWriter(archivoPREFERENCIAS)) {
-		            for(preferenciasIniciador UsuarioPreferencia : listaPreferencias){
-		            		if(UsuarioPreferencia.Id==idUsuarioPN) {
-			                   int ID = UsuarioPreferencia.Id;
-			                   int Marca =UsuarioPreferencia.Marca;
-			                   int AS = UsuarioPreferencia.AS;
-			                   int OKdiario = UsuarioPreferencia.OKdiario;
-			                   int eleconomista = UsuarioPreferencia.eleconomista;
-			                   int elespanolECO = UsuarioPreferencia.elespanolECO;
-			                   int elmundoECO = UsuarioPreferencia.elmundoECO;
-			                   int elespanolN = UsuarioPreferencia.elespanolN;
-			                   int elmundoN = UsuarioPreferencia.elmundoN;
-			                   int okdiarioN = UsuarioPreferencia.okdiarioN;
-			                   int elespanolI = UsuarioPreferencia.elespanolI;
-			                   int elmundoI = UsuarioPreferencia.elmundoI;
-			                   int okdiarioI = UsuarioPreferencia.okdiarioI;
-			                   int xataka = UsuarioPreferencia.xataka;
-			                   int applesfera = UsuarioPreferencia.applesfera;
-			                   int mundoxiaomi = UsuarioPreferencia.mundoxiaomi;
-			                   int vandal = UsuarioPreferencia.vandal;
-			                   int directoalpaladar = UsuarioPreferencia.directoalpaladar;
-			                   int sensacine = UsuarioPreferencia.sensacine;
-			                   escribirArchivo.write("ID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine+"\n");
-		            		}  
-		            }
-	    	}catch(Exception i) {
-	    		i.printStackTrace();
-	    	}
-	    }
+	    
 	    
 }

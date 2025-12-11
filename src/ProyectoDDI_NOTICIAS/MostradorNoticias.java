@@ -18,7 +18,7 @@ public class MostradorNoticias extends JPanel {
 	public static String[] guardados = new String[18];
 	public static JScrollPane scrollPane = new JScrollPane();
 	public static JTextArea textAreaNoticias = new JTextArea ();
-	
+	public static JButton Siguiente;
 	public MostradorNoticias () {
 		setName("Mostrador Noticias");
 		setSize(1200,800);
@@ -44,12 +44,13 @@ public class MostradorNoticias extends JPanel {
 		JButton Atras = new JButton("Atras");
 		Atras.addActionListener(new AccionesDeBotonesSA(0,"MostradorNoticias"));
 		Atras.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		Atras.setBounds(58, 678, 135, 46);
+		Atras.setBounds(75, 678, 200, 46);
 		add(Atras);
-		JButton Siguiente = new JButton("Siguiente");
-		Siguiente.addActionListener(new AccionesDeBotonesSA(1,"MostradorNoticias"));
+		Siguiente = new JButton("Enviar Correo");
+		Siguiente.addActionListener(new AccionesDeBotonesSA(1,"EnviarCorreo"));
 		Siguiente.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		Siguiente.setBounds(994, 678, 135, 46);
+		Siguiente.setBounds(911, 678, 200, 46);
+		Siguiente.setVisible(false);
 		add(Siguiente);
 		
 		}

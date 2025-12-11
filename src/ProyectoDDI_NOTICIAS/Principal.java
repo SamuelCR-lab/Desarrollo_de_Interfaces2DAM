@@ -1,7 +1,7 @@
 package ProyectoDDI_NOTICIAS;
 
 import java.awt.EventQueue;
-import javax.swing.SwingUtilities;
+
 
 
 
@@ -19,13 +19,7 @@ public class Principal {
 				try {
 					
 					
-					SwingUtilities.invokeLater(() -> {
-			            new PantalladeCarga();
-			            
-			        });
-					Usuario.lecturaUsuarios();
-					Funciones.lecturaWebs();
-					Usuario.lecturaPreferencias();
+					new PantalladeCarga();
 					window.setSize(1200,800);
 					
 					

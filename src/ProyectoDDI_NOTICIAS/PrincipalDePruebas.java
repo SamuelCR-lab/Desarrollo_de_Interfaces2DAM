@@ -80,7 +80,7 @@ public class PrincipalDePruebas {
 		lblNewLabel = new JLabel("Bienvenido "+AccionesDeBotonesSA.nombreUsuario+" por primera vez. \n Elige tus medios de comunicacion preferidos.");
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		lblNewLabel.setBounds(256, 33, 672, 31);
+		lblNewLabel.setBounds(258, 47, 672, 31);
 		panel.add(lblNewLabel);
 		
 		JCheckBox chckbxNewCheckBox = new JCheckBox("New check box");
@@ -95,7 +95,7 @@ public class PrincipalDePruebas {
 		JButton CerrarSesion = new JButton("Cerrar Sesion");
 		CerrarSesion.addActionListener(new AccionesDeBotonesSA(0,"Preferencias"));
 		CerrarSesion.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		CerrarSesion.setBounds(58, 678, 135, 46);
+		CerrarSesion.setBounds(58, 650, 200, 46);
 		panel.add(CerrarSesion);
 		
 		JMenuBar menuBar = new JMenuBar();

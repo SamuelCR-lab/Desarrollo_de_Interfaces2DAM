@@ -4,91 +4,109 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
-import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 public class PantalladeCarga extends JFrame{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JProgressBar barraProgreso;
+
+    private static final long serialVersionUID = 1L;
+    private JProgressBar barraProgreso;
+    private Timer temporizador; // Variable para el Timer
 
     public PantalladeCarga() {
         setUndecorated(true);
-        
         setLayout(new BorderLayout());
-        
+
+        // --- Carga de Imagen ---
         ImageIcon imagenIcon = null;
         try {
-        	setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icono_noticias_globales.png")));
+            // Icono de la ventana (aunque no tenga bordes, es buena práctica)
+            setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/icono_noticias_globales.png")));
+            // Imagen central
             java.net.URL urlImagen = getClass().getResource("/ImagenPantallaCarga.jpg");
+            imagenIcon = new ImageIcon(urlImagen);
             
-            if (urlImagen != null) {
-                imagenIcon = new ImageIcon(urlImagen);
-            } else {
-                System.out.println("No se encontró la imagen.");
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         JLabel etiquetaImagen = new JLabel(imagenIcon);
+        // Si no hay imagen, ponemos texto para que se vea algo
+        if (imagenIcon == null || imagenIcon.getIconWidth() == -1) {
+            etiquetaImagen.setText("Cargando Noticias...");
+            etiquetaImagen.setHorizontalAlignment(JLabel.CENTER);
+            etiquetaImagen.setPreferredSize(new Dimension(400, 300));
+        }
         add(etiquetaImagen, BorderLayout.CENTER);
 
+        // --- Barra de Progreso ---
         barraProgreso = new JProgressBar();
         barraProgreso.setMinimum(0);
         barraProgreso.setMaximum(100);
-        barraProgreso.setStringPainted(true); // Muestra el porcentaje %
-        barraProgreso.setForeground(new Color(50, 205, 50)); // Color verde
-        barraProgreso.setPreferredSize(new Dimension(getWidth(), 30)); // Altura de la barra
+        barraProgreso.setStringPainted(true);
+        barraProgreso.setForeground(new Color(50, 205, 50)); // Verde lime
+        barraProgreso.setPreferredSize(new Dimension(getWidth(), 30));
         add(barraProgreso, BorderLayout.SOUTH);
 
-
-        pack(); // Ajusta tamaño a la imagen
-        setLocationRelativeTo(null); // Centrar en pantalla
-        setAlwaysOnTop(true); // Mantiene la ventana encima de otras aplicaciones
-        
-        // Hacer visible la ventana
+        pack();
+        setLocationRelativeTo(null);
+        setAlwaysOnTop(true);
         setVisible(true);
-        
-        // 6. Iniciar la carga en un Hilo separado (CRUCIAL para que la barra se mueva)
-        iniciarCarga();
 
+        // Iniciamos la carga con Timer en lugar de Thread
+        iniciarCargaConTimer();
     }
 
+    private void iniciarCargaConTimer() {
+        // Creamos un Timer que se ejecuta cada 50 milisegundos
+        temporizador = new Timer(50, new ActionListener() {
+            int progreso = 0;
 
-	private void iniciarCarga() {
-        Thread hiloCarga = new Thread(new Runnable() {
             @Override
-            public void run() {
+            public void actionPerformed(ActionEvent e) {
+                progreso++;
+                barraProgreso.setValue(progreso);
+                barraProgreso.setString("Cargando sistema... " + progreso + "%");
+
+                // AQUÍ SIMULAMOS LA CARGA REAL DE TUS DATOS
+                // Aprovechamos el porcentaje para llamar a tus métodos
                 try {
-                    for (int i = 0; i <= 100; i++) {
-                        int progreso = i;
-                        SwingUtilities.invokeLater(() -> {
-                            barraProgreso.setValue(progreso);
-                            barraProgreso.setString("Cargando sistema... " + progreso + "%");
-                        });
-                        Thread.sleep(50);
+                    if (progreso == 20) {
+                        barraProgreso.setString("Leyendo usuarios...");
+                        Usuario.lecturaUsuarios();
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    if (progreso == 50) {
+                        barraProgreso.setString("Conectando con webs...");
+                        Funciones.lecturaConfiguracion();
+                    }
+                    if (progreso == 80) {
+                        barraProgreso.setString("Cargando preferencias...");
+                        preferenciasIniciador.lecturaPreferencias();
+                    }
+                } catch (Exception o) {
+                    o.printStackTrace();
                 }
-                SwingUtilities.invokeLater(() -> {
-                    dispose(); // Cierra la pantalla de carga
+
+                // Cuando llega al 100%, paramos y abrimos la ventana principal
+                if (progreso == 100) {
+                    temporizador.stop(); // Detener el reloj
+                    dispose();           // Cerrar pantalla de carga
                     
+                    // Configurar y mostrar la ventana principal
+                    Principal.window.setLocationRelativeTo(null); 
                     Principal.window.setVisible(true);
-                });
+                }
             }
         });
-        hiloCarga.start();
         
+        temporizador.start();
     }
-
-    // Método auxiliar para crear una imagen gris con texto si no tienes tu .png a mano
-    
 }
+    
+

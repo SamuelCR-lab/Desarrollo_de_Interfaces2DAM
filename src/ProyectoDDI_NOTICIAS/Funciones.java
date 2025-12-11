@@ -1,17 +1,14 @@
 package ProyectoDDI_NOTICIAS;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -26,7 +23,8 @@ public class Funciones {
 	public static ArrayList <String> Noticias = new ArrayList<>(); 
 	private static ArrayList <String> Enlaces = new ArrayList<>(); 
 	private static ArrayList <String> Claves = new ArrayList<>(); 
-    public static Scanner entrada = new Scanner(System.in);
+    
+    
     
 	private static void guardadoClaves () {
 		
@@ -133,45 +131,16 @@ public class Funciones {
 		Enlaces.add(webCine);
 		
 	}
-	public static void buscadorCategoria(int categoria) {
-		String titular = "";
-		switch(categoria) {
-			case 1: 
-				
-				break;
-			case 2: 
-				break;
-			case 3: 
-				break;
-			case 4: 
-				break;
-			case 5: 
-				break;
-			case 6: 
-				break;
-				
-		}
-		
-		
-		
-	}
 	
-	public static void BuscadorTitulares() {
-		//ArrayList<String>
-		
+	public static void GuardarTitulares() {
 		Document documento;
 		String resultado ="No existe";
-		/*String webMarca = Enlaces.get(0);
-		String clave = Claves.get(0);
-		System.out.println(Enlaces.size());*/
 		for(int i=0;i<Enlaces.size();i++) {
 			try {
-				//for (String webs : Noticias) {
 				documento = Jsoup.connect(Enlaces.get(i)).get();
 				Element titular = documento.select(Claves.get(i)).get(0);
 				resultado= titular.html().toUpperCase();
 				Noticias.add(resultado);
-				System.out.println(Noticias.get(i));
 	
 			} catch (IOException e)  {
 				e.getStackTrace();
@@ -181,7 +150,7 @@ public class Funciones {
 		
 		
 	}
-	public static void escribirWebs(File fichero){
+	public static void escribirConfiguracion(File fichero){
 		guardadoClaves();
 		guardadoEnlaces();
 		
@@ -195,7 +164,9 @@ public class Funciones {
 			}
              FileWriter imprimirEspacio = new FileWriter(fichero,true);
              try (BufferedWriter imprimirSoloEspacio = new BufferedWriter(imprimirEspacio)) {
-				imprimirSoloEspacio.write("\nID:1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1\n"
+				imprimirSoloEspacio.write("\nEMAIL DE SALIDA:samcr9112@gmail.com\n"
+						+ "CONTRASENIA EMAIL DE SALIDA:uyce vzdu gkpc rwov\n"
+						+ "ID:1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1\n"
 				 		+ "ID:3;0;1;0;1;0;1;0;1;0;1;0;1;0;1;0;1;0;1\n");
 			}
 	        } catch (IOException i) {
@@ -203,13 +174,12 @@ public class Funciones {
 	        }
 	}
 	
-	public static void lecturaWebs(){
-		File dir = new File("Usuarios");
-		File fichero = new File("Usuarios//Preferencias.txt");
+	public static void lecturaConfiguracion(){
+		File fichero = new File("Usuarios//Configuracion.txt");
 		try {
 			if(!fichero.exists()) {
 				fichero.createNewFile();
-				escribirWebs(fichero);
+				escribirConfiguracion(fichero);
 			}
 		}catch(IOException o){
 			o.printStackTrace();
@@ -225,7 +195,7 @@ public class Funciones {
 	        } catch (IOException | ClassNotFoundException i) {
 	            i.printStackTrace();
 	        }
-		BuscadorTitulares();
+		GuardarTitulares();
 		
 	}
 	
