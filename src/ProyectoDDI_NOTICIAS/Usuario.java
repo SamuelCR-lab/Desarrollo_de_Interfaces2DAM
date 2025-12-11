@@ -37,12 +37,12 @@ public class Usuario {
 
 	        @Override
 	        public String toString() {
-	            return "Rol: " + rol + ", Nombre: " + nombre + ", Contraseña: " + contraseña + ", Tipo: " + Preferencias + ", Email: " + email;
+	            return "Id:"+id+"Rol: " + rol + ", Nombre: " + nombre + ", Contraseña: " + contraseña + ", Tipo: " + Preferencias + ", Email: " + email;
 	        }
 	   
 
 	    public static void lecturaUsuarios() {
-	        File FicheroUsuarios = new File("src//Usuarios//Usuarios.txt");
+	        File FicheroUsuarios = new File("Usuarios//Usuarios.txt");
 	        
 	        try (FileReader archivoUsuarios = new FileReader(FicheroUsuarios);
 	             BufferedReader lectorArchivo = new BufferedReader(archivoUsuarios)) {
@@ -78,7 +78,7 @@ public class Usuario {
 		                        String contraseña = datosUsuariosTemporal[1];
 		                        System.out.println(contraseña);
 		                        int preferencia = 0;
-		                        contadorUsuarios++;
+		                        contadorUsuarios+=1;
 		                        try {
 		                        	preferencia = Integer.parseInt(datosUsuariosTemporal[2]);
 		                        } catch (NumberFormatException e) {
@@ -96,63 +96,73 @@ public class Usuario {
 	            } 
 
 	        } catch (IOException i) {
+	        	//Mostrar 
 	            System.err.println("Error leyendo el archivo Usuarios.txt");
 	            i.printStackTrace();
 	        }
 	    }
 	    public static void escrituraUsuarios(String nombre,int ContadorNuevoUsuario) {
-			File ficheroUsuarios = new File("Usuarios.txt");
-			try {
+			File ficheroUsuarios = new File("Usuarios//Usuarios.txt");
+			
 				
 				if (ficheroUsuarios.exists()) {
-					ficheroUsuarios.delete();
-					ficheroUsuarios.createNewFile();
-				}
-				try (FileWriter escritura = new FileWriter(ficheroUsuarios,true)) {
-					if (ContadorNuevoUsuario == 0) {
-						for (Usuario UsuarioAEscribir : listaUsuarios) {
-							String rol = UsuarioAEscribir.rol;
-							String Nombre = UsuarioAEscribir.nombre;
-							String Contraseña = UsuarioAEscribir.contraseña;
-							int preferencias = UsuarioAEscribir.Preferencias;
-							String Correo = UsuarioAEscribir.email;
-							escritura.write(rol+":"+Nombre+";"+Contraseña+";"+preferencias+";"+Correo+"\n");
-						}
-						/*System.out.println("Introduce el rol del nuevo suario: Admin(1) o Usuario(2)");
-						int rol = Funciones.controlDeErrores();
-						System.out.println("Introduce el nombre del nuevo usuario: ");
-						String Nombre = Funciones.controlDeErrores();
-						System.out.println("Introduce la contraseña del nuevo usuario: ");
-						String Contraseña = Funciones.controlDeErrores();
-						int preferencias = 0;
-						System.out.println("Introduce el correo del nuevo usuario: ");
-						String Correo = Funciones.controlDeErrores();
-						System.out.println("Para darle las preferencias al usuario tendras que iniciar sesion con ese usuario.");
-						escritura.write(rol+":"+Nombre+";"+Contraseña+";"+preferencias+";"+Correo+"\n");*/
-					}else {
-						for (Usuario UsuarioAEscribir : listaUsuarios) {
-							String rol = UsuarioAEscribir.rol;
-							String Nombre = UsuarioAEscribir.nombre;
-							String Contraseña = UsuarioAEscribir.contraseña;
-							int preferencias = UsuarioAEscribir.Preferencias;
-							String Correo = UsuarioAEscribir.email;
-							
-							if (UsuarioAEscribir.nombre.equals(nombre)) {
-									int idU = UsuarioAEscribir.id;
-									escrituraPreferencias(idU);
-							}
-							escritura.write(rol+":"+Nombre+";"+Contraseña+";"+preferencias+";"+Correo+"\n");
-							
-						}
-						
+					try {
+						ficheroUsuarios.delete();
+						ficheroUsuarios.createNewFile();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}
+				try {
+					FileWriter escritura = new FileWriter(ficheroUsuarios,true);
+				
+					try (BufferedWriter escribirFichero = new BufferedWriter(escritura)){
+						if (ContadorNuevoUsuario == 0) {
+							for (Usuario UsuarioAEscribir : listaUsuarios) {
+								String rol = UsuarioAEscribir.rol;
+								String Nombre = UsuarioAEscribir.nombre;
+								String Contraseña = UsuarioAEscribir.contraseña;
+								int preferencias = UsuarioAEscribir.Preferencias;
+								String Correo = UsuarioAEscribir.email;
+								if (UsuarioAEscribir.nombre.equals(nombre)) {
+									int idU = UsuarioAEscribir.id;
+									escrituraPreferencias(idU);
+								}
+								escribirFichero.write(rol+":"+Nombre+";"+Contraseña+";"+preferencias+";"+Correo+"\n");
+							}
+							/*System.out.println("Introduce el rol del nuevo suario: Admin(1) o Usuario(2)");
+							int rol = Funciones.controlDeErrores();
+							System.out.println("Introduce el nombre del nuevo usuario: ");
+							String Nombre = Funciones.controlDeErrores();
+							System.out.println("Introduce la contraseña del nuevo usuario: ");
+							String Contraseña = Funciones.controlDeErrores();
+							int preferencias = 0;
+							System.out.println("Introduce el correo del nuevo usuario: ");
+							String Correo = Funciones.controlDeErrores();
+							System.out.println("Para darle las preferencias al usuario tendras que iniciar sesion con ese usuario.");
+							escritura.write(rol+":"+Nombre+";"+Contraseña+";"+preferencias+";"+Correo+"\n");*/
+						}else {
+							for (Usuario UsuarioAEscribir : listaUsuarios) {
+								String rol = UsuarioAEscribir.rol;
+								String Nombre = UsuarioAEscribir.nombre;
+								String Contraseña = UsuarioAEscribir.contraseña;
+								int preferencias = UsuarioAEscribir.Preferencias;
+								String Correo = UsuarioAEscribir.email;
+								
+								
+								escribirFichero.write(rol+":"+Nombre+";"+Contraseña+";"+preferencias+";"+Correo+"\n");
+								
+							}
+							
+						}
+					}
 			}catch(IOException o){
 				o.printStackTrace();
 			}
 		}
 	    public static void lecturaPreferencias() {
-	    	File ficheroPreferencias = new File("src//Usuarios//Preferencias.txt");
+	    	File ficheroPreferencias = new File("Usuarios//Preferencias.txt");
 	    	try (FileReader archivoPREFERENCIAS = new FileReader(ficheroPreferencias);
 		            BufferedReader lectorArchivo = new BufferedReader(archivoPREFERENCIAS)) {
 		            String cadena;
@@ -193,12 +203,10 @@ public class Usuario {
 			                        int vandal = Integer.parseInt(datosPreferenciasTemporal[16]);
 			                        int directoalpaladar = Integer.parseInt(datosPreferenciasTemporal[17]);
 			                        int sensacine = Integer.parseInt(datosPreferenciasTemporal[18]);
-
+			                        System.out.println(ID);
 			                        preferenciasIniciador preferenciasCargadas = new preferenciasIniciador(ID,Marca, AS,OKdiario, eleconomista, elespanolECO, elmundoECO, elespanolN, elmundoN, okdiarioN, elespanolI, elmundoI, okdiarioI, xataka, applesfera, mundoxiaomi, vandal, directoalpaladar,sensacine);
 			                        listaPreferencias.add(preferenciasCargadas);
-			                        
-			                        System.out.println("Leído con Pattern: " + preferenciasCargadas);
-			                        
+			                              
 			                }
 			            }
 		            }	    	
@@ -209,19 +217,12 @@ public class Usuario {
 	    }
 	    public static void escrituraPreferencias(int idUsuarioPN) {
 	    	lecturaPreferencias();
-	    	File ficheroPreferencias = new File("src//Usuarios//Preferencias.txt");
-	    	if(ficheroPreferencias.exists()) {
-	    		try {
-	    			ficheroPreferencias.delete();
-					ficheroPreferencias.createNewFile();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	    	}
+	    	File ficheroPreferencias = new File("Usuarios//Preferencias.txt");
+
 	    	try (FileWriter archivoPREFERENCIAS = new FileWriter(ficheroPreferencias,true);
 		             BufferedWriter escribirArchivo = new BufferedWriter(archivoPREFERENCIAS)) {
 		            for(preferenciasIniciador UsuarioPreferencia : listaPreferencias){
+		            		if(UsuarioPreferencia.Id==idUsuarioPN) {
 			                   int ID = UsuarioPreferencia.Id;
 			                   int Marca =UsuarioPreferencia.Marca;
 			                   int AS = UsuarioPreferencia.AS;
@@ -242,7 +243,8 @@ public class Usuario {
 			                   int directoalpaladar = UsuarioPreferencia.directoalpaladar;
 			                   int sensacine = UsuarioPreferencia.sensacine;
 			                   escribirArchivo.write("ID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine+"\n");
-			        }  
+		            		}  
+		            }
 	    	}catch(Exception i) {
 	    		i.printStackTrace();
 	    	}

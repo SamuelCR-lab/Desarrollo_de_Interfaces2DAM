@@ -10,6 +10,7 @@ import javax.swing.JCheckBox;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class Preferencias extends JPanel{
 	private static JCheckBox chckbxNewCheckBox,chckbxNewCheckBox_1,chckbxNewCheckBox_2,chckbxNewCheckBox_3,chckbxNewCheckBox_4,chckbxNewCheckBox_5,chckbxNewCheckBox_6,chckbxNewCheckBox_7,chckbxNewCheckBox_8,chckbxNewCheckBox_9,chckbxNewCheckBox_10,chckbxNewCheckBox_11,chckbxNewCheckBox_12,chckbxNewCheckBox_13,chckbxNewCheckBox_14,chckbxNewCheckBox_15,chckbxNewCheckBox_16,chckbxNewCheckBox_17;
@@ -27,9 +28,10 @@ public class Preferencias extends JPanel{
 		chckbxNewCheckBox.setBounds(131, 131, 107, 23);
 		add(chckbxNewCheckBox);
 		
-		lblNewLabel = new JLabel("Bienvenido "+AccionesDeBotonesSA.nombreUsuario+" por primera vez. \n Elige tus medios de comunicacion preferidos.");
+		lblNewLabel = new JLabel("Bienvenido por primera vez. \n Elige tus medios de comunicacion preferidos.");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-		lblNewLabel.setBounds(384, 11, 502, 31);
+		lblNewLabel.setBounds(256, 33, 672, 31);
 		add(lblNewLabel);
 		
 		chckbxNewCheckBox_1 = new JCheckBox("AS");
@@ -165,7 +167,7 @@ public class Preferencias extends JPanel{
 		lblNewLabel_6.setBounds(868, 359, 121, 31);
 		add(lblNewLabel_6);
 	}
-	public static void guardarSeleccion() {
+	public static void guardarSeleccion(int id) {
 
 		int marca = chckbxNewCheckBox.isSelected() ? 1 : 0;
 		int aS = chckbxNewCheckBox.isSelected() ? 1 : 0;
@@ -204,6 +206,8 @@ public class Preferencias extends JPanel{
 		PrefeTemp[15] = vandal;
 		PrefeTemp[16] = directoAlPaladar;
 		PrefeTemp[17] = sensaCine;
-
+		System.out.println(id);
+		preferenciasIniciador nuevasPreferenciasCargadas = new preferenciasIniciador(id,marca,aS ,okDiario,elEconomia,elEspaniolECO,elMundoECO,elEspaniolN,elMundoN,okDiarioN,elEspaniolI,elMundoI,okDiarioI,xataka,appleSfera,mundoXiaomi,vandal,directoAlPaladar,sensaCine);
+		Usuario.listaPreferencias.add(nuevasPreferenciasCargadas);
 	}
 }

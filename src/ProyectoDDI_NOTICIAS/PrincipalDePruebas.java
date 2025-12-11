@@ -21,12 +21,15 @@ import javax.swing.JScrollBar;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JCheckBox;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JMenu;
 
 public class PrincipalDePruebas {
 
 	private static final Action cambio = null;
 	private JFrame frame;
-
+	private JLabel lblNewLabel = new JLabel();
 	/**
 	 * Launch the application.
 	 */
@@ -74,6 +77,12 @@ public class PrincipalDePruebas {
 		textArea.setText("pRUEBA");
 		panel.add(textArea);
 		
+		lblNewLabel = new JLabel("Bienvenido "+AccionesDeBotonesSA.nombreUsuario+" por primera vez. \n Elige tus medios de comunicacion preferidos.");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+		lblNewLabel.setBounds(256, 33, 672, 31);
+		panel.add(lblNewLabel);
+		
 		JCheckBox chckbxNewCheckBox = new JCheckBox("New check box");
 		
 		chckbxNewCheckBox.setAction(cambio );
@@ -88,6 +97,19 @@ public class PrincipalDePruebas {
 		CerrarSesion.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		CerrarSesion.setBounds(58, 678, 135, 46);
 		panel.add(CerrarSesion);
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 1183, 22);
+		panel.add(menuBar);
+		
+		JMenu mnNewMenu = new JMenu("New menu");
+		menuBar.add(mnNewMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
+		mnNewMenu.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
+		mnNewMenu.add(mntmNewMenuItem_1);
 		
 		
 	}

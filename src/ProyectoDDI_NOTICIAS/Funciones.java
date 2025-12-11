@@ -190,6 +190,13 @@ public class Funciones {
              try (ObjectOutputStream escritura = new ObjectOutputStream(FicheroGuardadoEnlaces)) {
 				escritura.writeObject(Enlaces);
 				escritura.writeObject(Claves);
+				Enlaces = null;
+				Claves = null;
+			}
+             FileWriter imprimirEspacio = new FileWriter(fichero,true);
+             try (BufferedWriter imprimirSoloEspacio = new BufferedWriter(imprimirEspacio)) {
+				imprimirSoloEspacio.write("\nID:1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1\n"
+				 		+ "ID:3;0;1;0;1;0;1;0;1;0;1;0;1;0;1;0;1;0;1\n");
 			}
 	        } catch (IOException i) {
 	            i.printStackTrace();
@@ -197,26 +204,22 @@ public class Funciones {
 	}
 	
 	public static void lecturaWebs(){
-		File dir = new File("Medios");
-		File fichero = new File("Medios//EnlacesWeb.txt");
-		try {	
-			if (!dir.exists()) {
-				dir.mkdir();
-				
-			}
+		File dir = new File("Usuarios");
+		File fichero = new File("Usuarios//Preferencias.txt");
+		try {
 			if(!fichero.exists()) {
 				fichero.createNewFile();
 				escribirWebs(fichero);
 			}
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}catch(IOException o){
+			o.printStackTrace();
 		}
 		try {
 			 FileInputStream FicheroLecturaEnlacesYClaves= new FileInputStream(fichero);
 			 try (ObjectInputStream lectura = new ObjectInputStream(FicheroLecturaEnlacesYClaves)) {
 				Enlaces= (ArrayList<String>) lectura.readObject();
 				Claves = (ArrayList<String>) lectura.readObject();
+				
 			}
 			
 	        } catch (IOException | ClassNotFoundException i) {

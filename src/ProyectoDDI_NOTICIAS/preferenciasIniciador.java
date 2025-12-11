@@ -1,7 +1,7 @@
 package ProyectoDDI_NOTICIAS;
 
 public class preferenciasIniciador {
-	 public int Id;
+	 	public int Id;
 	    public int Marca = 0;
 	    public int AS = 0;
 	    public int OKdiario = 0;

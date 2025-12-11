@@ -25,6 +25,7 @@ public class Principal {
 			        });
 					Usuario.lecturaUsuarios();
 					Funciones.lecturaWebs();
+					Usuario.lecturaPreferencias();
 					window.setSize(1200,800);
 					
 					
@@ -35,5 +36,5 @@ public class Principal {
 			}
 		});
 	}
-
+	
 }

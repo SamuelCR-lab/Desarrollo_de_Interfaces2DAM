@@ -1,5 +1,0 @@
-admin:Samuel;1111;1;admin@admin.com
-user:Sofia;PYT;0;a@a.com
-user:Mariela;Ramos;1;b@b.com
-user:Enrique;cfgs;0;c@c.com
-
