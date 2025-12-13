@@ -1,4 +1,4 @@
-package ProyectoDDI_NOTICIAS;
+package ProyectoDAM_25_26_DDI_NOTICIAS;
 
 import java.awt.EventQueue;
 
@@ -22,6 +22,7 @@ public class Principal {
                     
                     
 					new PantalladeCarga();
+					
 					window.setSize(1200,800);
 					
 					

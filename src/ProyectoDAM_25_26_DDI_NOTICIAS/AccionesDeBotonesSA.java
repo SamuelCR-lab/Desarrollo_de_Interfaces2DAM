@@ -1,17 +1,11 @@
-package ProyectoDDI_NOTICIAS;
+package ProyectoDAM_25_26_DDI_NOTICIAS;
 
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.Date;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.mail.Authenticator;
 import javax.mail.Message;
@@ -20,16 +14,16 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.swing.JOptionPane;
 
 
 
 public class AccionesDeBotonesSA implements ActionListener{
-	public static String correoSalida = "";
-    public static String contraseniaSalida = "";
-    private String MostradoNoticias;
-	static int controldeUsuariosConPreferencias=0;
+    public static String MostradoNoticias;
+	static int controldeUsuariosConPreferencias=0,id;
 	int OcultarOMostrar,IDUsuarioNuevasPreferencias;
 	String NombreAccion;
+	private static String rol;
 	public static String nombreUsuario;
 	public AccionesDeBotonesSA(int ocultarOMostrar, String nombrePanel) {
 		super();
@@ -53,12 +47,12 @@ public class AccionesDeBotonesSA implements ActionListener{
 	public void setNombrePanel(String nombrePanel) {
 		this.NombreAccion = nombrePanel;
 	}
-
+	//Creamos el ecuchar de eventos Comun para todos los botones, por eso tenemos en el su constructor nombre de panel de donde viene y un 1 o un 0 para saber si quiere ir para atras o adelante el usuario.
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
+		//Comprobamos si el boton es para delante/realizar una accion que no sea volver (1) o si es para atras (0) 
 		if (getOcultarOMostrar() == 1) {
+			//Tenemos dentro un Switch Case que dependiendo del nombre que le da el boton al crear el evento, que realiza distintas funcionalidades
 				switch(NombreAccion) {
 				case "Login":
 					if ((Funciones.controlDeErrores(Login.textField.getText()))){
@@ -69,8 +63,11 @@ public class AccionesDeBotonesSA implements ActionListener{
 									guardarPass += password[i];
 								}
 							if ((Login.textField.getText().equals(a.nombre))&&(guardarPass.equals(a.contraseña))){
+								//Guardamos estos dos valores de forma estatica porque seran importantes para identificar bien a los usuarios
 								nombreUsuario=a.nombre;
-								if(a.rol.equals("admin")) {
+								rol= a.rol;
+								id=a.id;
+								if(a.rol.equals("administrador")) {
 									Paneles.panelLogin.setVisible(false);
 									Paneles.PanelAdmin.setVisible(true);
 										
@@ -84,6 +81,8 @@ public class AccionesDeBotonesSA implements ActionListener{
 										Paneles.PanelNoticias.setVisible(true);
 									}
 								}
+							}else {
+								Login.lblNewLabel_ErrorInicioSesion.setVisible(true);
 							}
 						}
 					}else {
@@ -95,12 +94,12 @@ public class AccionesDeBotonesSA implements ActionListener{
 						int preferenciasSeleccionadas = Preferencias.guardarSeleccion(a.id);
 						if (preferenciasSeleccionadas == 1){
 							if(a.nombre.equals(nombreUsuario)) {
-								controldeUsuariosConPreferencias=1;
+								controldeUsuariosConPreferencias=1;//Guardamos el aumento de las preferencias
 								a.Preferencias+=controldeUsuariosConPreferencias;
 								ComprobacionDePreferencias();
 								Funciones.GuardarTitulares();
 								Paneles.PanelEleccion.setVisible(false);
-								Usuario.escrituraUsuarios(a.nombre,0);
+								Usuario.escrituraUsuarios();
 								MostradorDeNoticias();
 								Paneles.PanelNoticias.setVisible(true);
 							}
@@ -113,14 +112,17 @@ public class AccionesDeBotonesSA implements ActionListener{
 					Paneles.PanelAdmin.setVisible(false);
 					ComprobacionDePreferencias();
 					Funciones.GuardarTitulares();
-					MostradorNoticias.Siguiente.setVisible(true);
+					MostradorNoticias.GuardarHistorial.setVisible(false);
+					MostradorNoticias.EnviarCorreo.setVisible(true);
 					Paneles.PanelNoticias.setVisible(true);
 					break;
 				case "GuardarTitulares":
-					
+					preferenciasIniciador.escrituraPreferencias(id);
+					controldeUsuariosConPreferencias=0;
+					Funciones.Historial();
+					MostradorNoticias.lblNewLabel_1.setVisible(true);
 					break;
 				case "EnviarCorreo":
-					lecturaCorreoClave();
 					for (Usuario a : Usuario.listaUsuarios) {
 						if (a.nombre.equals(nombreUsuario)) {
 							ComprobacionDePreferencias();
@@ -132,108 +134,57 @@ public class AccionesDeBotonesSA implements ActionListener{
 							props.put("mail.smtp.port", "465"); //SMTP Port		
 							Authenticator auth = new Authenticator() {		
 								protected PasswordAuthentication getPasswordAuthentication() {
-									return new PasswordAuthentication(correoSalida, contraseniaSalida);
+									return new PasswordAuthentication(Funciones.correoSalida, Funciones.contraseniaSalida);
 								}
 							};		
+							LocalTime horaGuardada = java.time.LocalTime.now();
+							 DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");//Usamos el Date Time Fromatter para darle un formato mas legible, que de la forma de local time salen mili y nano segundos
+				    		 String HoraDefnitiva = horaGuardada.format(formato);
 							Session session = Session.getDefaultInstance(props, auth);//CREA UNA SESIÓN CON TODAS LAS PROPIEDADES Y EL "LOGIN"
-						    sendEmail(session, a.email,"Noticias De UltimaHora", MostradoNoticias);
+						    sendEmail(session, a.email,"NOTICIAS DAM", "Las Noticias actuales de tu preferencias.\nA fecha :"+HoraDefnitiva+"\n"+MostradoNoticias);
 						}
+					}
+					
+					break;
+				case "CreardorUsuario":
+					Paneles.PanelAdmin.setVisible(false);
+					Paneles.PanelcreacionUsuarios.setVisible(true);
+					break;
+				case "BorrardorUsuario":
+					BorrarUsuarios.textFieldNombreUsuario.setVisible(true);
+					Paneles.PanelAdmin.setVisible(false);
+					Paneles.BorradoUsuarios.setVisible(true);
+					break;
+				case "BorrarUsuario":
+					if(BorrarUsuarios.borrarUsuario()){
+						Usuario.escrituraUsuarios();
+						Usuario.lecturaUsuarios();
+						
 					}
 					break;
+				case "CrearUsuario":
+					if(CreacionUsuarios.guardarNuevoUsuario()){
+						Usuario.escrituraUsuarios();
+						Usuario.lecturaUsuarios();
+					}
+
+					break;
 				}
-				if ((Funciones.controlDeErrores(Login.textField.getText()))){
-					if (NombreAccion.equals("Login")) {
-					for (Usuario a : Usuario.listaUsuarios) {
-						String guardarPass = "";
-						char[] password = Login.passwordField.getPassword();
-							for (int i =0;i<password.length;i++) {
-								guardarPass += password[i];
-							}
-						if ((Login.textField.getText().equals(a.nombre))&&(guardarPass.equals(a.contraseña))){
-							nombreUsuario=a.nombre;
-							if(a.rol.equals("admin")) {
-								Paneles.panelLogin.setVisible(false);
-								Paneles.PanelAdmin.setVisible(true);
-									
-							}else {
-								if(a.Preferencias == 0) {
-									Paneles.panelLogin.setVisible(false);
-									Paneles.PanelEleccion.setVisible(true);
-								}else {
-									Paneles.panelLogin.setVisible(false);
-									ComprobacionDePreferencias();
-									Paneles.PanelNoticias.setVisible(true);
-								}
-							}
-						}else {
-							Login.lblNewLabel_ErrorInicioSesion.setVisible(true);
-						}
-					}//Cierra bucle de el login 
-					
-				}else if (NombreAccion.equals("Preferencias")) {
-					for (Usuario a : Usuario.listaUsuarios) {
-						int preferenciasSeleccionadas = Preferencias.guardarSeleccion(a.id);
-						if (preferenciasSeleccionadas == 1){
-							if(a.nombre.equals(nombreUsuario)) {
-								controldeUsuariosConPreferencias=1;
-								a.Preferencias+=controldeUsuariosConPreferencias;
-								ComprobacionDePreferencias();
-								Paneles.PanelEleccion.setVisible(false);
-								Usuario.escrituraUsuarios(a.nombre,0);
-								MostradorDeNoticias();
-								Paneles.PanelNoticias.setVisible(true);
-							}
-						}else {
-							Preferencias.ErrorEleccionPreferencias.setVisible(true);
-						}
-					}
-				}else if (NombreAccion.equals("GuardarTitulares")){
-					
-				}else if(NombreAccion.equals("MostradorNoticias")) {
-						
-				}else if(NombreAccion.equals("EnviarCorreo")){
-					lecturaCorreoClave();
-					for (Usuario a : Usuario.listaUsuarios) {
-						if (a.nombre.equals(nombreUsuario)) {
-							ComprobacionDePreferencias();
-							Properties props = new Properties();
-							props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP de GMAIL en este caso
-							props.put("mail.smtp.socketFactory.port", "465"); //PUERTO SSL 
-							props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory"); //SSL Factory Class
-							props.put("mail.smtp.auth", "true"); //ACTIVAR SMTP AUTENTIFICACI�N
-							props.put("mail.smtp.port", "465"); //SMTP Port		
-							Authenticator auth = new Authenticator() {		
-								protected PasswordAuthentication getPasswordAuthentication() {
-									return new PasswordAuthentication(correoSalida, contraseniaSalida);
-								}
-							};		
-							Date fechaYHoraActual = new Date();
-							Session session = Session.getDefaultInstance(props, auth);//CREA UNA SESIÓN CON TODAS LAS PROPIEDADES Y EL "LOGIN"
-						    sendEmail(session, a.email,"NOTICIAS DAM", "Las Noticias actuales de tu preferencias.\nA fecha :"+fechaYHoraActual.getTime()+"\n"+MostradoNoticias);
-						}
-					}
-						
-					}
-				/*else if (NombreAccion.equals("CreacionUsuarios")) {
-					Usuario.escrituraUsuarios(a.nombre,1);
-				}*/
-			}else {
-				Login.lblNewLabel_ErrorInicioSesion.setVisible(true);
-			}
 		}else {
-			if (NombreAccion.equals("Preferencias")) {
+			switch(NombreAccion) {
+			case "Preferencias":
 				Login.lblNewLabel_ErrorInicioSesion.setVisible(false);
 				Paneles.PanelEleccion.setVisible(false);
 				Paneles.panelLogin.setVisible(true);
-			}else if (NombreAccion.equals("MostradorNoticias")){
-				System.out.println(controldeUsuariosConPreferencias);
+				break;
+			case "MostradorNoticias":
 				if(controldeUsuariosConPreferencias==1) {
 					for (Usuario a : Usuario.listaUsuarios) {
 						if(a.nombre.equals(nombreUsuario)) {
 							a.Preferencias-=1;
 							Paneles.PanelNoticias.setVisible(false);
 							Preferencias.guardarSeleccion(a.id);
-							Usuario.escrituraUsuarios(a.nombre,0);
+							Usuario.escrituraUsuarios();
 							MostradorDeNoticias();
 							
 							Paneles.PanelEleccion.setVisible(true);
@@ -241,19 +192,39 @@ public class AccionesDeBotonesSA implements ActionListener{
 						}
 					}
 				}else {
-					Login.lblNewLabel_ErrorInicioSesion.setVisible(false);
-					Paneles.PanelNoticias.setVisible(false);
-					Paneles.panelLogin.setVisible(true);
+					if (rol.equals("administrador")) {
+						Paneles.PanelNoticias.setVisible(false);
+						Paneles.PanelAdmin.setVisible(true);
+					}else{
+						Login.lblNewLabel_ErrorInicioSesion.setVisible(false);
+						Paneles.PanelNoticias.setVisible(false);
+						Paneles.panelLogin.setVisible(true);
+					}
+					
 				}
-			}else {
+				break;
+			case "CrearUsuario":
 				
+				Paneles.PanelcreacionUsuarios.setVisible(false);
+				Paneles.PanelAdmin.setVisible(true);
+				break;
+			case "BorrarUsuario":
+				BorrarUsuarios.textFieldNombreUsuario.setVisible(false);
+				Paneles.PanelcreacionUsuarios.setVisible(false);
+				Paneles.PanelAdmin.setVisible(true);
+				break;
+			case "Administrador":
+				Paneles.PanelAdmin.setVisible(false);
+				Login.lblNewLabel_ErrorInicioSesion.setVisible(false);
+				Paneles.panelLogin.setVisible(true);
+				break;
 			}
-			
 		}
 	}
 	private void MostradorDeNoticias() {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i<Funciones.Noticias.size();i++) {
+		int limiteSeguro = Math.min(Funciones.Noticias.size(), Preferencias.PrefeTemp.length);
+		for (int i = 0; i<limiteSeguro;i++) {
 			if (i<=2) {
 				if (i==0)sb.append("1. Deportes:\n");
 				if(Preferencias.PrefeTemp[i] == 1) {
@@ -308,11 +279,13 @@ public class AccionesDeBotonesSA implements ActionListener{
 	      msg.setText(body, "UTF-8");
 	      msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));	     
 	      Transport.send(msg);
-	      System.out.println("¡EMAIL ENVIADO!");//SI NO DA ERROR
+	      
+	      //System.out.println("¡EMAIL ENVIADO!");//SI NO DA ERROR
 	    }
 	    catch (Exception e) {
-	      e.printStackTrace();
+	    	JOptionPane.showMessageDialog(null, "Error Enviando Email: " + e.getMessage());
 	    }
+		MostradorNoticias.lblNewLabel_2.setVisible(true);
 	}
 	private void ComprobacionDePreferencias() {
 		for (Usuario a : Usuario.listaUsuarios) {
@@ -345,28 +318,5 @@ public class AccionesDeBotonesSA implements ActionListener{
 				}
 		}
 	}
-	public static void lecturaCorreoClave() {
-		File ficheroConfiguracion = new File("Usuarios//Configuracion.txt");
-    	try (FileReader archivoConfiguracion = new FileReader(ficheroConfiguracion);
-	            BufferedReader lectorArchivo = new BufferedReader(archivoConfiguracion)) {
-	            String cadena;
-	            	while ((cadena = lectorArchivo.readLine()) != null){
-	            		cadena = cadena.trim();
-	            		//Lee las lineas vacias y no pasa nada no guarda ni incrementa nada es solo vacio hasta que sea null el readline del while
-		                if (!cadena.isEmpty()){
-		                	//Aqui al ser una cadena sencilla lo hago con el StartWith para que compare entre cadenas y si exite pues cogemos la cadena que existe despues del StartWith con el substring 
-			                if (cadena.startsWith("EMAIL DE SALIDA:")) {
-			                	correoSalida = cadena.substring("EMAIL DE SALIDA:".length()).trim();
-			                }else if (cadena.startsWith("CONTRASENIA EMAIL DE SALIDA:")) {
-			                    contraseniaSalida = cadena.substring("CONTRASENIA EMAIL DE SALIDA:".length()).trim();
-			                }
-		                }
-	            	}
-	            	System.out.println(correoSalida+", contraseña: "+contraseniaSalida);
-	          
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	}
+	
 }

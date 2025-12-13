@@ -1,4 +1,4 @@
-package ProyectoDDI_NOTICIAS;
+package ProyectoDAM_25_26_DDI_NOTICIAS;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -19,7 +19,7 @@ public class PantalladeCarga extends JFrame{
     private static final long serialVersionUID = 1L;
     private JProgressBar barraProgreso;
     private Timer temporizador; // Variable para el Timer
-
+    private static boolean comprobacionArrayNoticias = Funciones.lecturaConfiguracion();
     public PantalladeCarga() {
         setUndecorated(true);
         setLayout(new BorderLayout());
@@ -34,7 +34,7 @@ public class PantalladeCarga extends JFrame{
             imagenIcon = new ImageIcon(urlImagen);
             
         } catch (Exception e) {
-            e.printStackTrace();
+        	JOptionPane.showMessageDialog(PantalladeCarga.this, "Error escribiendo el historial del usuario: " + e.getMessage());
         }
 
         JLabel etiquetaImagen = new JLabel(imagenIcon);
@@ -46,12 +46,12 @@ public class PantalladeCarga extends JFrame{
         }
         add(etiquetaImagen, BorderLayout.CENTER);
 
-        // --- Barra de Progreso ---
+        // Iniciamos la barra de proceso que representara de forma simbolica el inicio de la aplicacion 
         barraProgreso = new JProgressBar();
         barraProgreso.setMinimum(0);
         barraProgreso.setMaximum(100);
         barraProgreso.setStringPainted(true);
-        barraProgreso.setForeground(new Color(50, 205, 50)); // Verde lime
+        barraProgreso.setForeground(new Color(50, 205, 50)); 
         barraProgreso.setPreferredSize(new Dimension(getWidth(), 30));
         add(barraProgreso, BorderLayout.SOUTH);
 
@@ -59,8 +59,8 @@ public class PantalladeCarga extends JFrame{
         setLocationRelativeTo(null);
         setAlwaysOnTop(true);
         setVisible(true);
-
-        // Iniciamos la carga con Timer en lugar de Thread
+         
+        // Iniciamos la Pantalla carga con Timer
         iniciarCargaConTimer();
     }
 
@@ -68,20 +68,26 @@ public class PantalladeCarga extends JFrame{
         // Creamos un Timer que se ejecuta cada 50 milisegundos
         temporizador = new Timer(50, new ActionListener() {
             int progreso = 0;
-            boolean comprobacionArrayNoticias=true,comprobacionPreferencias=true,comprobacionUsuarios=true;
+            boolean comprobacionPreferencias=true,comprobacionUsuarios=true,comprobacionCorreoYClave = true;
+            
             @Override
             public void actionPerformed(ActionEvent e) {
                 progreso++;
                 barraProgreso.setValue(progreso);
-                barraProgreso.setString("Cargando sistema... " + progreso + "%");
+                barraProgreso.setString("Cargando la configuracion de la app.... " + progreso + "%");
                 
-                if(progreso==50) {
-                	comprobacionArrayNoticias = Funciones.lecturaConfiguracion();
+                if(progreso == 50) {
+                	barraProgreso.setString("Cargando Usuarios y Preferencias... " + progreso + "%");
                 	comprobacionPreferencias =preferenciasIniciador.lecturaPreferencias();
                 	comprobacionUsuarios = Usuario.lecturaUsuarios();
+                	comprobacionCorreoYClave=Funciones.lecturaCorreoClave();
+                	
                 }
                 
-                if ((!comprobacionArrayNoticias)||(!comprobacionPreferencias)||(!comprobacionUsuarios)) {
+                if(progreso == 80) {
+                	
+                }
+                if ((!comprobacionArrayNoticias)||(!comprobacionPreferencias)||(!comprobacionUsuarios)||(!comprobacionCorreoYClave)) {
                 	JOptionPane.showMessageDialog(PantalladeCarga.this, "No se han podido cargar los datos debido a que no existen los archivos","Error catastrofico",JOptionPane.ERROR_MESSAGE);
                 	temporizador.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
                     dispose();  

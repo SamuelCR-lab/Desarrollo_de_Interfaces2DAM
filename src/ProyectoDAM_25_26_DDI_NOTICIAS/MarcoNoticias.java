@@ -1,4 +1,4 @@
-package ProyectoDDI_NOTICIAS;
+package ProyectoDAM_25_26_DDI_NOTICIAS;
 
 
 import java.awt.Toolkit;
@@ -8,7 +8,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class MarcoNoticias extends JFrame{
 	/**
@@ -58,18 +57,6 @@ public class MarcoNoticias extends JFrame{
 		
 		add(misPaneles);
 		
-	}
-	public static void mostrarPanel(JPanel panel) {
-		panel.setBounds(0,0,1200,800);
-		for (int i=0;i< misPaneles.getComponentCount();i++) {
-			misPaneles.getComponent(i).setVisible(false);
-		}
-		if (panel.getParent()==null) {
-			misPaneles.add(panel,Integer.valueOf(0));
-		}
-		panel.setVisible(true);
-		misPaneles.revalidate();
-		misPaneles.repaint();
 	}
 
 }

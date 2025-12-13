@@ -1,4 +1,4 @@
-package ProyectoDDI_NOTICIAS;
+package ProyectoDAM_25_26_DDI_NOTICIAS;
 
 import java.awt.Color;
 import java.awt.Font;

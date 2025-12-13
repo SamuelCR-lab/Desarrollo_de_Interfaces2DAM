@@ -1,4 +1,4 @@
-package ProyectoDDI_NOTICIAS;
+package ProyectoDAM_25_26_DDI_NOTICIAS;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -8,6 +8,8 @@ import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import javax.swing.JOptionPane;
 
 public class preferenciasIniciador {
 	 	 int Id;
@@ -67,7 +69,7 @@ public class preferenciasIniciador {
 	    	boolean comprobacionConfiguracion = true; 
 	    	File ficheroPreferencias = new File("Usuarios//Configuracion.txt");
 	    	if (ficheroPreferencias.exists()) {
-	    	try (FileReader archivoPREFERENCIAS = new FileReader(ficheroPreferencias);
+	    		try (FileReader archivoPREFERENCIAS = new FileReader(ficheroPreferencias);
 		            BufferedReader lectorArchivo = new BufferedReader(archivoPREFERENCIAS)) {
 		            String cadena;
 		            while ((cadena = lectorArchivo.readLine()) != null){
@@ -116,7 +118,7 @@ public class preferenciasIniciador {
 		            }	    	
 		        }
 	    	}catch(Exception i) {
-	    		i.printStackTrace();
+	    		JOptionPane.showMessageDialog(null, "Error leyendo preferencias del usuario: " + i.getMessage());
 	    	}
 	    }else {
 	    	comprobacionConfiguracion = false;
@@ -124,39 +126,44 @@ public class preferenciasIniciador {
 	    }
 			return comprobacionConfiguracion;
 	 }
-	    public static void escrituraPreferencias(int idUsuarioPN) {
-	    	lecturaPreferencias();
+	    public static int escrituraPreferencias(int idUsuarioPN) {
+	    	int comprobacion = 0;
 	    	File ficheroPreferencias = new File("Usuarios//Configuracion.txt");
 
 	    	try (FileWriter archivoPREFERENCIAS = new FileWriter(ficheroPreferencias,true);
 		             BufferedWriter escribirArchivo = new BufferedWriter(archivoPREFERENCIAS)) {
+	    		int ID = 0,Marca = 0,AS = 0,OKdiario = 0,eleconomista = 0,elespanolECO = 0,elmundoECO = 0,elespanolN = 0,elmundoN = 0,okdiarioN = 0,elespanolI = 0,elmundoI = 0,okdiarioI = 0,xataka = 0,applesfera = 0,mundoxiaomi = 0,vandal = 0,directoalpaladar = 0,sensacine = 0;
 		            for(preferenciasIniciador UsuarioPreferencia : listaPreferencias){
 		            		if(UsuarioPreferencia.Id==idUsuarioPN) {
-			                   int ID = UsuarioPreferencia.Id;
-			                   int Marca =UsuarioPreferencia.Marca;
-			                   int AS = UsuarioPreferencia.AS;
-			                   int OKdiario = UsuarioPreferencia.OKdiario;
-			                   int eleconomista = UsuarioPreferencia.eleconomista;
-			                   int elespanolECO = UsuarioPreferencia.elespanolECO;
-			                   int elmundoECO = UsuarioPreferencia.elmundoECO;
-			                   int elespanolN = UsuarioPreferencia.elespanolN;
-			                   int elmundoN = UsuarioPreferencia.elmundoN;
-			                   int okdiarioN = UsuarioPreferencia.okdiarioN;
-			                   int elespanolI = UsuarioPreferencia.elespanolI;
-			                   int elmundoI = UsuarioPreferencia.elmundoI;
-			                   int okdiarioI = UsuarioPreferencia.okdiarioI;
-			                   int xataka = UsuarioPreferencia.xataka;
-			                   int applesfera = UsuarioPreferencia.applesfera;
-			                   int mundoxiaomi = UsuarioPreferencia.mundoxiaomi;
-			                   int vandal = UsuarioPreferencia.vandal;
-			                   int directoalpaladar = UsuarioPreferencia.directoalpaladar;
-			                   int sensacine = UsuarioPreferencia.sensacine;
-			                   escribirArchivo.write("ID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine+"\n");
+			                   ID = UsuarioPreferencia.Id;
+			                   Marca =UsuarioPreferencia.Marca;
+			                   AS = UsuarioPreferencia.AS;
+			                   OKdiario = UsuarioPreferencia.OKdiario;
+			                   eleconomista = UsuarioPreferencia.eleconomista;
+			                   elespanolECO = UsuarioPreferencia.elespanolECO;
+			                   elmundoECO = UsuarioPreferencia.elmundoECO;
+			                   elespanolN = UsuarioPreferencia.elespanolN;
+			                   elmundoN = UsuarioPreferencia.elmundoN;
+			                   okdiarioN = UsuarioPreferencia.okdiarioN;
+			                   elespanolI = UsuarioPreferencia.elespanolI;
+			                   elmundoI = UsuarioPreferencia.elmundoI;
+			                   okdiarioI = UsuarioPreferencia.okdiarioI;
+			                   xataka = UsuarioPreferencia.xataka;
+			                   applesfera = UsuarioPreferencia.applesfera;
+			                   mundoxiaomi = UsuarioPreferencia.mundoxiaomi;
+			                   vandal = UsuarioPreferencia.vandal;
+			                   directoalpaladar = UsuarioPreferencia.directoalpaladar;
+			                   sensacine = UsuarioPreferencia.sensacine;
+			                  
 		            		}  
 		            }
+		            comprobacion++;
+		            escribirArchivo.write("ID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine+"\n");
 	    	}catch(Exception i) {
-	    		i.printStackTrace();
+	    		JOptionPane.showMessageDialog(null, "Error en la escritura de las preferencias del usuario: " + i.getMessage());
+	    		return comprobacion;
 	    	}
+	    	return comprobacion;
 	    }
 	
 	  

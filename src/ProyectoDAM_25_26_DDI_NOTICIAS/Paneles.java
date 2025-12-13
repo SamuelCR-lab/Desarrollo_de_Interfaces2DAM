@@ -1,4 +1,4 @@
-package ProyectoDDI_NOTICIAS;
+package ProyectoDAM_25_26_DDI_NOTICIAS;
 
 
 import javax.swing.JLayeredPane;
@@ -12,6 +12,7 @@ public class Paneles extends JLayeredPane{
 	public static MostradorNoticias PanelNoticias = new MostradorNoticias();
 	public static admin PanelAdmin = new admin();
 	public static CreacionUsuarios PanelcreacionUsuarios = new CreacionUsuarios();
+	public static BorrarUsuarios BorradoUsuarios = new BorrarUsuarios();
 	private static final long serialVersionUID = 1L;
 
 	public Paneles () {
@@ -27,5 +28,8 @@ public class Paneles extends JLayeredPane{
 		PanelAdmin.setVisible(false);
 		add(PanelcreacionUsuarios);
 		PanelcreacionUsuarios.setVisible(false);
+		add(BorradoUsuarios);
+		BorradoUsuarios.setVisible(false);
+		
 	}
 }
