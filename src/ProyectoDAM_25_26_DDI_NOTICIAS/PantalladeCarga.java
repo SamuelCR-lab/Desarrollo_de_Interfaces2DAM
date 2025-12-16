@@ -20,7 +20,7 @@ public class PantalladeCarga extends JFrame{
     private JProgressBar barraProgreso;
     private Timer temporizador; // Variable para el Timer
     private static boolean comprobacionArrayNoticias = Funciones.lecturaConfiguracion();
-    public PantalladeCarga() {
+    public PantalladeCarga() throws NullPointerException {
         setUndecorated(true);
         setLayout(new BorderLayout());
         
