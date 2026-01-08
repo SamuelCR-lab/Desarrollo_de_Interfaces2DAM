@@ -65,40 +65,7 @@ public class AccionesDeBotonesSA implements ActionListener{
 			//Tenemos dentro un Switch Case que dependiendo del nombre que le da el boton al crear el evento, que realiza distintas funcionalidades
 				switch(NombreAccion) {
 				case "Login":
-					if ((Funciones.controlDeErrores(Login.textField.getText()))){
-						for (Usuario a : Usuario.listaUsuarios) {
-							String guardarPass = "";
-							char[] password = Login.passwordField.getPassword();
-								for (int i =0;i<password.length;i++) {
-									guardarPass += password[i];
-								}
-							
-							if ((Login.textField.getText().equals(a.nombre))&&(guardarPass.equals(a.contraseña))){
-								//Guardamos estos dos valores de forma estatica porque seran importantes para identificar bien a los usuarios
-								nombreUsuario=a.nombre;
-								rol= a.rol;
-								id=a.id;
-								if(a.rol.equals("administrador")) {
-									Paneles.panelLogin.setVisible(false);
-									Paneles.PanelAdmin.setVisible(true);
-										
-								}else {
-									if(a.Preferencias == 0) {
-										Paneles.panelLogin.setVisible(false);
-										Paneles.PanelEleccion.setVisible(true);
-									}else {
-										Paneles.panelLogin.setVisible(false);
-										ComprobacionDePreferencias();
-										Paneles.PanelNoticias.setVisible(true);
-									}
-								}
-							}else {
-								Login.lblNewLabel_ErrorInicioSesion.setVisible(true);
-							}
-						}
-					}else {
-						Login.lblNewLabel_ErrorInicioSesion.setVisible(true);
-					}
+					
 					break;
 				case "Preferencias":
 					for (Usuario a : Usuario.listaUsuarios) {

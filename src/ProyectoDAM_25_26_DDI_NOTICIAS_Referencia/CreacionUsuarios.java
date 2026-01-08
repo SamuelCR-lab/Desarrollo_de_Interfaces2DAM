@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
@@ -25,21 +24,15 @@ public class CreacionUsuarios extends JPanel{
 	private static JButton Atras,CrearUsuario;
 	private static JTextField textFieldNombreUsuario,textFieldCorreoUsuario;
 	private static JPasswordField passwordFieldCreacionUsuarios;
-	JFrame Marco;
-	
-	public CreacionUsuarios(JFrame marco) {
-		super();
-		this.Marco = marco;
-	}
-	public JFrame getMarco() {
-		return Marco;
-	}
-	public void setMarco(JFrame marco) {
-		this.Marco = marco;
-	}	
+	private String rolDeLosUsuarios,nombreUsuario;
+	private int id;
+
 	
 	
-	public CreacionUsuarios() {
+	public CreacionUsuarios(String rolDeLosUsuarios,String nombreUsuario,int id) {
+		this.rolDeLosUsuarios = rolDeLosUsuarios;
+		this.nombreUsuario = nombreUsuario;
+		this.id = id;
 		setName("Crear Usuarios");
 		setSize(1200,800);
 		setLayout(null);
@@ -101,14 +94,26 @@ public class CreacionUsuarios extends JPanel{
 		add(textFieldCorreoUsuario);
 		
 		CrearUsuario = new JButton("Crear Usuario");
-		CrearUsuario.addActionListener(new AccionesDeBotonesSA(1,"CrearUsuario"));
+		CrearUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(CreacionUsuarios.guardarNuevoUsuario()){
+					Usuario.escrituraUsuarios();
+					Usuario.lecturaUsuarios();
+				}
+			}
+		});
 		CrearUsuario.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		CrearUsuario.setBounds(911, 678, 200, 46);
 		add(CrearUsuario);
 		
 		
 		Atras = new JButton("Atras");
-		Atras.addActionListener(new AccionesDeBotonesSA(0,"CrearUsuario"));
+		Atras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				admin panelAdmin = new admin(rolDeLosUsuarios,nombreUsuario,id);
+				MarcoNoticias.mostradorPaneles(panelAdmin);
+			}
+		});
 		Atras.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		Atras.setBounds(75, 678, 200, 46);
 		add(Atras);

@@ -44,7 +44,7 @@ public class BorrarUsuarios extends JPanel{
 		
 		
 		
-		BorrarUsuario = new JButton("Crear Usuario");
+		BorrarUsuario = new JButton("Borrar Usuario");
 		BorrarUsuario.addActionListener(new AccionesDeBotonesSA(1,"BorrarUsuario"));
 		BorrarUsuario.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		BorrarUsuario.setBounds(911, 678, 200, 46);

@@ -2,10 +2,10 @@ package ProyectoDAM_25_26_DDI_NOTICIAS_Referencia;
 
 import java.awt.Color;
 import java.awt.Font;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
@@ -18,27 +18,12 @@ public class Preferencias extends JPanel{
 	private static final long serialVersionUID = 1L;
 	public static JLabel ErrorEleccionPreferencias;
 	public static int [] PrefeTemp = new int[18] ;
+	private String nombreUsuario;
+	private int id;
 	
-	JFrame Marco;
-	
-	
-	public Preferencias(JFrame marco) {
-		super();
-		this.Marco = marco;
-	}
-
-
-	public JFrame getMarco() {
-		return Marco;
-	}
-
-
-	public void setMarco(JFrame marco) {
-		this.Marco = marco;
-	}	
-	
-	
-	public Preferencias () {
+	public Preferencias (String rol,String nombreUsuario,int id) {
+		this.nombreUsuario = nombreUsuario;
+		this.id = id;
 		setName("Preferencias");
 		setSize(1200,800);
 		setLayout(null);
@@ -141,13 +126,30 @@ public class Preferencias extends JPanel{
 		add(chckbxNewCheckBox_17);
 		
 		JButton btnNewButton = new JButton("Cerrar Sesion");
-		btnNewButton.addActionListener(new AccionesDeBotonesSA(0,"Preferencias"));
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Login vueltaAlInicio = new Login();
+				MarcoNoticias.mostradorPaneles(vueltaAlInicio);
+			}
+		});
 		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		btnNewButton.setBounds(75, 678, 200, 46);
 		add(btnNewButton);
 		
 		JButton Siguiente = new JButton("Siguiente");
-		Siguiente.addActionListener(new AccionesDeBotonesSA(1,"Preferencias"));
+		Siguiente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				guardarSeleccion(id);
+				preferenciasIniciador.escrituraPreferencias(id);
+				int controldeUsuariosConPreferencias=0;
+				Funciones.Historial();
+				MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,id);
+				MostradorNoticias.ComprobacionDePreferencias(nombreUsuario);
+				MarcoNoticias.mostradorPaneles(noticiasPreferidas);
+				MostradorNoticias.lblNewLabel_1.setVisible(true);
+				
+			}
+		});
 		Siguiente.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		Siguiente.setBounds(911, 678, 200, 46);
 		add(Siguiente);

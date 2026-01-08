@@ -36,10 +36,9 @@ public class preferenciasIniciador {
 		 public static  ArrayList<preferenciasIniciador> listaPreferencias = new ArrayList<>();
 	    // CONSTRUCTOR VACÍO (Necesario para inicializarlo en la pantalla de preferencias)
 	    public preferenciasIniciador() {
-	        // Inicializa todo a 0 por defecto
+
 	    }
 
-	    // Constructor completo (lo mantenemos por si lo usas en otro lado)
 	    public preferenciasIniciador(int Id, int marca, int aS, int oKdiario, int eleconomista, int elespanolECO, int elmundoECO,
 	            int elespanolN, int elmundoN, int okdiarioN, int elespanolI, int elmundoI, int okdiarioI, int xataka,
 	            int applesfera, int mundoxiaomi, int vandal, int directoalpaladar, int sensacine) {

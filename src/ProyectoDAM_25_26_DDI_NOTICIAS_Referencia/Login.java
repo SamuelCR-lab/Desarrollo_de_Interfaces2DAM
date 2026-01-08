@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -28,23 +29,6 @@ public class Login extends JPanel{
 	private JLabel lblNewLabel,lblNewLabel_1,lblNewLabel_2;
 	public static JLabel lblNewLabel_ErrorInicioSesion;
 	public static JPasswordField passwordField;
-	JFrame marco;
-	
-	
-	public Login(JFrame marco) {
-		super();
-		this.marco = marco;
-	}
-
-
-	public JFrame getMarco() {
-		return marco;
-	}
-
-
-	public void setMarco(JFrame marco) {
-		this.marco = marco;
-	}
 
 
 	public Login() {
@@ -112,42 +96,45 @@ public class Login extends JPanel{
 		JButton btnNewButton_1_1 = new JButton("Iniciar Sesion");
 		btnNewButton_1_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Usuario listaUsuarios;
 				ArrayList<Usuario> listadeUsuarios = new ArrayList<>();
-				listadeUsuarios=listaUsuarios.listaUsuarios;
-				if ((Funciones.controlDeErrores(textField.getText()))){
-					for (Usuario a : listadeUsuarios) {
-						String guardarPass = "";
-						char[] password = Login.passwordField.getPassword();
-							for (int i =0;i<password.length;i++) {
-								guardarPass += password[i];
-							}
-							
-						if ((textField.getText().equals(a.nombre))&&(guardarPass.equals(a.contraseña))){
-							//Guardamos estos dos valores de forma estatica porque seran importantes para identificar bien a los usuarios
-							String nombreUsuario = a.nombre;
-							String rol = a.rol;
-							int id = a.id;
-							if(a.rol.equals("administrador")) {
-								Paneles.panelLogin.setVisible(false);
-								Paneles.PanelAdmin.setVisible(true);
-									
-							}else {
-								if(a.Preferencias == 0) {
-									Paneles.panelLogin.setVisible(false);
-									Paneles.PanelEleccion.setVisible(true);
-								}else {
-									Paneles.panelLogin.setVisible(false);
-									ComprobacionDePreferencias();
-									Paneles.PanelNoticias.setVisible(true);
+				listadeUsuarios = Usuario.lecturaUsuarios();
+				if(listadeUsuarios!=null) {
+					listadeUsuarios = Usuario.listaUsuarios;
+					if ((listadeUsuarios != null)||(Funciones.controlDeErrores(textField.getText()))){
+						for (Usuario a : listadeUsuarios) {
+							String guardarPass = "";
+							char[] password = Login.passwordField.getPassword();
+								for (int i =0;i<password.length;i++) {
+									guardarPass += password[i];
 								}
+								
+							if ((textField.getText().equals(a.nombre))&&(guardarPass.equals(a.contraseña))){
+								//Guardamos estos dos valores de forma estatica porque seran importantes para identificar bien a los usuarios
+								String nombreUsuario = a.nombre;
+								String rol = a.rol;
+								int id = a.id;
+								if(rol.equals("administrador")) {
+										admin panelAdmin = new admin(rol,nombreUsuario,id);
+										MostradorNoticias.ComprobacionDePreferencias(nombreUsuario);
+										MarcoNoticias.mostradorPaneles(panelAdmin);
+										
+								}else {
+									if(a.Preferencias == 0) {
+										Preferencias eleccionPreferencias = new Preferencias(rol,nombreUsuario,id);
+										MarcoNoticias.mostradorPaneles(eleccionPreferencias);
+									}else {
+										MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,id);
+										MostradorNoticias.ComprobacionDePreferencias(nombreUsuario);
+										MarcoNoticias.mostradorPaneles(noticiasPreferidas);
+									}
+								}
+							}else {
+								Login.lblNewLabel_ErrorInicioSesion.setVisible(true);
 							}
-						}else {
-							Login.lblNewLabel_ErrorInicioSesion.setVisible(true);
 						}
+					}else {
+						Login.lblNewLabel_ErrorInicioSesion.setVisible(true);
 					}
-				}else {
-					Login.lblNewLabel_ErrorInicioSesion.setVisible(true);
 				}
 			}
 		});

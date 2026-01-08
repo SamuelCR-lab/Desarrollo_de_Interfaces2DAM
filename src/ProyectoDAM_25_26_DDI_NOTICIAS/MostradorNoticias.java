@@ -47,6 +47,7 @@ public class MostradorNoticias extends JPanel {
 		Atras.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		Atras.setBounds(75, 678, 241, 46);
 		add(Atras);
+		
 		GuardarHistorial = new JButton("Guardar Preferencias y Titulares");
 		GuardarHistorial.addActionListener(new AccionesDeBotonesSA(1,"GuardarTitulares"));
 		GuardarHistorial.setFont(new Font("Times New Roman", Font.PLAIN, 16));

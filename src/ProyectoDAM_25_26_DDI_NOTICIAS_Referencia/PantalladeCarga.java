@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -68,7 +69,8 @@ public class PantalladeCarga extends JFrame{
         // Creamos un Timer que se ejecuta cada 50 milisegundos
         temporizador = new Timer(50, new ActionListener() {
             int progreso = 0;
-            boolean comprobacionPreferencias=true,comprobacionUsuarios=true,comprobacionCorreoYClave = true;
+            boolean comprobacionPreferencias=true,comprobacionCorreoYClave = true;
+            ArrayList <Usuario> comprobacionUsuarios=null;
             
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,7 +89,7 @@ public class PantalladeCarga extends JFrame{
                 if(progreso == 80) {
                 	
                 }
-                if ((!comprobacionArrayNoticias)||(!comprobacionPreferencias)||(!comprobacionUsuarios)||(!comprobacionCorreoYClave)) {
+                if ((!comprobacionArrayNoticias)||(!comprobacionPreferencias)||(comprobacionUsuarios==null)||(!comprobacionCorreoYClave)) {
                 	JOptionPane.showMessageDialog(PantalladeCarga.this, "No se han podido cargar los datos debido a que no existen los archivos","Error catastrofico",JOptionPane.ERROR_MESSAGE);
                 	temporizador.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
                     dispose();  

@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class Usuario {
 	 	private static final Pattern PATRON_ADMIN = Pattern.compile("^administrador:(.*?)(?://.*)?$");
 	    private static final Pattern PATRON_USER = Pattern.compile("^usuario:(.*?)(?://.*)?$");
-	    public ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+	    static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
 
 	    public static String[] datosUsuariosTemporal;
 
@@ -34,8 +34,8 @@ public class Usuario {
 	            this.rol = rol;
 	        }
 
-	    public static boolean lecturaUsuarios() {
-	    	boolean comprobacionUsuarios = true;
+		public static ArrayList<Usuario> lecturaUsuarios() {
+			ArrayList<Usuario> comprobacionUsuarios = null;
 	    
 	        File FicheroUsuarios = new File("Usuarios//Usuarios.txt");
 	        if (FicheroUsuarios.exists()) {
@@ -62,7 +62,7 @@ public class Usuario {
 			                    datosLimpios = matchUser.group(1);
 			                    
 			                }else {
-			                	comprobacionUsuarios = false;
+			                	comprobacionUsuarios = null;
 			    	        	return comprobacionUsuarios;
 			                }
 	
@@ -79,7 +79,7 @@ public class Usuario {
 			                        	preferencia = Integer.parseInt(datosUsuariosTemporal[2]);
 			                        } catch (NumberFormatException e) {
 			                        	e.getMessage();
-			                        	comprobacionUsuarios = false;
+			                        	comprobacionUsuarios = null;
 				        	        	return comprobacionUsuarios;
 			                        }
 			                        String email = datosUsuariosTemporal[3];
@@ -87,7 +87,7 @@ public class Usuario {
 			                        listaUsuarios.add(nuevoUsuario);
 			                        
 			                    }else {
-			                    	comprobacionUsuarios = false;
+			                    	comprobacionUsuarios = null;
 			        	        	return comprobacionUsuarios;
 			                    }
 			                }
@@ -99,12 +99,12 @@ public class Usuario {
 
 		        }
 	        }else {
-	        	comprobacionUsuarios = false;
+	        	comprobacionUsuarios = null;
 	        	return comprobacionUsuarios;
 	        }
 	        return comprobacionUsuarios;
 	    }
-	    public static void escrituraUsuarios() {
+	   public static void escrituraUsuarios() {
 			File ficheroUsuarios = new File("Usuarios//Usuarios.txt");
 			
 				//Para que cuando se elimine o se cree un nuevo usuario solo se guarden los datos en el array donde los guardamos de froma temporal

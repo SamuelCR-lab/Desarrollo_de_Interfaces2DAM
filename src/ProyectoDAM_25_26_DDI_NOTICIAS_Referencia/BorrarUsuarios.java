@@ -2,9 +2,11 @@ package ProyectoDAM_25_26_DDI_NOTICIAS_Referencia;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -12,27 +14,18 @@ import javax.swing.SwingConstants;
 
 public class BorrarUsuarios extends JPanel{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private static JLabel lblNewLabel,lblNewLabel_1,ErrorCamposConEspacios,MensajeUsuarioBorrado,UsuarioNoEncontrado;
 	private static JButton Atras,BorrarUsuario;
 	public static JTextField textFieldNombreUsuario;
-	JFrame Marco;
+	private static ArrayList<Usuario> listaUsuariosBorrados = new ArrayList<>();
+	private String rolDeLosUsuarios, NombreUsuario;
+	private int id;
 	
-	public BorrarUsuarios(JFrame marco) {
-		super();
-		this.Marco = marco;
-	}
-	public JFrame getMarco() {
-		return Marco;
-	}
-	public void setMarco(JFrame marco) {
-		this.Marco = marco;
-	}	
-	
-	public BorrarUsuarios() {
+	public BorrarUsuarios(String rolDeLosUsuarios,String NombreUsuario,int id) {
+		this.rolDeLosUsuarios = rolDeLosUsuarios;
+		this.NombreUsuario = NombreUsuario;
+		this.id = id;
 		setSize(1200,800);
 		setName("Borrar Usuarios");
 		setLayout(null);
@@ -57,15 +50,28 @@ public class BorrarUsuarios extends JPanel{
 		
 		
 		
-		BorrarUsuario = new JButton("Crear Usuario");
-		BorrarUsuario.addActionListener(new AccionesDeBotonesSA(1,"BorrarUsuario"));
+		BorrarUsuario = new JButton("Borrar Usuario");
+		BorrarUsuario.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if(borrarUsuario()){
+					Usuario.escrituraUsuarios();
+					Usuario.lecturaUsuarios();				
+				}
+			}
+		});
 		BorrarUsuario.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		BorrarUsuario.setBounds(911, 678, 200, 46);
 		add(BorrarUsuario);
 		
 		
 		Atras = new JButton("Atras");
-		Atras.addActionListener(new AccionesDeBotonesSA(0,"BorrarUsuario"));
+		Atras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				admin panelAdmin = new admin(rolDeLosUsuarios,NombreUsuario,id);
+				MarcoNoticias.mostradorPaneles(panelAdmin);
+			}
+		});
 		Atras.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		Atras.setBounds(75, 678, 200, 46);
 		add(Atras);
