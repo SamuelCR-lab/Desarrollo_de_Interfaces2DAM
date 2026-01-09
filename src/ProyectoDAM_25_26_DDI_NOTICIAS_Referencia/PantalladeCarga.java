@@ -20,7 +20,7 @@ public class PantalladeCarga extends JFrame{
     private static final long serialVersionUID = 1L;
     private JProgressBar barraProgreso;
     private Timer temporizador; // Variable para el Timer
-    private static boolean comprobacionArrayNoticias = Funciones.lecturaConfiguracion();
+
     public PantalladeCarga() throws NullPointerException {
         setUndecorated(true);
         setLayout(new BorderLayout());
@@ -70,6 +70,7 @@ public class PantalladeCarga extends JFrame{
         temporizador = new Timer(50, new ActionListener() {
             int progreso = 0;
             boolean comprobacionPreferencias=true,comprobacionCorreoYClave = true;
+            boolean comprobacionArrayNoticias;
             ArrayList <Usuario> comprobacionUsuarios=null;
             
             @Override
@@ -80,6 +81,7 @@ public class PantalladeCarga extends JFrame{
                 
                 if(progreso == 50) {
                 	barraProgreso.setString("Cargando Usuarios y Preferencias... " + progreso + "%");
+                	comprobacionArrayNoticias = Funciones.lecturaConfiguracion();
                 	comprobacionPreferencias =preferenciasIniciador.lecturaPreferencias();
                 	comprobacionUsuarios = Usuario.lecturaUsuarios();
                 	comprobacionCorreoYClave=Funciones.lecturaCorreoClave();

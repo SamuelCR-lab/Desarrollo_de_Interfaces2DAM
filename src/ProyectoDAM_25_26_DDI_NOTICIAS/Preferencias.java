@@ -119,7 +119,7 @@ public class Preferencias extends JPanel{
 		add(chckbxNewCheckBox_17);
 		
 		JButton btnNewButton = new JButton("Cerrar Sesion");
-		btnNewButton.addActionListener(new AccionesDeBotonesSA(0,"Preferencias"));
+		btnNewButton.addActionListener(new AccionesDeBotonesSA(0,this.getName()));
 		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 		btnNewButton.setBounds(75, 678, 200, 46);
 		add(btnNewButton);

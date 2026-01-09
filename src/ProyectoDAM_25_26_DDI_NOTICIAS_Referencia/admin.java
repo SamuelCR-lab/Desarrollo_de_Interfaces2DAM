@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -27,12 +28,9 @@ public class admin extends JPanel{
 	 *  
 	 */
 	private static final long serialVersionUID = 1L;
-	private String rolDeLosUsuarios,NombreUsuario;
-	private int id;
-	public admin(String rolDeLosUsuarios,String NombreUsuario,int id) {
-		this.rolDeLosUsuarios = rolDeLosUsuarios;
-		this.NombreUsuario = NombreUsuario;
-		this.id = id;
+	private static ArrayList<Usuario> listaUsuariosEnAdmin;
+	public admin(String rolDeLosUsuarios,String NombreUsuario,ArrayList<Usuario> listaUsuarios,int id) {
+		listaUsuariosEnAdmin= listaUsuarios; 
 		setName("Administrador");
 		setSize(1200,800);
 		setLayout(null);
@@ -56,7 +54,7 @@ public class admin extends JPanel{
 		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CreacionUsuarios panelCreacionUsuarios = new CreacionUsuarios(rolDeLosUsuarios,NombreUsuario, id);
+				CreacionUsuarios panelCreacionUsuarios = new CreacionUsuarios(rolDeLosUsuarios,NombreUsuario,listaUsuariosEnAdmin, id);
 				MarcoNoticias.mostradorPaneles(panelCreacionUsuarios);
 			}
 		});
@@ -67,7 +65,7 @@ public class admin extends JPanel{
 		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnEnviarCorreo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (Usuario a : Usuario.listaUsuarios) {
+				for (Usuario a : listaUsuariosEnAdmin) {
 					if (a.nombre.equals(NombreUsuario)) {
 						MostradorNoticias.ComprobacionDePreferencias(NombreUsuario);
 						Properties props = new Properties();
@@ -97,7 +95,7 @@ public class admin extends JPanel{
 		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnVerTodasLas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MostradorNoticias noticiasPreferidas = new MostradorNoticias(rolDeLosUsuarios,NombreUsuario,id);
+				MostradorNoticias noticiasPreferidas = new MostradorNoticias(rolDeLosUsuarios,NombreUsuario,"administrador",listaUsuariosEnAdmin,id);
 				MostradorNoticias.ComprobacionDePreferencias(NombreUsuario);
 				MarcoNoticias.mostradorPaneles(noticiasPreferidas);
 			}

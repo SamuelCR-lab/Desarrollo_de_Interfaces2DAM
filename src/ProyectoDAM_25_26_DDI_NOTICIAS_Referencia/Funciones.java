@@ -170,7 +170,7 @@ public class Funciones {
             return patronEncontrado;
         }
     }
-    public static void Historial() {
+    public static void Historial(ArrayList <Usuario> guardarHistorial,String nombreUsuario) {
     	File historico = new File("Usuarios//Historico.txt");
     	if (!historico.exists()) {
     		try {
@@ -183,12 +183,12 @@ public class Funciones {
 
     	try(FileWriter historicoAEscribir = new FileWriter(historico,true);
     			BufferedWriter escrituraHistorico = new BufferedWriter(historicoAEscribir)){
-    		for(Usuario buscarIDUsuario : Usuario.listaUsuarios) {
-    			if(buscarIDUsuario.nombre.equals(AccionesDeBotonesSA.nombreUsuario)) {
+    		for(Usuario buscarIDUsuario : guardarHistorial) {
+    			if(buscarIDUsuario.nombre.equals(nombreUsuario)) {
 		    		LocalTime horaGuardada = java.time.LocalTime.now();
 		    		 DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");//Usamos el Date Time Fromatter para darle un formato mas legible, que de la forma de local time salen mili y nano segundos
 		    		 String HoraDefnitiva = horaGuardada.format(formato);
-		    		escrituraHistorico.write("Noticias del Usuario de nombre : "+buscarIDUsuario.nombre+" y id = "+buscarIDUsuario.id+"\nA la hora : "+HoraDefnitiva+"\n"+AccionesDeBotonesSA.MostradoNoticias+"\n");
+		    		escrituraHistorico.write("Noticias del Usuario de nombre : "+buscarIDUsuario.nombre+" y id = "+buscarIDUsuario.id+"\nA la hora : "+HoraDefnitiva+"\n"+MostradorNoticias.MostradoNoticias+"\n");
     			}
     		}
     	}catch (IOException o){

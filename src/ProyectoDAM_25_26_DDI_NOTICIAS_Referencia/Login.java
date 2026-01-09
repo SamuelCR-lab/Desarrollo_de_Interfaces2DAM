@@ -8,9 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -99,8 +97,7 @@ public class Login extends JPanel{
 				ArrayList<Usuario> listadeUsuarios = new ArrayList<>();
 				listadeUsuarios = Usuario.lecturaUsuarios();
 				if(listadeUsuarios!=null) {
-					listadeUsuarios = Usuario.listaUsuarios;
-					if ((listadeUsuarios != null)||(Funciones.controlDeErrores(textField.getText()))){
+					if (Funciones.controlDeErrores(textField.getText())){
 						for (Usuario a : listadeUsuarios) {
 							String guardarPass = "";
 							char[] password = Login.passwordField.getPassword();
@@ -114,16 +111,16 @@ public class Login extends JPanel{
 								String rol = a.rol;
 								int id = a.id;
 								if(rol.equals("administrador")) {
-										admin panelAdmin = new admin(rol,nombreUsuario,id);
+										admin panelAdmin = new admin(rol,nombreUsuario,listadeUsuarios,id);
 										MostradorNoticias.ComprobacionDePreferencias(nombreUsuario);
 										MarcoNoticias.mostradorPaneles(panelAdmin);
 										
 								}else {
 									if(a.Preferencias == 0) {
-										Preferencias eleccionPreferencias = new Preferencias(rol,nombreUsuario,id);
+										Preferencias eleccionPreferencias = new Preferencias(rol,nombreUsuario,listadeUsuarios,id);
 										MarcoNoticias.mostradorPaneles(eleccionPreferencias);
 									}else {
-										MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,id);
+										MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,"Login",listadeUsuarios,id);
 										MostradorNoticias.ComprobacionDePreferencias(nombreUsuario);
 										MarcoNoticias.mostradorPaneles(noticiasPreferidas);
 									}

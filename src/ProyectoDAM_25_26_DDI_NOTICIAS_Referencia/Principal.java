@@ -20,15 +20,10 @@ public class Principal {
 			public void run() {
 				try {
 					
-					
-                    
-                    
 					new PantalladeCarga();
 					window = new MarcoNoticias();
 					window.setSize(1200,800);
 					
-					
-		
 				} catch (Exception|ExceptionInInitializerError e) {
 					JOptionPane.showMessageDialog(null, "No se han podido cargar los datos debido a que no existen los archivos","Error catastrofico",JOptionPane.ERROR_MESSAGE);
 					e.printStackTrace();

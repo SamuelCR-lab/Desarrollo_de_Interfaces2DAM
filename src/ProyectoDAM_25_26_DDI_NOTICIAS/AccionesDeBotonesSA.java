@@ -100,6 +100,7 @@ public class AccionesDeBotonesSA implements ActionListener{
 								Funciones.GuardarTitulares();
 								Paneles.PanelEleccion.setVisible(false);
 								Usuario.escrituraUsuarios();
+								preferenciasIniciador.escrituraPreferencias(id);
 								MostradorDeNoticias();
 								Paneles.PanelNoticias.setVisible(true);
 							}

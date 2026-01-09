@@ -14,17 +14,13 @@ import javax.swing.SwingConstants;
 public class BorrarUsuarios extends JPanel{
 
 	private static final long serialVersionUID = 1L;
-	private static JLabel lblNewLabel,lblNewLabel_1,ErrorCamposConEspacios,MensajeUsuarioBorrado,UsuarioNoEncontrado;
+	private static JLabel lblNewLabel,lblNewLabel_1,ErrorCamposConEspacios,MensajeUsuarioBorrado,UsuarioNoEncontrado,LimiteMinimoUsuarios;
 	private static JButton Atras,BorrarUsuario;
 	public static JTextField textFieldNombreUsuario;
-	private static ArrayList<Usuario> listaUsuariosBorrados = new ArrayList<>();
-	private String rolDeLosUsuarios, NombreUsuario;
-	private int id;
+	private static ArrayList<Usuario> listaUsuariosABorrar = new ArrayList<>();
 	
-	public BorrarUsuarios(String rolDeLosUsuarios,String NombreUsuario,int id) {
-		this.rolDeLosUsuarios = rolDeLosUsuarios;
-		this.NombreUsuario = NombreUsuario;
-		this.id = id;
+	public BorrarUsuarios(String rolDeLosUsuarios,String NombreUsuario,ArrayList<Usuario> listaUsuariosBorrados,int id) {
+		listaUsuariosABorrar=listaUsuariosBorrados;
 		setSize(1200,800);
 		setName("Borrar Usuarios");
 		setLayout(null);
@@ -53,7 +49,7 @@ public class BorrarUsuarios extends JPanel{
 		BorrarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				if(borrarUsuario()){
+				if(borrarUsuario(listaUsuariosABorrar)){
 					Usuario.escrituraUsuarios();
 					Usuario.lecturaUsuarios();				
 				}
@@ -67,7 +63,7 @@ public class BorrarUsuarios extends JPanel{
 		Atras = new JButton("Atras");
 		Atras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				admin panelAdmin = new admin(rolDeLosUsuarios,NombreUsuario,id);
+				admin panelAdmin = new admin(rolDeLosUsuarios,NombreUsuario,Usuario.lecturaUsuarios(),id);
 				MarcoNoticias.mostradorPaneles(panelAdmin);
 			}
 		});
@@ -95,14 +91,24 @@ public class BorrarUsuarios extends JPanel{
 		MensajeUsuarioBorrado.setHorizontalAlignment(SwingConstants.CENTER);
 		MensajeUsuarioBorrado.setBounds(396, 687, 408, 31);
 		add(MensajeUsuarioBorrado);
+		
+		LimiteMinimoUsuarios = new JLabel("Error. Se ha llegado al limite mainimo de usuarios (3).");
+		LimiteMinimoUsuarios.setHorizontalAlignment(SwingConstants.CENTER);
+		LimiteMinimoUsuarios.setVisible(false);
+		LimiteMinimoUsuarios.setForeground(new Color(255, 0, 0));
+		LimiteMinimoUsuarios.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		LimiteMinimoUsuarios.setBounds(393, 678, 414, 46);
+		add(LimiteMinimoUsuarios);
 	}
-	public static boolean borrarUsuario() {
+	public static boolean borrarUsuario(ArrayList <Usuario> listaUsuarios) {
 		boolean comprobacionUsuarioBorrado= true;
 		Usuario usuarioAborrar = null;
+		int cantidadMinimaUsuarios=listaUsuariosABorrar.size();
+		if(cantidadMinimaUsuarios>=3) {
 			if ((Funciones.controlDeErrores(textFieldNombreUsuario.getText()))) {
 				String nombreUsuario = textFieldNombreUsuario.getText() ; 	
 				
-				for (Usuario usuarioAeliminar : Usuario.listaUsuarios) {
+				for (Usuario usuarioAeliminar : listaUsuarios) {
 					if(usuarioAeliminar.nombre.equals(nombreUsuario)) {
 						usuarioAborrar = usuarioAeliminar;
 					}
@@ -111,12 +117,15 @@ public class BorrarUsuarios extends JPanel{
 					UsuarioNoEncontrado.setVisible(true);
 					comprobacionUsuarioBorrado = false;
 				}else {
-					Usuario.listaUsuarios.remove(usuarioAborrar);
+					listaUsuarios.remove(usuarioAborrar);
 					MensajeUsuarioBorrado.setVisible(true);
 				}
 			}else {
 				ErrorCamposConEspacios.setVisible(true);
 			}
+		}else {
+			LimiteMinimoUsuarios.setVisible(true);
+		}
 		return comprobacionUsuarioBorrado;
 	}
 

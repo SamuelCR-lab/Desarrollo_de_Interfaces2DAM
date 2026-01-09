@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,16 +25,11 @@ public class CreacionUsuarios extends JPanel{
 	private static JButton Atras,CrearUsuario;
 	private static JTextField textFieldNombreUsuario,textFieldCorreoUsuario;
 	private static JPasswordField passwordFieldCreacionUsuarios;
-	private String rolDeLosUsuarios,nombreUsuario;
-	private int id;
-
+	private static ArrayList <Usuario> listaUsuariosNuevo;
 	
 	
-	public CreacionUsuarios(String rolDeLosUsuarios,String nombreUsuario,int id) {
-		this.rolDeLosUsuarios = rolDeLosUsuarios;
-		this.nombreUsuario = nombreUsuario;
-		this.id = id;
-		setName("Crear Usuarios");
+	public CreacionUsuarios(String rolDeLosUsuarios,String nombreUsuario,ArrayList <Usuario> listaUsuarios,int id) {
+		listaUsuariosNuevo=listaUsuarios;
 		setSize(1200,800);
 		setLayout(null);
 		
@@ -110,7 +106,7 @@ public class CreacionUsuarios extends JPanel{
 		Atras = new JButton("Atras");
 		Atras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				admin panelAdmin = new admin(rolDeLosUsuarios,nombreUsuario,id);
+				admin panelAdmin = new admin(rolDeLosUsuarios,nombreUsuario,Usuario.lecturaUsuarios(),id);
 				MarcoNoticias.mostradorPaneles(panelAdmin);
 			}
 		});
@@ -144,19 +140,17 @@ public class CreacionUsuarios extends JPanel{
 		String rol = "usuario";
 		
 		char[] contrasenia = passwordFieldCreacionUsuarios.getPassword();
-		if ((Funciones.controlDeErrores(textFieldNombreUsuario.getText()))&&
-				((Funciones.controlCorreo(textFieldCorreoUsuario.getText())))&&
-				(passwordFieldCreacionUsuarios.getPassword()!=null || contrasenia.length >0)) {
-			String guardarContrasenia = "";
+		if ((Funciones.controlDeErrores(textFieldNombreUsuario.getText()))&&((Funciones.controlCorreo(textFieldCorreoUsuario.getText())))&&(passwordFieldCreacionUsuarios.getPassword()!=null || contrasenia.length >0)) {
+				String guardarContrasenia = "";
 				for (int i =0;i<contrasenia.length;i++) {
 					guardarContrasenia += contrasenia[i];
 				}
 			String nombreUsuario = textFieldNombreUsuario.getText() ; 	
 			String correo = textFieldCorreoUsuario.getText();
-			int idNuevosUsuarios = Usuario.listaUsuarios.size()+1;
+			int idNuevosUsuarios = listaUsuariosNuevo.size()+1;
 			if (idNuevosUsuarios<=10) {
 				Usuario NuevoUsuario = new Usuario(idNuevosUsuarios,nombreUsuario,guardarContrasenia,0,correo,rol);
-				Usuario.listaUsuarios.add(NuevoUsuario);
+				listaUsuariosNuevo.add(NuevoUsuario);
 
 			}else {
 				ErrorLimiteUsuarios.setVisible(true);

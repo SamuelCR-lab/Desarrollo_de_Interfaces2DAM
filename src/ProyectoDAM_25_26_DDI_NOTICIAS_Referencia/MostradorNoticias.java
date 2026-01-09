@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -30,15 +31,10 @@ public class MostradorNoticias extends JPanel {
 	private static JTextArea textAreaNoticias = new JTextArea ();
 	public static JButton EnviarCorreo,GuardarHistorial;
 	public static String MostradoNoticias;
-	private String rolDeLosUsuarios,nombreUsuario;
-	private int id;
+	private static ArrayList<Usuario> listaUsuariosComprobacion;
 
-
-	public MostradorNoticias (String rolDeLosUsuarios,String nombreUsuario,int id) {
-		this.rolDeLosUsuarios = rolDeLosUsuarios;
-		this.nombreUsuario = nombreUsuario;
-		this.id = id;
-		setName("Mostrador Noticias");
+	public MostradorNoticias (String rolDeLosUsuarios,String nombreUsuario,String claseDeProcedencia,ArrayList<Usuario> listaUsuarios,int id) {
+		listaUsuariosComprobacion = listaUsuarios;
 		setSize(1200,800);
 		setLayout(null);
 		
@@ -62,8 +58,16 @@ public class MostradorNoticias extends JPanel {
 		JButton Atras = new JButton("Atras");
 		Atras.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Login vueltaAlInicio = new Login();
-				MarcoNoticias.mostradorPaneles(vueltaAlInicio);
+				if (claseDeProcedencia.equals("Login")) {
+					Login vueltaAlInicio = new Login();
+					MarcoNoticias.mostradorPaneles(vueltaAlInicio);
+				}else if (claseDeProcedencia.equals("Administrador")) {
+					admin vueltaAMenuAdmin = new admin(rolDeLosUsuarios,nombreUsuario,listaUsuariosComprobacion,id);
+					MarcoNoticias.mostradorPaneles(vueltaAMenuAdmin);
+				}else {
+					Preferencias vueltaAPreferencias = new Preferencias(rolDeLosUsuarios,nombreUsuario,listaUsuariosComprobacion,id);
+					MarcoNoticias.mostradorPaneles(vueltaAPreferencias);
+				}
 				
 				}
 			});
@@ -74,9 +78,9 @@ public class MostradorNoticias extends JPanel {
 			EnviarCorreo = new JButton("Enviar Correo");
 			EnviarCorreo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					for (Usuario a : Usuario.listaUsuarios) {
+					for (Usuario a : listaUsuariosComprobacion) {
 						if (a.nombre.equals(nombreUsuario)) {
-							MostradorNoticias.ComprobacionDePreferencias(nombreUsuario);
+							ComprobacionDePreferencias(nombreUsuario);
 							Properties props = new Properties();
 							props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP de GMAIL en este caso
 							props.put("mail.smtp.socketFactory.port", "465"); //PUERTO SSL 
@@ -130,7 +134,7 @@ public class MostradorNoticias extends JPanel {
 	
 	
 	public static void ComprobacionDePreferencias(String nombreUsuario) {
-		for (Usuario a : Usuario.listaUsuarios) {
+		for (Usuario a : listaUsuariosComprobacion) {
 				if(a.nombre.equals(nombreUsuario)) {
 					for (preferenciasIniciador prefe : preferenciasIniciador.listaPreferencias) {
 						int idListaUsuarios = a.id;

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -18,13 +20,8 @@ public class Preferencias extends JPanel{
 	private static final long serialVersionUID = 1L;
 	public static JLabel ErrorEleccionPreferencias;
 	public static int [] PrefeTemp = new int[18] ;
-	private String nombreUsuario;
-	private int id;
 	
-	public Preferencias (String rol,String nombreUsuario,int id) {
-		this.nombreUsuario = nombreUsuario;
-		this.id = id;
-		setName("Preferencias");
+	public Preferencias (String rol,String nombreUsuario,ArrayList <Usuario> listaUsuarios,int id) {
 		setSize(1200,800);
 		setLayout(null);
 		
@@ -141,13 +138,17 @@ public class Preferencias extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				guardarSeleccion(id);
 				preferenciasIniciador.escrituraPreferencias(id);
-				int controldeUsuariosConPreferencias=0;
-				Funciones.Historial();
-				MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,id);
+				int controldeUsuariosConPreferencias=1;
+				for(Usuario a : listaUsuarios) {
+					if(a.id==id) {
+						a.Preferencias=controldeUsuariosConPreferencias;
+					}
+				}
+				Funciones.Historial(listaUsuarios,nombreUsuario);
+				MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,"Preferencias",listaUsuarios,id);
 				MostradorNoticias.ComprobacionDePreferencias(nombreUsuario);
-				MarcoNoticias.mostradorPaneles(noticiasPreferidas);
 				MostradorNoticias.lblNewLabel_1.setVisible(true);
-				
+				MarcoNoticias.mostradorPaneles(noticiasPreferidas);
 			}
 		});
 		Siguiente.setFont(new Font("Times New Roman", Font.PLAIN, 16));

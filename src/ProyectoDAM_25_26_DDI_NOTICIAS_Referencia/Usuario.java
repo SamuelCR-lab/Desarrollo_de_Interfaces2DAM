@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 public class Usuario {
 	 	private static final Pattern PATRON_ADMIN = Pattern.compile("^administrador:(.*?)(?://.*)?$");
 	    private static final Pattern PATRON_USER = Pattern.compile("^usuario:(.*?)(?://.*)?$");
-	    static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
+	    private static ArrayList<Usuario> listaUsuarios = new ArrayList<>();
 
 	    public static String[] datosUsuariosTemporal;
 
@@ -93,7 +93,7 @@ public class Usuario {
 			                }
 		                }
 		            } 
-	
+		            comprobacionUsuarios = listaUsuarios;
 		        } catch (IOException i) {
 		            i.printStackTrace();
 

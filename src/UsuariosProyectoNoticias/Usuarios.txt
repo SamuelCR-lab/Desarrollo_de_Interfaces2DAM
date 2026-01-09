@@ -1,0 +1,4 @@
+administrador:Sergio;DAM;1;samuelcarias1@gmail.com
+usuario:Sofia;PYT;0;fp.samuelcarias1@gmail.com
+usuario:Mariela;Ramos;1;samuelcarias1@gmail.com
+usuario:Samuel;cfgs;0;samuelcarias1@gmail.com
