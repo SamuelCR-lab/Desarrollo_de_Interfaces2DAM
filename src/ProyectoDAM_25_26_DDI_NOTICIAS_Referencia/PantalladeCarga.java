@@ -89,14 +89,14 @@ public class PantalladeCarga extends JFrame{
                 }
                 
                 if(progreso == 80) {
-                	
+                	if ((!comprobacionArrayNoticias)||(!comprobacionPreferencias)||(comprobacionUsuarios==null)||(!comprobacionCorreoYClave)) {
+                    	JOptionPane.showMessageDialog(PantalladeCarga.this, "No se han podido cargar los datos debido a que no existen los archivos","Error catastrofico",JOptionPane.ERROR_MESSAGE);
+                    	temporizador.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
+                        dispose();  
+                        System.exit(1);
+                    }
                 }
-                if ((!comprobacionArrayNoticias)||(!comprobacionPreferencias)||(comprobacionUsuarios==null)||(!comprobacionCorreoYClave)) {
-                	JOptionPane.showMessageDialog(PantalladeCarga.this, "No se han podido cargar los datos debido a que no existen los archivos","Error catastrofico",JOptionPane.ERROR_MESSAGE);
-                	temporizador.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
-                    dispose();  
-                    System.exit(1);
-                }
+                
                 // Cuando llega al 100%, paramos y abrimos la ventana principal
                 if (progreso == 100) {
                     temporizador.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
