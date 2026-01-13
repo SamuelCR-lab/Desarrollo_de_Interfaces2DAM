@@ -32,6 +32,8 @@ public class MarcoNoticias extends JFrame{
 		menuBar.setBounds(0, 0, 1183, 22);
 		add(menuBar);
 		
+		Funciones.iniciarCorreoHoraEstipuladaConTimer();
+		
 		JMenu mnNewMenu = new JMenu("Acerca de");
 		menuBar.add(mnNewMenu);
 		

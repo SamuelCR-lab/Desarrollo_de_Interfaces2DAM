@@ -1,5 +1,7 @@
 package ProyectoDAM_25_26_DDI_NOTICIAS_Referencia;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -14,6 +16,7 @@ import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
 import javax.swing.JOptionPane;
+import javax.swing.Timer;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,8 +31,7 @@ public class Funciones {
 	private static ArrayList <String> Enlaces = new ArrayList<>(); 
 	private static ArrayList <String> Claves = new ArrayList<>(); 
     private static String[] datosConfiguracionTemporal;
-    
-
+    private static Timer temporizador;
 	
 	public static boolean GuardarTitulares() {
 		boolean comprobacionArray = true;
@@ -170,7 +172,7 @@ public class Funciones {
             return patronEncontrado;
         }
     }
-    public static void Historial(ArrayList <Usuario> guardarHistorial,String nombreUsuario) {
+    public static void Historial(ArrayList <Usuario> guardarHistorial,String nombreUsuario,String noticias) {
     	File historico = new File("Usuarios//Historico.txt");
     	if (!historico.exists()) {
     		try {
@@ -188,7 +190,7 @@ public class Funciones {
 		    		LocalTime horaGuardada = java.time.LocalTime.now();
 		    		 DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");//Usamos el Date Time Fromatter para darle un formato mas legible, que de la forma de local time salen mili y nano segundos
 		    		 String HoraDefnitiva = horaGuardada.format(formato);
-		    		escrituraHistorico.write("Noticias del Usuario de nombre : "+buscarIDUsuario.nombre+" y id = "+buscarIDUsuario.id+"\nA la hora : "+HoraDefnitiva+"\n"+MostradorNoticias.MostradoNoticias+"\n");
+		    		escrituraHistorico.write("Noticias del Usuario de nombre : "+buscarIDUsuario.nombre+" y id = "+buscarIDUsuario.id+"\nA la hora : "+HoraDefnitiva+"\n"+noticias+"\n");
     			}
     		}
     	}catch (IOException o){
@@ -196,6 +198,22 @@ public class Funciones {
     	}
     	
     }
+    
+    public static void iniciarCorreoHoraEstipuladaConTimer() {
 
+			temporizador = new Timer(10,new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					// TODO Auto-generated method stub
+					ArrayList <Usuario> correoAEnviar = Usuario.lecturaUsuarios();
+					for (Usuario a : correoAEnviar) {
+						
+					}
+				}
+			});
+
+			// TODO Auto-generated catch block
+    }
 
 }

@@ -109,7 +109,7 @@ public class MostradorNoticias extends JPanel {
 			GuardarHistorial = new JButton("Guardar Preferencias y Titulares");
 			GuardarHistorial.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
+					Funciones.Historial(listaUsuarios,nombreUsuario,MostradoNoticias);
 					
 				}
 			});

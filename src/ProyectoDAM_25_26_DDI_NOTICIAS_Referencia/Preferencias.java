@@ -144,7 +144,7 @@ public class Preferencias extends JPanel{
 						a.Preferencias=controldeUsuariosConPreferencias;
 					}
 				}
-				Funciones.Historial(listaUsuarios,nombreUsuario);
+
 				MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,"Preferencias",listaUsuarios,id);
 				MostradorNoticias.ComprobacionDePreferencias(nombreUsuario);
 				MostradorNoticias.lblNewLabel_1.setVisible(true);
