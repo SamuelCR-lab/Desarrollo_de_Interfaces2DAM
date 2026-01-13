@@ -11,10 +11,14 @@ import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import javax.mail.Authenticator;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
@@ -31,9 +35,8 @@ public class Funciones {
 	private static ArrayList <String> Enlaces = new ArrayList<>(); 
 	private static ArrayList <String> Claves = new ArrayList<>(); 
     private static String[] datosConfiguracionTemporal;
-    private static Timer temporizador;
-	
-	public static boolean GuardarTitulares() {
+    
+    public static boolean GuardarTitulares() {
 		boolean comprobacionArray = true;
 		Document documento;
 		String resultado ="No existe";
@@ -201,19 +204,41 @@ public class Funciones {
     
     public static void iniciarCorreoHoraEstipuladaConTimer() {
 
-			temporizador = new Timer(10,new ActionListener() {
+			Timer temporizador = new Timer(10,new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					// TODO Auto-generated method stub
+					String correoAdmin = "";
 					ArrayList <Usuario> correoAEnviar = Usuario.lecturaUsuarios();
 					for (Usuario a : correoAEnviar) {
-						
+						if(a.rol.equals("administrador")) {
+							correoAdmin = a.email;
+							MostradorNoticias.ComprobacionDePreferencias(a.nombre,correoAEnviar);
+						}
+					}
+					
+					Properties props = new Properties();
+					props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP de GMAIL en este caso
+					props.put("mail.smtp.socketFactory.port", "465"); //PUERTO SSL 
+					props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory"); //SSL Factory Class
+					props.put("mail.smtp.auth", "true"); //ACTIVAR SMTP AUTENTIFICACI�N
+					props.put("mail.smtp.port", "465"); //SMTP Port		
+					Authenticator auth = new Authenticator() {		
+						protected PasswordAuthentication getPasswordAuthentication() {
+							return new PasswordAuthentication(Funciones.correoSalida, Funciones.contraseniaSalida);
+						}
+					};		
+					LocalTime horaGuardada = java.time.LocalTime.now();
+		    		 DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");//Usamos el Date Time Fromatter para darle un formato mas legible, que de la forma de local time salen mili y nano segundos
+		    		 String HoraDefnitiva = horaGuardada.format(formato);
+		    		 Session session = Session.getDefaultInstance(props, auth);//CREA UNA SESIÓN CON TODAS LAS PROPIEDADES Y EL "LOGIN"
+					if (HoraDefnitiva.equals("13:50:00")) {
+						admin.sendEmail(session, correoAdmin,"NOTICIAS DAM", "Las Noticias actuales de tu preferencias.\nA fecha :"+HoraDefnitiva+"\n"+MostradorNoticias.MostradoNoticias);
 					}
 				}
 			});
 
-			// TODO Auto-generated catch block
     }
 
 }

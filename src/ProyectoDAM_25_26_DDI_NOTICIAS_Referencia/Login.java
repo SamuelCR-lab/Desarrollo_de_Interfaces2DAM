@@ -112,7 +112,6 @@ public class Login extends JPanel{
 								int id = a.id;
 								if(rol.equals("administrador")) {
 										admin panelAdmin = new admin(rol,nombreUsuario,listadeUsuarios,id);
-										MostradorNoticias.ComprobacionDePreferencias(nombreUsuario);
 										MarcoNoticias.mostradorPaneles(panelAdmin);
 										
 								}else {
@@ -121,7 +120,7 @@ public class Login extends JPanel{
 										MarcoNoticias.mostradorPaneles(eleccionPreferencias);
 									}else {
 										MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,"Login",listadeUsuarios,id);
-										MostradorNoticias.ComprobacionDePreferencias(nombreUsuario);
+										MostradorNoticias.ComprobacionDePreferencias(nombreUsuario,Usuario.lecturaUsuarios());
 										MarcoNoticias.mostradorPaneles(noticiasPreferidas);
 									}
 								}

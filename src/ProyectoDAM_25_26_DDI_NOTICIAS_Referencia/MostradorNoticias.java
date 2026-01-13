@@ -80,7 +80,7 @@ public class MostradorNoticias extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					for (Usuario a : listaUsuariosComprobacion) {
 						if (a.nombre.equals(nombreUsuario)) {
-							ComprobacionDePreferencias(nombreUsuario);
+							ComprobacionDePreferencias(nombreUsuario,listaUsuariosComprobacion);
 							Properties props = new Properties();
 							props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP de GMAIL en este caso
 							props.put("mail.smtp.socketFactory.port", "465"); //PUERTO SSL 
@@ -133,8 +133,8 @@ public class MostradorNoticias extends JPanel {
 		}
 	
 	
-	public static void ComprobacionDePreferencias(String nombreUsuario) {
-		for (Usuario a : listaUsuariosComprobacion) {
+	public static void ComprobacionDePreferencias(String nombreUsuario,ArrayList <Usuario> listaComprobacion) {
+		for (Usuario a : listaComprobacion) {
 				if(a.nombre.equals(nombreUsuario)) {
 					for (preferenciasIniciador prefe : preferenciasIniciador.listaPreferencias) {
 						int idListaUsuarios = a.id;

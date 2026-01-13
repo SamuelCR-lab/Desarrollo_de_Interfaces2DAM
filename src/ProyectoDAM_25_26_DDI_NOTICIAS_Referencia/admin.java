@@ -67,7 +67,7 @@ public class admin extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				for (Usuario a : listaUsuariosEnAdmin) {
 					if (a.nombre.equals(NombreUsuario)) {
-						MostradorNoticias.ComprobacionDePreferencias(NombreUsuario);
+						MostradorNoticias.ComprobacionDePreferencias(NombreUsuario,Usuario.lecturaUsuarios());
 						Properties props = new Properties();
 						props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP de GMAIL en este caso
 						props.put("mail.smtp.socketFactory.port", "465"); //PUERTO SSL 
@@ -96,7 +96,7 @@ public class admin extends JPanel{
 		btnVerTodasLas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MostradorNoticias noticiasPreferidas = new MostradorNoticias(rolDeLosUsuarios,NombreUsuario,"administrador",listaUsuariosEnAdmin,id);
-				MostradorNoticias.ComprobacionDePreferencias(NombreUsuario);
+				MostradorNoticias.ComprobacionDePreferencias(NombreUsuario,Usuario.lecturaUsuarios());
 				MarcoNoticias.mostradorPaneles(noticiasPreferidas);
 			}
 		});
