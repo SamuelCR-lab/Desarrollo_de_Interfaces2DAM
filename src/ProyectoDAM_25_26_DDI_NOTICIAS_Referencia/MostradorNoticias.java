@@ -9,10 +9,15 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
+import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -96,7 +101,7 @@ public class MostradorNoticias extends JPanel {
 							 DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");//Usamos el Date Time Fromatter para darle un formato mas legible, que de la forma de local time salen mili y nano segundos
 				    		 String HoraDefnitiva = horaGuardada.format(formato);
 							Session session = Session.getDefaultInstance(props, auth);//CREA UNA SESIÓN CON TODAS LAS PROPIEDADES Y EL "LOGIN"
-						    admin.sendEmail(session, a.email,"NOTICIAS DAM", "Las Noticias actuales de tu preferencias.\nA fecha :"+HoraDefnitiva+"\n"+MostradoNoticias);
+						    sendEmail(session, a.email,"NOTICIAS DAM", "Las Noticias actuales de tu preferencias.\nA fecha :"+HoraDefnitiva+"\n"+MostradoNoticias);
 						}
 					}
 				}
@@ -209,5 +214,25 @@ public class MostradorNoticias extends JPanel {
 		MostradoNoticias = sb.toString();
 		textAreaNoticias.setText(MostradoNoticias);
 	}
-	
+	 private static void sendEmail(Session session, String toEmail, String subject, String body){
+			try{
+		      MimeMessage msg = new MimeMessage(session);
+		      //Configurar Cabeceras
+		      msg.addHeader("Content-type", "text/HTML; charset=UTF-8");
+		      msg.addHeader("format", "flowed");
+		      msg.addHeader("Content-Transfer-Encoding", "8bit");
+		      msg.setFrom(new InternetAddress("no_reply@example.com", "Correo Infromativo de tus Preferencias "));//Datos de ejemplo	      	      
+		      msg.setReplyTo(InternetAddress.parse("no_reply_DOSA@DAM.com", false));	      
+		      msg.setSubject(subject, "UTF-8");
+		      msg.setText(body, "UTF-8");
+		      msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail, false));	     
+		      Transport.send(msg);
+		      
+		      //System.out.println("¡EMAIL ENVIADO!");//SI NO DA ERROR
+		    }
+		    catch (Exception e) {
+		    	JOptionPane.showMessageDialog(null, "Error Enviando Email: " + e.getMessage());
+		    }
+			MostradorNoticias.lblNewLabel_2.setVisible(true);
+		}
 }

@@ -19,7 +19,7 @@ public class PantalladeCarga extends JFrame{
 
     private static final long serialVersionUID = 1L;
     private JProgressBar barraProgreso;
-    private Timer temporizador; // Variable para el Timer
+    private Timer temporizadorCarga; // Variable para el Timer
 
     public PantalladeCarga() throws NullPointerException {
         setUndecorated(true);
@@ -67,7 +67,7 @@ public class PantalladeCarga extends JFrame{
 
     private void iniciarCargaConTimer() {
         // Creamos un Timer que se ejecuta cada 50 milisegundos
-        temporizador = new Timer(50, new ActionListener() {
+        temporizadorCarga = new Timer(30, new ActionListener() {
             int progreso = 0;
             boolean comprobacionPreferencias=true,comprobacionCorreoYClave = true;
             boolean comprobacionArrayNoticias;
@@ -91,7 +91,7 @@ public class PantalladeCarga extends JFrame{
                 if(progreso == 80) {
                 	if ((!comprobacionArrayNoticias)||(!comprobacionPreferencias)||(comprobacionUsuarios==null)||(!comprobacionCorreoYClave)) {
                     	JOptionPane.showMessageDialog(PantalladeCarga.this, "No se han podido cargar los datos debido a que no existen los archivos","Error catastrofico",JOptionPane.ERROR_MESSAGE);
-                    	temporizador.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
+                    	temporizadorCarga.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
                         dispose();  
                         System.exit(1);
                     }
@@ -99,7 +99,7 @@ public class PantalladeCarga extends JFrame{
                 
                 // Cuando llega al 100%, paramos y abrimos la ventana principal
                 if (progreso == 100) {
-                    temporizador.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
+                    temporizadorCarga.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
                     dispose();           // Cerrar pantalla de carga
                     
                     // Configurar y mostrar la ventana principal
@@ -109,7 +109,7 @@ public class PantalladeCarga extends JFrame{
             }
         });
         
-        temporizador.start();
+        temporizadorCarga.start();
     }
 }
     

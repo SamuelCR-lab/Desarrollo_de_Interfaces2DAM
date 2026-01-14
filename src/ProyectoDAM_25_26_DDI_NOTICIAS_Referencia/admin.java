@@ -121,7 +121,7 @@ public class admin extends JPanel{
 		add(CerrarSesion);
 	}
 	
-	public static void sendEmail(Session session, String toEmail, String subject, String body){
+	private static void sendEmail(Session session, String toEmail, String subject, String body){
 		try{
 	      MimeMessage msg = new MimeMessage(session);
 	      //Configurar Cabeceras
@@ -140,6 +140,5 @@ public class admin extends JPanel{
 	    catch (Exception e) {
 	    	JOptionPane.showMessageDialog(null, "Error Enviando Email: " + e.getMessage());
 	    }
-		MostradorNoticias.lblNewLabel_2.setVisible(true);
 	}
 }
