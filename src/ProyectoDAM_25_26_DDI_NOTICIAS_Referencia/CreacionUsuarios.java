@@ -93,7 +93,7 @@ public class CreacionUsuarios extends JPanel{
 		CrearUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(CreacionUsuarios.guardarNuevoUsuario()){
-					Usuario.escrituraUsuarios();
+					Usuario.escrituraUsuarios(listaUsuarios);
 					Usuario.lecturaUsuarios();
 				}
 			}

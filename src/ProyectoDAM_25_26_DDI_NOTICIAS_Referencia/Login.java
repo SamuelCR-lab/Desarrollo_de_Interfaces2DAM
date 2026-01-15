@@ -120,7 +120,7 @@ public class Login extends JPanel{
 										MarcoNoticias.mostradorPaneles(eleccionPreferencias);
 									}else {
 										MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,"Login",listadeUsuarios,id);
-										MostradorNoticias.ComprobacionDePreferencias(nombreUsuario,Usuario.lecturaUsuarios());
+										MostradorNoticias.ComprobacionDePreferencias(nombreUsuario,listadeUsuarios);
 										MarcoNoticias.mostradorPaneles(noticiasPreferidas);
 									}
 								}

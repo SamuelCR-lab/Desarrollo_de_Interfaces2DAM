@@ -114,8 +114,18 @@ public class MostradorNoticias extends JPanel {
 			GuardarHistorial = new JButton("Guardar Preferencias y Titulares");
 			GuardarHistorial.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					preferenciasIniciador.escrituraPreferencias(id);
+					int controldeUsuariosConPreferencias=1;
+					ArrayList <Usuario> usuariosModificacionTemporal = new ArrayList<>();
+					for(Usuario a : listaUsuarios) {
+						if(a.id==id) {
+							a.Preferencias=controldeUsuariosConPreferencias;
+							
+						}
+						usuariosModificacionTemporal.add(a);
+					}
 					Funciones.Historial(listaUsuarios,nombreUsuario,MostradoNoticias);
-					
+					Usuario.escrituraUsuarios(usuariosModificacionTemporal);
 				}
 			});
 			GuardarHistorial.setFont(new Font("Times New Roman", Font.PLAIN, 16));

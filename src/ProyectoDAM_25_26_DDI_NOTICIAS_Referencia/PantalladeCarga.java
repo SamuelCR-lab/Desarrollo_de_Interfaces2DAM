@@ -67,7 +67,7 @@ public class PantalladeCarga extends JFrame{
 
     private void iniciarCargaConTimer() {
         // Creamos un Timer que se ejecuta cada 50 milisegundos
-        temporizadorCarga = new Timer(30, new ActionListener() {
+        temporizadorCarga = new Timer(15, new ActionListener() {
             int progreso = 0;
             boolean comprobacionPreferencias=true,comprobacionCorreoYClave = true;
             boolean comprobacionArrayNoticias;

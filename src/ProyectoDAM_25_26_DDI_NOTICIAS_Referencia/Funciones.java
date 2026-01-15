@@ -133,7 +133,6 @@ public class Funciones {
 	            		cadena = cadena.trim();
 	            		//Lee las lineas vacias y no pasa nada no guarda ni incrementa nada es solo vacio hasta que sea null el readline del while
 		                if (!cadena.isEmpty()){
-
 		                	//Aqui al ser una cadena sencilla lo hago con el StartWith para que compare entre cadenas y si exite pues cogemos la cadena que existe despues del StartWith con el substring 
 			                if (cadena.startsWith("EMAIL DE SALIDA:")) {
 			                	contadorEncontrados++;
@@ -196,7 +195,7 @@ public class Funciones {
     		for(Usuario buscarIDUsuario : guardarHistorial) {
     			if(buscarIDUsuario.nombre.equals(nombreUsuario)) {
 		    		LocalTime horaGuardada = java.time.LocalTime.now();
-		    		 DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");//Usamos el Date Time Fromatter para darle un formato mas legible, que de la forma de local time salen mili y nano segundos
+		    		 DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm");//Usamos el Date Time Fromatter para darle un formato mas legible, que de la forma de local time salen mili y nano segundos
 		    		 String HoraDefnitiva = horaGuardada.format(formato);
 		    		escrituraHistorico.write("Noticias del Usuario de nombre : "+buscarIDUsuario.nombre+" y id = "+buscarIDUsuario.id+"\nA la hora : "+HoraDefnitiva+"\n"+noticias+"\n");
     			}
@@ -208,40 +207,68 @@ public class Funciones {
     }
     
     public static void iniciarCorreoHoraEstipuladaConTimer() {
-
+    		File ficheroConfiguracion = new File("Usuarios//Configuracion.txt");
 			temporizador = new Timer(60000,new ActionListener() {
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					boolean comprobador = false;
 					// TODO Auto-generated method stub
-					String correoAdmin = "";
-					ArrayList <Usuario> correoAEnviar = Usuario.lecturaUsuarios();
-					for (Usuario a : correoAEnviar) {
-						if(a.rol.equals("administrador")) {
-							correoAdmin = a.email;
-							MostradorNoticias.ComprobacionDePreferencias(a.nombre,correoAEnviar);
-						}
+					String horaAutomatica = "";
+					try (FileReader archivoConfiguracion = new FileReader(ficheroConfiguracion);
+				            BufferedReader lectorArchivo = new BufferedReader(archivoConfiguracion)) {
+			            String cadena;
+			            	while ((cadena = lectorArchivo.readLine()) != null){
+			            		cadena = cadena.trim();
+			            		//Lee las lineas vacias y no pasa nada no guarda ni incrementa nada es solo vacio hasta que sea null el readline del while
+				                if (!cadena.isEmpty()){
+				                	//Aqui al ser una cadena sencilla lo hago con el StartWith para que compare entre cadenas y si exite pues cogemos la cadena que existe despues del StartWith con el substring que 
+				                	//divide la cadena por en el punto que le indicamos.
+					                if (cadena.startsWith("HORA EMAIL AUTOMATICO:")) {
+					                	
+					                	horaAutomatica = cadena.substring("HORA EMAIL AUTOMATICO:".length()).trim();
+					                	ArrayList <Usuario> correoAEnviar = Usuario.lecturaUsuarios();
+										for (Usuario a : correoAEnviar) {
+											/*if(a.rol.equals("administrador")) {
+												correoAdmin = a.email;
+												MostradorNoticias.ComprobacionDePreferencias(a.nombre,correoAEnviar);
+											}*/
+											MostradorNoticias.ComprobacionDePreferencias(a.nombre,correoAEnviar);
+										
+											Properties props = new Properties();
+											props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP de GMAIL en este caso
+											props.put("mail.smtp.socketFactory.port", "465"); //PUERTO SSL 
+											props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory"); //SSL Factory Class
+											props.put("mail.smtp.auth", "true"); //ACTIVAR SMTP AUTENTIFICACI�N
+											props.put("mail.smtp.port", "465"); //SMTP Port		
+											Authenticator auth = new Authenticator() {		
+												protected PasswordAuthentication getPasswordAuthentication() {
+													return new PasswordAuthentication(correoSalida, contraseniaSalida);
+												}
+											};		
+											LocalTime horaGuardada = java.time.LocalTime.now();
+								    		 DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm");//Usamos el Date Time Fromatter para darle un formato mas legible, que de la forma de local time salen mili y nano segundos
+								    		 String HoraDefnitiva = horaGuardada.format(formato);
+								    		 Session session = Session.getDefaultInstance(props, auth);//CREA UNA SESIÓN CON TODAS LAS PROPIEDADES Y EL "LOGIN"
+											if (HoraDefnitiva.equals(horaAutomatica)) {
+												sendEmail(session, a.email,"NOTICIAS DAM", "Las Noticias actuales de tu preferencias.\nA fecha :"+HoraDefnitiva+"\n"+MostradorNoticias.MostradoNoticias);
+											}
+											comprobador=true;
+											//if(contador == correoAEnviar.size()) {
+												//
+											//}
+										}
+					                }
+					                if(!comprobador) {
+					                	temporizador.stop();
+					                }
+				                }
+			            	}
+					}catch(IOException i) {
+						JOptionPane.showMessageDialog(null, "Error leyendo la hora del correo automatico: " + i.getMessage());
 					}
+					//String correoAdmin = "";
 					
-					Properties props = new Properties();
-					props.put("mail.smtp.host", "smtp.gmail.com"); //SMTP de GMAIL en este caso
-					props.put("mail.smtp.socketFactory.port", "465"); //PUERTO SSL 
-					props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory"); //SSL Factory Class
-					props.put("mail.smtp.auth", "true"); //ACTIVAR SMTP AUTENTIFICACI�N
-					props.put("mail.smtp.port", "465"); //SMTP Port		
-					Authenticator auth = new Authenticator() {		
-						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(correoSalida, contraseniaSalida);
-						}
-					};		
-					LocalTime horaGuardada = java.time.LocalTime.now();
-		    		 DateTimeFormatter formato = DateTimeFormatter.ofPattern("HH:mm:ss");//Usamos el Date Time Fromatter para darle un formato mas legible, que de la forma de local time salen mili y nano segundos
-		    		 String HoraDefnitiva = horaGuardada.format(formato);
-		    		 Session session = Session.getDefaultInstance(props, auth);//CREA UNA SESIÓN CON TODAS LAS PROPIEDADES Y EL "LOGIN"
-					if (HoraDefnitiva.equals("11:28:00")) {
-						sendEmail(session, correoAdmin,"NOTICIAS DAM", "Las Noticias actuales de tu preferencias.\nA fecha :"+HoraDefnitiva+"\n"+MostradorNoticias.MostradoNoticias);
-						temporizador.stop();
-					}
 				}
 			});
 			temporizador.start();

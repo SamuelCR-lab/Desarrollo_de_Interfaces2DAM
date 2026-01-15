@@ -104,7 +104,7 @@ public class Usuario {
 	        }
 	        return comprobacionUsuarios;
 	    }
-	   public static void escrituraUsuarios() {
+	   public static void escrituraUsuarios(ArrayList <Usuario> arrayAImprimir) {
 			File ficheroUsuarios = new File("Usuarios//Usuarios.txt");
 			
 				//Para que cuando se elimine o se cree un nuevo usuario solo se guarden los datos en el array donde los guardamos de froma temporal
@@ -120,7 +120,7 @@ public class Usuario {
 					FileWriter escritura = new FileWriter(ficheroUsuarios,true);
 					try (BufferedWriter escribirFichero = new BufferedWriter(escritura)){
 						
-							for (Usuario UsuarioAEscribir : listaUsuarios) {
+							for (Usuario UsuarioAEscribir : arrayAImprimir) {
 								String rol = UsuarioAEscribir.rol;
 								String Nombre = UsuarioAEscribir.nombre;
 								String Contraseña = UsuarioAEscribir.contraseña;

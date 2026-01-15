@@ -41,9 +41,13 @@ public class admin extends JPanel{
 		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(CreacionUsuarios.guardarNuevoUsuario()){
-					Usuario.escrituraUsuarios();
-					Usuario.lecturaUsuarios();
+				if (listaUsuarios.size() <= 11) {
+					if(CreacionUsuarios.guardarNuevoUsuario()){
+						CreacionUsuarios panelCreacionUsuarios = new CreacionUsuarios(rolDeLosUsuarios,NombreUsuario,listaUsuariosEnAdmin, id);
+						MarcoNoticias.mostradorPaneles(panelCreacionUsuarios);
+					}
+				}else {
+					JOptionPane.showMessageDialog(null, "No puedes crear un nuevo usuario porque has llegado al limite de 10 Usuarios.");
 				}
 			}
 		});
@@ -54,8 +58,12 @@ public class admin extends JPanel{
 		btnNewButton.setFont(new Font("Times New Roman", Font.PLAIN, 20));
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				CreacionUsuarios panelCreacionUsuarios = new CreacionUsuarios(rolDeLosUsuarios,NombreUsuario,listaUsuariosEnAdmin, id);
-				MarcoNoticias.mostradorPaneles(panelCreacionUsuarios);
+				if (listaUsuarios.size() >= 4) {
+					BorrarUsuarios panelBorradoUsuarios = new BorrarUsuarios(rolDeLosUsuarios,NombreUsuario,listaUsuariosEnAdmin, id);
+					MarcoNoticias.mostradorPaneles(panelBorradoUsuarios);
+				}else {
+					JOptionPane.showMessageDialog(null, "No puedes borrar un nuevo usuario porque has llegado al limite de 10 Usuarios.");
+				}
 			}
 		});
 		btnNewButton_1.setBounds(642, 330, 305, 70);

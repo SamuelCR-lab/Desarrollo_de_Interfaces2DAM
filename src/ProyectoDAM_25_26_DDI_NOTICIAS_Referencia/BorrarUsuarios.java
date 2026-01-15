@@ -48,9 +48,9 @@ public class BorrarUsuarios extends JPanel{
 		BorrarUsuario = new JButton("Borrar Usuario");
 		BorrarUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				if(borrarUsuario(listaUsuariosABorrar)){
-					Usuario.escrituraUsuarios();
+				ArrayList <Usuario> listaModificadaDefinitiva = borrarUsuario(listaUsuariosABorrar);
+				if(listaModificadaDefinitiva!=null){
+					Usuario.escrituraUsuarios(listaModificadaDefinitiva);
 					Usuario.lecturaUsuarios();				
 				}
 			}
@@ -100,8 +100,8 @@ public class BorrarUsuarios extends JPanel{
 		LimiteMinimoUsuarios.setBounds(393, 678, 414, 46);
 		add(LimiteMinimoUsuarios);
 	}
-	public static boolean borrarUsuario(ArrayList <Usuario> listaUsuarios) {
-		boolean comprobacionUsuarioBorrado= true;
+	public static ArrayList <Usuario> borrarUsuario(ArrayList <Usuario> listaUsuarios) {
+		ArrayList <Usuario> listaUsuariosModificada = null;
 		Usuario usuarioAborrar = null;
 		int cantidadMinimaUsuarios=listaUsuariosABorrar.size();
 		if(cantidadMinimaUsuarios>=3) {
@@ -115,9 +115,9 @@ public class BorrarUsuarios extends JPanel{
 				}
 				if (usuarioAborrar == null) {
 					UsuarioNoEncontrado.setVisible(true);
-					comprobacionUsuarioBorrado = false;
 				}else {
 					listaUsuarios.remove(usuarioAborrar);
+					listaUsuariosModificada = listaUsuarios;
 					MensajeUsuarioBorrado.setVisible(true);
 				}
 			}else {
@@ -126,7 +126,7 @@ public class BorrarUsuarios extends JPanel{
 		}else {
 			LimiteMinimoUsuarios.setVisible(true);
 		}
-		return comprobacionUsuarioBorrado;
+		return listaUsuariosModificada;
 	}
 
 
