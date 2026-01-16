@@ -128,42 +128,115 @@ public class preferenciasIniciador {
 	    }*/
 			return comprobacionConfiguracion;
 	 }
-	    public static int escrituraPreferencias(int idUsuarioPN) {
+	    public static int escrituraPreferencias(int idUsuarioPN,int opcion) {
 	    	int comprobacion = 0;
 	    	File ficheroPreferencias = new File("Usuarios//Configuracion.txt");
-
-	    	try (FileWriter archivoPREFERENCIAS = new FileWriter(ficheroPreferencias,true);
-		             BufferedWriter escribirArchivo = new BufferedWriter(archivoPREFERENCIAS)) {
-	    		int ID = 0,Marca = 0,AS = 0,OKdiario = 0,eleconomista = 0,elespanolECO = 0,elmundoECO = 0,elespanolN = 0,elmundoN = 0,okdiarioN = 0,elespanolI = 0,elmundoI = 0,okdiarioI = 0,xataka = 0,applesfera = 0,mundoxiaomi = 0,vandal = 0,directoalpaladar = 0,sensacine = 0;
-		            for(preferenciasIniciador UsuarioPreferencia : listaPreferencias){
-		            		if(UsuarioPreferencia.Id==idUsuarioPN) {
-			                   ID = UsuarioPreferencia.Id;
-			                   Marca =UsuarioPreferencia.Marca;
-			                   AS = UsuarioPreferencia.AS;
-			                   OKdiario = UsuarioPreferencia.OKdiario;
-			                   eleconomista = UsuarioPreferencia.eleconomista;
-			                   elespanolECO = UsuarioPreferencia.elespanolECO;
-			                   elmundoECO = UsuarioPreferencia.elmundoECO;
-			                   elespanolN = UsuarioPreferencia.elespanolN;
-			                   elmundoN = UsuarioPreferencia.elmundoN;
-			                   okdiarioN = UsuarioPreferencia.okdiarioN;
-			                   elespanolI = UsuarioPreferencia.elespanolI;
-			                   elmundoI = UsuarioPreferencia.elmundoI;
-			                   okdiarioI = UsuarioPreferencia.okdiarioI;
-			                   xataka = UsuarioPreferencia.xataka;
-			                   applesfera = UsuarioPreferencia.applesfera;
-			                   mundoxiaomi = UsuarioPreferencia.mundoxiaomi;
-			                   vandal = UsuarioPreferencia.vandal;
-			                   directoalpaladar = UsuarioPreferencia.directoalpaladar;
-			                   sensacine = UsuarioPreferencia.sensacine;
-			                  
-		            		}  
-		            }
-		            comprobacion++;
-		            escribirArchivo.write("\nID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine);
-	    	}catch(Exception i) {
-	    		JOptionPane.showMessageDialog(null, "Error en la escritura de las preferencias del usuario: " + i.getMessage());
-	    		return comprobacion;
+	    	switch (opcion) {
+		    	case 1:
+			    	try (FileWriter archivoPREFERENCIAS = new FileWriter(ficheroPreferencias,true);
+				             BufferedWriter escribirArchivo = new BufferedWriter(archivoPREFERENCIAS)) {
+			    		int ID = 0,Marca = 0,AS = 0,OKdiario = 0,eleconomista = 0,elespanolECO = 0,elmundoECO = 0,elespanolN = 0,elmundoN = 0,okdiarioN = 0,elespanolI = 0,elmundoI = 0,okdiarioI = 0,xataka = 0,applesfera = 0,mundoxiaomi = 0,vandal = 0,directoalpaladar = 0,sensacine = 0;
+				            for(preferenciasIniciador UsuarioPreferencia : listaPreferencias){
+				            		if(UsuarioPreferencia.Id==idUsuarioPN) {
+					                   ID = UsuarioPreferencia.Id;
+					                   Marca =UsuarioPreferencia.Marca;
+					                   AS = UsuarioPreferencia.AS;
+					                   OKdiario = UsuarioPreferencia.OKdiario;
+					                   eleconomista = UsuarioPreferencia.eleconomista;
+					                   elespanolECO = UsuarioPreferencia.elespanolECO;
+					                   elmundoECO = UsuarioPreferencia.elmundoECO;
+					                   elespanolN = UsuarioPreferencia.elespanolN;
+					                   elmundoN = UsuarioPreferencia.elmundoN;
+					                   okdiarioN = UsuarioPreferencia.okdiarioN;
+					                   elespanolI = UsuarioPreferencia.elespanolI;
+					                   elmundoI = UsuarioPreferencia.elmundoI;
+					                   okdiarioI = UsuarioPreferencia.okdiarioI;
+					                   xataka = UsuarioPreferencia.xataka;
+					                   applesfera = UsuarioPreferencia.applesfera;
+					                   mundoxiaomi = UsuarioPreferencia.mundoxiaomi;
+					                   vandal = UsuarioPreferencia.vandal;
+					                   directoalpaladar = UsuarioPreferencia.directoalpaladar;
+					                   sensacine = UsuarioPreferencia.sensacine;
+					                  
+				            		}  
+				            }
+				            comprobacion++;
+				            escribirArchivo.write("\nID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine);
+			    	}catch(Exception i) {
+			    		JOptionPane.showMessageDialog(null, "Error en la escritura de las preferencias del usuario: " + i.getMessage());
+			    		return comprobacion;
+			    	}
+			    	
+			    	break;
+		    	case 2:
+		    		ArrayList <String> Enlaces = Funciones.Enlaces;
+		    		ArrayList <String> Claves = Funciones.Claves;
+		    		String claveCorreoSalida = Funciones.contraseniaSalida, correoSalida = Funciones.correoSalida, horaCorreoAutomatico = Funciones.horaAutomatica;
+		    		int contador=0;
+		    		try (FileWriter archivoPREFERENCIAS = new FileWriter(ficheroPreferencias);
+				             BufferedWriter escribirArchivo = new BufferedWriter(archivoPREFERENCIAS)) {
+		    			escribirArchivo.write("WebsYclaves:");
+		    			for(String a : Enlaces) {
+		    				contador++;
+		    				escribirArchivo.write(a+";");
+		    			}
+		    			
+		    			for(String b : Claves) {
+		    				contador++;
+		    				if(contador < 36) {
+		    					escribirArchivo.write(b+";");
+		    				}else {
+		    					escribirArchivo.write(b);
+		    				}
+		    			}
+		    			escribirArchivo.write("\nEMAIL DE SALIDA:");
+		    			escribirArchivo.write(correoSalida+"\n");
+		    			escribirArchivo.write("CONTRASENIA EMAIL DE SALIDA:");
+		    			escribirArchivo.write(claveCorreoSalida+"\n");
+		    			escribirArchivo.write("HORA EMAIL AUTOMATICO:");
+		    			escribirArchivo.write(horaCorreoAutomatico+"\n");
+		    			
+			    		int ID = 0,Marca = 0,AS = 0,OKdiario = 0,eleconomista = 0,elespanolECO = 0,elmundoECO = 0,elespanolN = 0,elmundoN = 0,okdiarioN = 0,elespanolI = 0,elmundoI = 0,okdiarioI = 0,xataka = 0,applesfera = 0,mundoxiaomi = 0,vandal = 0,directoalpaladar = 0,sensacine = 0;
+			    		int cantidadDePreferencias = 0;
+			    			for(preferenciasIniciador UsuarioPreferencia : listaPreferencias){
+				            		if(UsuarioPreferencia.Id==idUsuarioPN) {
+				            			listaPreferencias.remove(UsuarioPreferencia);
+				            		}else {
+				            			ID = UsuarioPreferencia.Id;
+						                Marca =UsuarioPreferencia.Marca;
+						                AS = UsuarioPreferencia.AS;
+						                OKdiario = UsuarioPreferencia.OKdiario;
+						                eleconomista = UsuarioPreferencia.eleconomista;
+						                elespanolECO = UsuarioPreferencia.elespanolECO;
+						                elmundoECO = UsuarioPreferencia.elmundoECO;
+						                elespanolN = UsuarioPreferencia.elespanolN;
+						                elmundoN = UsuarioPreferencia.elmundoN;
+						                okdiarioN = UsuarioPreferencia.okdiarioN;
+						                elespanolI = UsuarioPreferencia.elespanolI;
+						                elmundoI = UsuarioPreferencia.elmundoI;
+						                okdiarioI = UsuarioPreferencia.okdiarioI;
+						                xataka = UsuarioPreferencia.xataka;
+						                applesfera = UsuarioPreferencia.applesfera;
+						                mundoxiaomi = UsuarioPreferencia.mundoxiaomi;
+						                vandal = UsuarioPreferencia.vandal;
+						                directoalpaladar = UsuarioPreferencia.directoalpaladar;
+						                sensacine = UsuarioPreferencia.sensacine;
+				            			escribirArchivo.write("ID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine);
+				            			cantidadDePreferencias++;
+				            		}
+				            		if (cantidadDePreferencias < listaPreferencias.size()-1) {
+				            			escribirArchivo.write("\n");
+				            		}else {
+				            			break;
+				            		}
+				            }
+				            comprobacion++;
+				            
+			    	}catch(Exception i) {
+			    		JOptionPane.showMessageDialog(null, "Error en la escritura de las preferencias del usuario: " + i.getMessage());
+			    		return comprobacion;
+			    	}
+		    		break;
 	    	}
 	    	return comprobacion;
 	    }

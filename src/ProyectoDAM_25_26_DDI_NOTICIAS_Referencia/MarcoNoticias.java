@@ -62,13 +62,6 @@ public class MarcoNoticias extends JFrame{
 			}
 		});
 		
-		
-		
-		
-		
-		//Paneles misPaneles = new Paneles(this);
-		
-		//add(misPaneles);
 		layeredPane = new JLayeredPane();
 		layeredPane.setBounds(0, 0, 1200, 800);
 		getContentPane().add(layeredPane);

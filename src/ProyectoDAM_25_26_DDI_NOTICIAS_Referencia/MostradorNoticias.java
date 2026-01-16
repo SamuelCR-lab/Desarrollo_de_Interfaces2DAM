@@ -77,6 +77,7 @@ public class MostradorNoticias extends JPanel {
 						}
 					}
 					Usuario.escrituraUsuarios(listaUsuarios);
+					preferenciasIniciador.escrituraPreferencias(id,2);
 					Preferencias vueltaAPreferencias = new Preferencias(rolDeLosUsuarios,nombreUsuario,listaUsuarios,id);
 					lblNewLabel_1.setVisible(false);
 					MarcoNoticias.mostradorPaneles(vueltaAPreferencias);
@@ -123,7 +124,7 @@ public class MostradorNoticias extends JPanel {
 			GuardarHistorial = new JButton("Guardar Preferencias y Titulares");
 			GuardarHistorial.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					preferenciasIniciador.escrituraPreferencias(id);
+					preferenciasIniciador.escrituraPreferencias(id,1);
 					int controldeUsuariosConPreferencias=1;
 					for(Usuario a : listaUsuarios) {
 						if(a.id==id) {

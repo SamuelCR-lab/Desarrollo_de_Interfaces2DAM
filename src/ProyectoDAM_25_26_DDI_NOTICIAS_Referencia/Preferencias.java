@@ -137,10 +137,8 @@ public class Preferencias extends JPanel{
 		Siguiente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				guardarSeleccion(id);
-				
 				MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,"Preferencias",listaUsuarios,id);
 				MostradorNoticias.ComprobacionDePreferencias(nombreUsuario,Usuario.lecturaUsuarios());
-				//MostradorNoticias.lblNewLabel_1.setVisible(true);
 				MarcoNoticias.mostradorPaneles(noticiasPreferidas);
 			}
 		});

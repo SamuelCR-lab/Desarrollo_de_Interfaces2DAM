@@ -36,10 +36,11 @@ public class Funciones {
 	public static String correoSalida = "";
     public static String contraseniaSalida = "";
 	public static ArrayList <String> Noticias = new ArrayList<>(); 
-	private static ArrayList <String> Enlaces = new ArrayList<>(); 
-	private static ArrayList <String> Claves = new ArrayList<>(); 
+	public static ArrayList <String> Enlaces = new ArrayList<>(); 
+	public static ArrayList <String> Claves = new ArrayList<>(); 
     private static String[] datosConfiguracionTemporal;
     private static Timer temporizador;
+    public static String horaAutomatica = "";
     
     public static boolean GuardarTitulares() {
 		boolean comprobacionArray = true;
@@ -141,11 +142,14 @@ public class Funciones {
 				                }else if (cadena.startsWith("CONTRASENIA EMAIL DE SALIDA:")) {
 				                	contadorEncontrados++;
 				                    contraseniaSalida = cadena.substring("CONTRASENIA EMAIL DE SALIDA:".length()).trim();
+				                }else if (cadena.startsWith("HORA EMAIL AUTOMATICO:")) {
+				                	contadorEncontrados++;
+				                	horaAutomatica = cadena.substring("HORA EMAIL AUTOMATICO:".length()).trim();
 				                }
 			                }
 		            	}
 		            	
-		            	if ((contadorEncontrados < 2)||(controlCorreo(correoSalida)==false)) {
+		            	if ((contadorEncontrados < 3)||(controlCorreo(correoSalida)==false)) {
 		            		comprobacionCorreoClaveSalida = false;
 		    	        	return comprobacionCorreoClaveSalida;
 		            	}
@@ -218,7 +222,6 @@ public class Funciones {
 				public void actionPerformed(ActionEvent e) {
 					boolean comprobador = false;
 					// TODO Auto-generated method stub
-					String horaAutomatica = "";
 					try (FileReader archivoConfiguracion = new FileReader(ficheroConfiguracion);
 				            BufferedReader lectorArchivo = new BufferedReader(archivoConfiguracion)) {
 			            String cadena;
