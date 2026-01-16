@@ -53,7 +53,7 @@ public class Funciones {
 				Noticias.add(resultado);
 
 			} catch (IOException | IllegalArgumentException e)  {
-				e.getStackTrace();
+				JOptionPane.showMessageDialog(null, "Error en la lectura datos base de la aplicacion:  " + e.getMessage());
 				comprobacionArray = false;
 					return comprobacionArray;
 			}
@@ -109,7 +109,7 @@ public class Funciones {
 						return comprobacionConfiguracion;
 					 }
 			       } catch (IOException i) {
-			           i.printStackTrace();
+			    	   JOptionPane.showMessageDialog(null, "Error en la lectura datos base de la aplicacion:  " + i.getMessage());
 			         
 			       }
 			}else {
@@ -124,32 +124,36 @@ public class Funciones {
 	public static boolean lecturaCorreoClave() {
 		boolean comprobacionCorreoClaveSalida = true;
 		File ficheroConfiguracion = new File("Usuarios//Configuracion.txt");
-    	try (FileReader archivoConfiguracion = new FileReader(ficheroConfiguracion);
-	            BufferedReader lectorArchivo = new BufferedReader(archivoConfiguracion)) {
-	            String cadena;
-	            int contadorEncontrados=0;
-	            	while ((cadena = lectorArchivo.readLine()) != null){
-	            		
-	            		cadena = cadena.trim();
-	            		//Lee las lineas vacias y no pasa nada no guarda ni incrementa nada es solo vacio hasta que sea null el readline del while
-		                if (!cadena.isEmpty()){
-		                	//Aqui al ser una cadena sencilla lo hago con el StartWith para que compare entre cadenas y si exite pues cogemos la cadena que existe despues del StartWith con el substring 
-			                if (cadena.startsWith("EMAIL DE SALIDA:")) {
-			                	contadorEncontrados++;
-			                	correoSalida = cadena.substring("EMAIL DE SALIDA:".length()).trim();
-			                }else if (cadena.startsWith("CONTRASENIA EMAIL DE SALIDA:")) {
-			                	contadorEncontrados++;
-			                    contraseniaSalida = cadena.substring("CONTRASENIA EMAIL DE SALIDA:".length()).trim();
+		if (ficheroConfiguracion.exists()) {
+	    	try (FileReader archivoConfiguracion = new FileReader(ficheroConfiguracion);
+		            BufferedReader lectorArchivo = new BufferedReader(archivoConfiguracion)) {
+		            String cadena;
+		            int contadorEncontrados=0;
+		            	while ((cadena = lectorArchivo.readLine()) != null){
+		            		
+		            		cadena = cadena.trim();
+		            		//Lee las lineas vacias y no pasa nada no guarda ni incrementa nada es solo vacio hasta que sea null el readline del while
+			                if (!cadena.isEmpty()){
+			                	//Aqui al ser una cadena sencilla lo hago con el StartWith para que compare entre cadenas y si exite pues cogemos la cadena que existe despues del StartWith con el substring 
+				                if (cadena.startsWith("EMAIL DE SALIDA:")) {
+				                	contadorEncontrados++;
+				                	correoSalida = cadena.substring("EMAIL DE SALIDA:".length()).trim();
+				                }else if (cadena.startsWith("CONTRASENIA EMAIL DE SALIDA:")) {
+				                	contadorEncontrados++;
+				                    contraseniaSalida = cadena.substring("CONTRASENIA EMAIL DE SALIDA:".length()).trim();
+				                }
 			                }
-		                }
-	            	}
-	            	
-	            	if ((contadorEncontrados < 2)||(controlCorreo(correoSalida)==false)) {
-	            		comprobacionCorreoClaveSalida = false;
-	    	        	return comprobacionCorreoClaveSalida;
-	            	}
-		} catch (IOException | PatternSyntaxException e) {
-			e.printStackTrace();
+		            	}
+		            	
+		            	if ((contadorEncontrados < 2)||(controlCorreo(correoSalida)==false)) {
+		            		comprobacionCorreoClaveSalida = false;
+		    	        	return comprobacionCorreoClaveSalida;
+		            	}
+			} catch (IOException | PatternSyntaxException e) {
+				JOptionPane.showMessageDialog(null, "Error en la lectura datos base de la aplicacion: " + e.getMessage());
+				
+			}
+		}else {
 			comprobacionCorreoClaveSalida = false;
         	return comprobacionCorreoClaveSalida;
 		}
@@ -186,7 +190,7 @@ public class Funciones {
 				historico.createNewFile();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error en la creacion del archivo para guardar el historial: " + e.getMessage());
 			}
     	}
 

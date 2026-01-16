@@ -140,7 +140,7 @@ public class Preferencias extends JPanel{
 				
 				MostradorNoticias noticiasPreferidas = new MostradorNoticias(rol,nombreUsuario,"Preferencias",listaUsuarios,id);
 				MostradorNoticias.ComprobacionDePreferencias(nombreUsuario,Usuario.lecturaUsuarios());
-				MostradorNoticias.lblNewLabel_1.setVisible(true);
+				//MostradorNoticias.lblNewLabel_1.setVisible(true);
 				MarcoNoticias.mostradorPaneles(noticiasPreferidas);
 			}
 		});

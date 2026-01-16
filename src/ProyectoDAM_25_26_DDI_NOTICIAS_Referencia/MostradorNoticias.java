@@ -70,7 +70,15 @@ public class MostradorNoticias extends JPanel {
 					admin vueltaAMenuAdmin = new admin(rolDeLosUsuarios,nombreUsuario,listaUsuariosComprobacion,id);
 					MarcoNoticias.mostradorPaneles(vueltaAMenuAdmin);
 				}else {
-					Preferencias vueltaAPreferencias = new Preferencias(rolDeLosUsuarios,nombreUsuario,listaUsuariosComprobacion,id);
+					int controldeUsuariosConPreferencias=0;
+					for(Usuario a : listaUsuarios) {
+						if(a.id==id) {
+							a.Preferencias=controldeUsuariosConPreferencias;
+						}
+					}
+					Usuario.escrituraUsuarios(listaUsuarios);
+					Preferencias vueltaAPreferencias = new Preferencias(rolDeLosUsuarios,nombreUsuario,listaUsuarios,id);
+					lblNewLabel_1.setVisible(false);
 					MarcoNoticias.mostradorPaneles(vueltaAPreferencias);
 				}
 				
@@ -104,6 +112,7 @@ public class MostradorNoticias extends JPanel {
 						    sendEmail(session, a.email,"NOTICIAS DAM", "Las Noticias actuales de tu preferencias.\nA fecha :"+HoraDefnitiva+"\n"+MostradoNoticias);
 						}
 					}
+					lblNewLabel_2.setVisible(true);
 				}
 			});
 			EnviarCorreo.setFont(new Font("Times New Roman", Font.PLAIN, 16));
@@ -116,17 +125,17 @@ public class MostradorNoticias extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 					preferenciasIniciador.escrituraPreferencias(id);
 					int controldeUsuariosConPreferencias=1;
-					ArrayList <Usuario> usuariosModificacionTemporal = new ArrayList<>();
 					for(Usuario a : listaUsuarios) {
 						if(a.id==id) {
 							a.Preferencias=controldeUsuariosConPreferencias;
-							
 						}
-						usuariosModificacionTemporal.add(a);
+
 					}
 					Funciones.Historial(listaUsuarios,nombreUsuario,MostradoNoticias);
-					Usuario.escrituraUsuarios(usuariosModificacionTemporal);
+					Usuario.escrituraUsuarios(listaUsuarios);
+					lblNewLabel_1.setVisible(true);
 				}
+				
 			});
 			GuardarHistorial.setFont(new Font("Times New Roman", Font.PLAIN, 16));
 			GuardarHistorial.setBounds(870, 678, 241, 46);

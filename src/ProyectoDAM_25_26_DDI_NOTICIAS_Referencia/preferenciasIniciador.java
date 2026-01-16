@@ -67,7 +67,7 @@ public class preferenciasIniciador {
 	    public static boolean lecturaPreferencias() {
 	    	boolean comprobacionConfiguracion = true; 
 	    	File ficheroPreferencias = new File("Usuarios//Configuracion.txt");
-	    	if (ficheroPreferencias.exists()) {
+	    	//if (ficheroPreferencias.exists()) {
 	    		try (FileReader archivoPREFERENCIAS = new FileReader(ficheroPreferencias);
 		            BufferedReader lectorArchivo = new BufferedReader(archivoPREFERENCIAS)) {
 		            String cadena;
@@ -118,11 +118,14 @@ public class preferenciasIniciador {
 		        }
 	    	}catch(Exception i) {
 	    		JOptionPane.showMessageDialog(null, "Error leyendo preferencias del usuario: " + i.getMessage());
+	    		comprobacionConfiguracion = false;
+		    	return comprobacionConfiguracion;
 	    	}
-	    }else {
+	    /*}else {
+	    	JOptionPane.showMessageDialog(null, "Error leyendo preferencias del usuario: ");
 	    	comprobacionConfiguracion = false;
 	    	return comprobacionConfiguracion;
-	    }
+	    }*/
 			return comprobacionConfiguracion;
 	 }
 	    public static int escrituraPreferencias(int idUsuarioPN) {
@@ -157,7 +160,7 @@ public class preferenciasIniciador {
 		            		}  
 		            }
 		            comprobacion++;
-		            escribirArchivo.write("\nID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine+"");
+		            escribirArchivo.write("\nID:"+ID+";"+Marca+";"+AS+";"+OKdiario+";"+eleconomista+";"+elespanolECO+";"+elmundoECO+";"+elespanolN+";"+elmundoN+";"+okdiarioN+";"+elespanolI+";"+elmundoI+";"+okdiarioI+";"+xataka+";"+applesfera+";"+mundoxiaomi+";"+vandal+";"+directoalpaladar+";"+sensacine);
 	    	}catch(Exception i) {
 	    		JOptionPane.showMessageDialog(null, "Error en la escritura de las preferencias del usuario: " + i.getMessage());
 	    		return comprobacion;

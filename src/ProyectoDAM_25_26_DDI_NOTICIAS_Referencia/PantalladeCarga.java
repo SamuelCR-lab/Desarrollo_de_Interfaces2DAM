@@ -15,6 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
 
+
 public class PantalladeCarga extends JFrame{
 
     private static final long serialVersionUID = 1L;
@@ -35,7 +36,8 @@ public class PantalladeCarga extends JFrame{
             imagenIcon = new ImageIcon(urlImagen);
             
         } catch (Exception e) {
-        	JOptionPane.showMessageDialog(PantalladeCarga.this, "Error escribiendo el historial del usuario: " + e.getMessage());
+        	JOptionPane.showMessageDialog(PantalladeCarga.this, "Error en la lectura de imagenes de la aplicacion: " + e.getMessage());
+        	System.exit(1);
         }
 
         JLabel etiquetaImagen = new JLabel(imagenIcon);
@@ -69,8 +71,7 @@ public class PantalladeCarga extends JFrame{
         // Creamos un Timer que se ejecuta cada 50 milisegundos
         temporizadorCarga = new Timer(15, new ActionListener() {
             int progreso = 0;
-            boolean comprobacionPreferencias=true,comprobacionCorreoYClave = true;
-            boolean comprobacionArrayNoticias;
+            boolean comprobacionPreferencias=true,comprobacionCorreoYClave = true,comprobacionArrayNoticias = true;
             ArrayList <Usuario> comprobacionUsuarios=null;
             
             @Override
@@ -78,35 +79,63 @@ public class PantalladeCarga extends JFrame{
                 progreso++;
                 barraProgreso.setValue(progreso);
                 barraProgreso.setString("Cargando la configuracion de la app.... " + progreso + "%");
-                
-                if(progreso == 50) {
+
+                    if (progreso == 20) {
+                        barraProgreso.setString("Leyendo usuarios...");
+                        comprobacionUsuarios=Usuario.lecturaUsuarios();
+                        if ((comprobacionUsuarios==null)) {
+                        	comprobacion();
+                        }
+                    }
+                    if (progreso == 50) {
+                        barraProgreso.setString("Conectando con webs...");
+                        comprobacionArrayNoticias = Funciones.lecturaConfiguracion();
+                        comprobacionCorreoYClave=Funciones.lecturaCorreoClave();
+                        if ((!comprobacionArrayNoticias)||(!comprobacionCorreoYClave)) {
+                        	comprobacion();
+                        }
+                    }
+                    if (progreso == 80) {
+                        barraProgreso.setString("Cargando preferencias...");
+                        comprobacionPreferencias=preferenciasIniciador.lecturaPreferencias();
+                        if ((!comprobacionPreferencias)) {
+                        	comprobacion();
+                        }
+                    }
+                /*if(progreso == 50) {
                 	barraProgreso.setString("Cargando Usuarios y Preferencias... " + progreso + "%");
                 	comprobacionArrayNoticias = Funciones.lecturaConfiguracion();
+                	System.out.println(comprobacionArrayNoticias);
                 	comprobacionPreferencias =preferenciasIniciador.lecturaPreferencias();
                 	comprobacionUsuarios = Usuario.lecturaUsuarios();
                 	comprobacionCorreoYClave=Funciones.lecturaCorreoClave();
-                	
-                }
-                
-                if(progreso == 80) {
                 	if ((!comprobacionArrayNoticias)||(!comprobacionPreferencias)||(comprobacionUsuarios==null)||(!comprobacionCorreoYClave)) {
                     	JOptionPane.showMessageDialog(PantalladeCarga.this, "No se han podido cargar los datos debido a que no existen los archivos","Error catastrofico",JOptionPane.ERROR_MESSAGE);
                     	temporizadorCarga.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
                         dispose();  
                         System.exit(1);
                     }
-                }
+                }*/
+                
                 
                 // Cuando llega al 100%, paramos y abrimos la ventana principal
                 if (progreso == 100) {
                     temporizadorCarga.stop(); // Detenemos el temporizador de 50milisegundos que hace que llegue al 100%
                     dispose();           // Cerrar pantalla de carga
-                    
-                    // Configurar y mostrar la ventana principal
+       
                     Principal.window.setLocationRelativeTo(null); 
                     Principal.window.setVisible(true);
                 }
             }
+            private void comprobacion() {
+            	temporizadorCarga.stop();
+            	JOptionPane.showMessageDialog(PantalladeCarga.this, "No se han podido cargar los datos debido a que no existen los archivos","Error catastrofico",JOptionPane.ERROR_MESSAGE);
+                dispose();  
+                System.exit(1);
+            }
+            
+            
+            
         });
         
         temporizadorCarga.start();

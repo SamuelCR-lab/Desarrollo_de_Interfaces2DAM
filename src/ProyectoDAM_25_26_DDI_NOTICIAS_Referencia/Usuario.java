@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.JOptionPane;
+
 public class Usuario {
 	 	private static final Pattern PATRON_ADMIN = Pattern.compile("^administrador:(.*?)(?://.*)?$");
 	    private static final Pattern PATRON_USER = Pattern.compile("^usuario:(.*?)(?://.*)?$");
@@ -36,7 +38,7 @@ public class Usuario {
 
 		public static ArrayList<Usuario> lecturaUsuarios() {
 			ArrayList<Usuario> comprobacionUsuarios = null;
-	    
+			listaUsuarios.clear();
 	        File FicheroUsuarios = new File("Usuarios//Usuarios.txt");
 	        if (FicheroUsuarios.exists()) {
 		        try (FileReader archivoUsuarios = new FileReader(FicheroUsuarios);
@@ -95,7 +97,7 @@ public class Usuario {
 		            } 
 		            comprobacionUsuarios = listaUsuarios;
 		        } catch (IOException i) {
-		            i.printStackTrace();
+		        	JOptionPane.showMessageDialog(null, "Error en la creacion del archivo para guardar el historial: " + i.getMessage());
 
 		        }
 	        }else {
@@ -132,7 +134,7 @@ public class Usuario {
 						}
 					}
 			}catch(IOException o){
-				o.printStackTrace();
+				JOptionPane.showMessageDialog(null, "Error en la creacion del archivo para guardar el historial: " + o.getMessage());
 			}
 		}
 	    
